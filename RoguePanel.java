@@ -8,7 +8,6 @@ and mouseMotionListeners recieve events, but whatever floats your goat.
 API:
     constructor:
 RoguePanel()
-    setters:
 void setColumnsAndRows(int c, int r)
 void setFGColor(int x, int y, Color c)
 void setBGColor(int x, int y, Color c)
@@ -17,9 +16,9 @@ void setString(int x, int y, String s)
 void setFontName(String f)      // font is always plain, and resizes dynamically
 void setTile(int x, int y, String s, Color fg)
 void setTile(int x, int y, String s, Color fg, Color bg)
-    getters:
 int columns()
 int rows()
+boolean isInBounds(int x, int y)
 Color getFGColor(int x, int y)
 Color getBGColor(int x, int y)
 String getString(int x, int y)
@@ -99,6 +98,14 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         setColumnsAndRows(15, 15);
         setFont();
         setBackground(Color.BLACK);
+    }
+    
+    // checks if the passed tile location is in the display bounds
+    public boolean isInBounds(int x, int y)
+    {
+        if(x >= 0 && y >= 0 && x < columns() && y < rows())
+            return true;
+        return false;
     }
     
     // test functionn
@@ -236,14 +243,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     private boolean isOddRow(int rowIndex)
     {
         return displayMode == HEX_MODE && (rowIndex + cornerCell[1]) % 2 == 1;
-    }
-    
-    // checks if the passed tile location is in the display bounds
-    private boolean isInBounds(int x, int y)
-    {
-        if(x >= 0 && y >= 0 && x < columns() && y < rows())
-            return true;
-        return false;
     }
     
     // set internal values based on panel size and array size

@@ -10,6 +10,8 @@ public class MathTools
 	public final static double HALF_CIRCLE = Math.PI;                    // 180 degrees
 	public final static double QUARTER_CIRCLE = Math.PI / 2;             // 90 degrees
 	public final static double EIGHTH_CIRCLE = Math.PI / 4;              // 45 degrees
+	public final static double SIXTH_CIRCLE = Math.PI / 3;               // 30 degrees
+	public final static double TWELFTH_CIRCLE = Math.PI / 6;            // 15 degrees
 
 
 	// Rounds a double to an int.
@@ -70,6 +72,9 @@ public class MathTools
 	//	assumes that the passed vector contains a sequential list of adjacent cells
 	public static double pathDistance(Coord origin, Vector<Coord> path, double diagonalCost)
 	{
+        if(diagonalCost == 1.0)
+            return (double)path.size();
+            
 		double dist = 0.0;
 		Coord curStep = origin;
 		Coord nextStep;
@@ -120,13 +125,13 @@ public class MathTools
       return Math.abs(totalY) + Math.abs(totalX / 2);
    }
    
-   
+   /*
    public static int getNumberOfSteps(Coord start, Coord end)
    {
       return StraightLine.findLine(start, end, StraightLine.REMOVE_ORIGIN).size();
    }
 	
-	
+	*/
    // returns the square of the hypotenuse; used for quickly calculating which of several distances is longer
    public static int getDistanceMetric(Coord start, Coord end){return getDistanceMetric(start.x, start.y, end.x, end.y);}
    public static int getDistanceMetric(int startX, int startY, int endX, int endY)
@@ -168,4 +173,22 @@ public class MathTools
          return 1.0;
       return cur / max;
    }
+   
+    // returns the index of the tile in which the pixel lies, accounting for hex offset
+    public static Coord getHexIndex(double x, double y){return getHexIndex(x, y, false);}
+    public static Coord getHexIndex(double x, double y, boolean roundToEven)
+    {
+        Coord c = new Coord();
+        if(roundToEven)
+            c.y = roundToEven(y);
+        else
+            c.y = roundToInt(y);
+        if(c.y % 2 == 1)
+            x -= .5;
+        if(roundToEven)
+            c.x = roundToEven(x);
+        else
+            c.x = roundToInt(x);
+        return c;
+    }
 }

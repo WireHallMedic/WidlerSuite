@@ -15,6 +15,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private JButton rnButton;
     private JButton scButton;
     private JButton sdButton;
+    private JButton tpButton;
     private static int displayMode = RECT_MODE;
     private static boolean showBorders = false;
     private static boolean randomNonsense = false;
@@ -30,6 +31,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private Coord atLoc;
     private ShadowFoV fov;
     private DijkstraMap dijkstraMap;
+    private boolean traceType = true;   // true is A*, false is StraightLine
     
     // test function
     public RoguePanelDemo()
@@ -62,7 +64,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         testFrame.setLocation(1100, 100);
         testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        // testFrame.setFocusable(false);
-        testFrame.setLayout(new GridLayout(7, 1));
+        testFrame.setLayout(new GridLayout(8, 1));
         
         JLabel label = new JLabel("Click on panel to add Unbound String.");
         label.setFocusable(false);
@@ -97,6 +99,11 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         sdButton.addActionListener(this);
         sdButton.setFocusable(false);
         testFrame.add(sdButton);
+        
+        tpButton = new JButton("Trace: A*");
+        tpButton.addActionListener(this);
+        tpButton.setFocusable(false);
+        testFrame.add(tpButton);
         
         testFrame.setVisible(true);
         
@@ -142,6 +149,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                 displayMode = HEX_MODE;
             panel.setDisplayMode(displayMode);
             aStar.setMode(displayMode);
+       //     StraightLine.setMode(displayMode);
             loadTestMap();
         }
         
@@ -172,6 +180,15 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             showDijkstra = !showDijkstra;
             showFoV = false;
             loadTestMap();
+        }
+        
+        if(ae.getSource() == tpButton)
+        {
+            traceType = !traceType;
+            if(traceType)
+                tpButton.setText("Trace: A*");
+            else
+                tpButton.setText("Trace: StraightLine");
         }
     }
     
@@ -251,16 +268,39 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         for(int x = 0; x < COLUMNS; x++)
         for(int y = 0; y < ROWS; y++)
             bgMap[x][y] = Color.BLACK;
-        Vector<Coord> path = aStar.path(passMap, atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
-        for(Coord loc : path)
+        if(panel.mouseColumn() != -1 && panel.mouseRow() != -1)
         {
-            bgMap[loc.x][loc.y] = Color.BLUE;
+            if(traceType)   // A*
+            {
+                Vector<Coord> path = aStar.path(passMap, atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
+                for(Coord loc : path)
+                {
+                    if(panel.isInBounds(loc.x, loc.y))
+                        bgMap[loc.x][loc.y] = Color.BLUE;
+                }
+            }
+            else        // StraightLine
+            {
+                Vector<Coord> path;
+                if(displayMode == RECT_MODE)
+                    path = RectLine.findLine(atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
+                else
+                    path = HexLine.findLine(atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
+                for(Coord loc : path)
+                {
+                    if(panel.isInBounds(loc.x, loc.y))
+                        bgMap[loc.x][loc.y] = Color.BLUE;
+                }
+            }
         }
         loadTestMap();
     }
     
     public void keyPressed(KeyEvent ke)
     {
+        if(ke.getKeyCode() == KeyEvent.VK_SPACE)
+            testMode();
+        
         if(displayMode == RECT_MODE)
         {
             switch(ke.getKeyCode())
@@ -281,36 +321,25 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         }
         else    // hex mode
         {
-            if(atLoc.y % 2 == 0) // even row
+            int[][] stepArr = hexEvenRow;
+            if(atLoc.y % 2 == 1)
+                stepArr = hexOddRow;
+            
+            switch(ke.getKeyCode())
             {
-                switch(ke.getKeyCode())
-                {
-                    case KeyEvent.VK_NUMPAD4 : atLoc.x--; break;
-                    case KeyEvent.VK_NUMPAD6 : atLoc.x++; break;
-                    case KeyEvent.VK_NUMPAD7 : atLoc.x--; atLoc.y--; break;
-                    case KeyEvent.VK_NUMPAD9 : atLoc.y--; break;
-                    case KeyEvent.VK_NUMPAD1 : atLoc.x--; atLoc.y++; break;
-                    case KeyEvent.VK_NUMPAD3 : atLoc.y++; break;
-                }
-            }
-            else // odd row
-            {
-                switch(ke.getKeyCode())
-                {
-                    case KeyEvent.VK_NUMPAD4 : atLoc.x--; break;
-                    case KeyEvent.VK_NUMPAD6 : atLoc.x++; break;
-                    case KeyEvent.VK_NUMPAD7 : atLoc.y--; break;
-                    case KeyEvent.VK_NUMPAD9 : atLoc.x++; atLoc.y--; break;
-                    case KeyEvent.VK_NUMPAD1 : atLoc.y++; break;
-                    case KeyEvent.VK_NUMPAD3 : atLoc.x++; atLoc.y++; break;
-                }
+                case KeyEvent.VK_NUMPAD4 : atLoc.x += stepArr[W][0]; atLoc.y += stepArr[W][1]; break;
+                case KeyEvent.VK_NUMPAD6 : atLoc.x += stepArr[E][0]; atLoc.y += stepArr[E][1]; break;
+                case KeyEvent.VK_NUMPAD7 : atLoc.x += stepArr[NW][0]; atLoc.y += stepArr[NW][1]; break;
+                case KeyEvent.VK_NUMPAD9 : atLoc.x += stepArr[NE][0]; atLoc.y += stepArr[NE][1]; break;
+                case KeyEvent.VK_NUMPAD1 : atLoc.x += stepArr[SW][0]; atLoc.y += stepArr[SW][1]; break;
+                case KeyEvent.VK_NUMPAD3 : atLoc.x += stepArr[SE][0]; atLoc.y += stepArr[SE][1]; break;
             }
         }
         drawPath();
     }
     
     
-    // test function
+    // test functions
     public static void main(String[] args)
     {
         RoguePanelDemo demoFrame = new RoguePanelDemo();
@@ -319,5 +348,12 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         demoFrame.panel.addKeyListener(demoFrame);
         demoFrame.addKeyListener(demoFrame);
         demoFrame.testFrame.addKeyListener(demoFrame);
+    }
+    
+    public void testMode()
+    {
+        dmButton.doClick();
+        tpButton.doClick();
+        atLoc = new Coord(15, 15);
     }
 }
