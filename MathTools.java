@@ -191,4 +191,34 @@ public class MathTools
             c.x = roundToInt(x);
         return c;
     }
+    
+    public static double getHexX(int rectX, int rectY)
+    {
+        double hexX = rectX;
+        if(rectY % 2 == 1)
+            hexX += .5;
+        return hexX;
+    }
+    public static double getHexX(Coord c){return getHexX(c.x, c.y);}
+    
+    
+    public static double getAngle(double x, double y)
+    {
+        double angle = 0.0;
+
+		if(x == 0.0)
+        {
+			if(y > 0.0)
+				angle = QUARTER_CIRCLE;
+			else
+				angle = THREE_QUARTER_CIRCLE;
+        }
+		else
+		{
+			angle = Math.atan(y / x);
+			if(x < 0.0)
+				angle = angle + HALF_CIRCLE;
+		}
+		return angle;
+    }
 }

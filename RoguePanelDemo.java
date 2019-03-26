@@ -29,7 +29,8 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private Color[][] fgMap;
     private AStar aStar;
     private Coord atLoc;
-    private ShadowFoV fov;
+    private ShadowFoV rectFoV;
+    private ShadowFoVHex hexFoV;
     private DijkstraMap dijkstraMap;
     private boolean traceType = true;   // true is A*, false is StraightLine
     
@@ -126,6 +127,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     {
         String str = "Mouse pixel location: " + String.format("[%d, %d]\n", me.getX(), me.getY());
         str += "Mouse tile location: " + String.format("[%d, %d]\n", panel.mouseColumn(), panel.mouseRow());
+        double x = MathTools.getHexX(panel.mouseColumn(), panel.mouseRow()) - MathTools.getHexX(atLoc);
+        double y = panel.mouseRow() - atLoc.y;
+        str += "Angle to mouseLoc: " + (MathTools.getAngle(x, y));
         testTextArea.setText(str);
         drawPath();
     }
@@ -137,6 +141,13 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         str.setSpeed(0.0, -.1);
         str.setBackgroundBox(true);
         panel.add(str);
+        for(int i = 0; i < 16; i++)
+        {
+            UnboundString star = new UnboundString("*", randomColor(), panel.mouseColumn(), panel.mouseRow());
+            star.setLifespan(15);
+            star.setSpeed((Math.random() * .4) - .2, (Math.random() * .4) - .2);
+            panel.add(star);
+        }
     }
     
     public void actionPerformed(ActionEvent ae)
@@ -149,7 +160,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                 displayMode = HEX_MODE;
             panel.setDisplayMode(displayMode);
             aStar.setMode(displayMode);
-       //     StraightLine.setMode(displayMode);
+            StraightLine.setMode(displayMode);
             loadTestMap();
         }
         
@@ -190,6 +201,8 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             else
                 tpButton.setText("Trace: StraightLine");
         }
+        hexFoV.calcFoV(atLoc.x, atLoc.y, 12);
+        rectFoV.calcFoV(atLoc.x, atLoc.y, 12);
     }
     
     private void setTestMap()
@@ -209,6 +222,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             bgMap[x][y] = Color.BLACK;
             fgMap[x][y] = Color.WHITE;
         }
+        
         // vertical wall
         int wallX = COLUMNS / 2;
         int wallY = (ROWS / 4) * 3;
@@ -226,7 +240,8 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                 strMap[x][y] = "#";
         }
         strMap[COLUMNS - 4][ROWS - 4] = ">";
-        fov = new ShadowFoV(passMap);
+        rectFoV = new ShadowFoV(passMap);
+        hexFoV = new ShadowFoVHex(passMap);
         dijkstraMap = new DijkstraMap(passMap);
     }
     
@@ -239,10 +254,16 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         for(int x = 0; x < COLUMNS; x++)
         for(int y = 0; y < ROWS; y++)
         {
-            if(showFoV)
+            if(showFoV && displayMode == RECT_MODE)
             {
-                fov.calcFoV(atLoc.x, atLoc.y, 12);
-                if(fov.canSee(x, y) && bgMap[x][y] == Color.BLACK)
+                if(rectFoV.canSee(x, y) && bgMap[x][y] == Color.BLACK)
+                    panel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
+                else
+                    panel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
+            }
+            else if(showFoV && displayMode == HEX_MODE)
+            {
+                if(hexFoV.canSee(x, y) && bgMap[x][y] == Color.BLACK)
                     panel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
                 else
                     panel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
@@ -281,11 +302,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             }
             else        // StraightLine
             {
-                Vector<Coord> path;
-                if(displayMode == RECT_MODE)
-                    path = RectLine.findLine(atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
-                else
-                    path = HexLine.findLine(atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
+                Vector<Coord> path = StraightLine.findLine(atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
                 for(Coord loc : path)
                 {
                     if(panel.isInBounds(loc.x, loc.y))
@@ -335,6 +352,8 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                 case KeyEvent.VK_NUMPAD3 : atLoc.x += stepArr[SE][0]; atLoc.y += stepArr[SE][1]; break;
             }
         }
+        hexFoV.calcFoV(atLoc.x, atLoc.y, 12);
+        rectFoV.calcFoV(atLoc.x, atLoc.y, 12);
         drawPath();
     }
     
@@ -353,7 +372,13 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     public void testMode()
     {
         dmButton.doClick();
-        tpButton.doClick();
+        scButton.doClick();
         atLoc = new Coord(15, 15);
+    }
+    
+    // returns a random color, which skews towards being brighter
+    public Color randomColor()
+    {
+        return new Color((float)Math.random(), (float)Math.random(), (float)Math.random()).brighter();
     }
 }

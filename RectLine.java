@@ -10,16 +10,8 @@
 package WidlerSuite;
 import java.util.*;
 
-public class RectLine implements WSConstants
+public class RectLine extends StraightLine
 {
-   public static final int REMOVE_ORIGIN = 1;
-   public static final int REMOVE_TARGET = 2;
-   public static final int REMOVE_ORIGIN_AND_TARGET = 3;
-   
-   private static boolean roundToEven = true;
-   
-   public static void setRoundToEven(boolean r){roundToEven = r;}
-   
    public static Vector<Coord> findLine(Coord origin, Coord target){return findLine(origin, target, 0);}
    public static Vector<Coord> findLine(Coord origin, Coord target, int arguments)
    {
@@ -31,17 +23,7 @@ public class RectLine implements WSConstants
       
       Vector<Coord> list;
       list = rectLoop(origin, steps, xStep, yStep);
-      
-      // take out the target if requested
-      if(arguments == REMOVE_TARGET || arguments == REMOVE_ORIGIN_AND_TARGET)
-          if(list.size() > 1)
-          {
-            list.removeElementAt(list.size() - 1);
-          }
-      
-      // take out the origin if requested
-      if(arguments == REMOVE_ORIGIN || arguments == REMOVE_ORIGIN_AND_TARGET)
-        list.removeElementAt(0);
+      trim(list, arguments);
         
       return list;
    }

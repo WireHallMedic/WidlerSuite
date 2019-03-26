@@ -10,16 +10,9 @@
 package WidlerSuite;
 import java.util.*;
 
-public class HexLine implements WSConstants
+public class HexLine extends StraightLine
 {
-   public static final int REMOVE_ORIGIN = 1;
-   public static final int REMOVE_TARGET = 2;
-   public static final int REMOVE_ORIGIN_AND_TARGET = 3;
    public static final double THIRTY_DEGREE_SLOPE = Math.atan(Math.PI / 6.0);
-   
-   private static boolean roundToEven = true;
-   
-   public static void setRoundToEven(boolean r){roundToEven = r;}
    
    public static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget){return findLine(tileOrigin, tileTarget, 0);}
    public static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget, int arguments)
@@ -46,16 +39,7 @@ public class HexLine implements WSConstants
       // fill in gaps which occur in x-dominant lines
       smooth(list);
       
-      // take out the target if requested
-      if(arguments == REMOVE_TARGET || arguments == REMOVE_ORIGIN_AND_TARGET)
-      {
-        if(list.size() > 1)
-            list.removeElementAt(list.size() - 1);
-      }
-      
-      // take out the origin if requested
-      if(arguments == REMOVE_ORIGIN || arguments == REMOVE_ORIGIN_AND_TARGET)
-        list.removeElementAt(0);
+      trim(list, arguments);
       
       return list;
    }
