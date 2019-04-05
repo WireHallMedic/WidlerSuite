@@ -11,14 +11,16 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private RoguePanel roguePanel;
     private JPanel controlPanel;
     private JButton borderButton;
+    private JButton spiralSearchButton;
     private JComboBox<String> modeDD;
     private JComboBox<String> traceDD;
     private JComboBox<String> areaDD;
-    private static int displayMode = RECT_MODE;
-    private static boolean searchDiagonal = true;
-    private static boolean showBorders = false;
-    private static boolean showFoV = false;
-    private static boolean showDijkstra = false;
+    private int displayMode = RECT_MODE;
+    private boolean searchDiagonal = true;
+    private boolean showBorders = false;
+    private boolean showFoV = false;
+    private boolean showDijkstra = false;
+    private boolean showSpiralSearch = false;
     public static final int COLUMNS = 40;
     public static final int ROWS = 40;
     private String[][] strMap;
@@ -30,6 +32,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private ShadowFoV rectFoV;
     private ShadowFoVHex hexFoV;
     private DijkstraMap dijkstraMap;
+    private Coord searchLoc;
     private boolean traceType = true;   // true is A*, false is StraightLine
     private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode"};
     private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
@@ -50,6 +53,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         fgMap = new Color[COLUMNS][ROWS];
         aStar = new AStar();
         atLoc = new Coord(4, 4);
+        searchLoc = new Coord();
         
         setTestMap();
         
@@ -68,8 +72,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         this.add(controlPanel);
         
         // instructions
-        JLabel label = new JLabel("Click or double-click on RoguePanel for UnboundStrings.");
+        JTextArea label = new JTextArea("Click or double-click on RoguePanel for UnboundStrings.\nSpiralSearch to find nearest '>'");
         label.setFocusable(false);
+        label.setEditable(false);
         controlPanel.add(label);
         
         // mouse metrics
@@ -83,6 +88,12 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         borderButton.addActionListener(this);
         borderButton.setFocusable(false);
         controlPanel.add(borderButton);
+         
+        // spiral search toggle button
+        spiralSearchButton = new JButton("Toggle SpiralSearch");
+        spiralSearchButton.addActionListener(this);
+        spiralSearchButton.setFocusable(false);
+        controlPanel.add(spiralSearchButton);
         
         // display mode drop down (rect diagonal & orthogonal, rect orthogonal, hex)
         modeDD = new JComboBox<>(displayModeList);
@@ -161,6 +172,20 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         drawPath();
     }
     
+    // execute a spiral search for nearest >
+    private void search()
+    {
+        SpiralSearch sSearch = new SpiralSearch(passMap, atLoc, displayMode, searchDiagonal);
+        Coord target = sSearch.getNext();
+        while(target != null)
+        {
+            if(strMap[target.x][target.y].equals(">"))
+                break;
+            target = sSearch.getNext();
+        }
+        searchLoc = target;
+    }
+    
     private void testClick(int clicks)
     {
         // fireworks on single click
@@ -205,7 +230,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             aStar.setMode(displayMode);
             aStar.setSearchDiagonal(searchDiagonal);
             StraightLine.setMode(displayMode);
-            loadTestMap();
+            drawPath();
         }
         
         if(ae.getSource() == areaDD)
@@ -229,6 +254,12 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         {
             showBorders = !showBorders;
             roguePanel.showTileBorders(showBorders);
+        }
+        
+        if(ae.getSource() == spiralSearchButton)
+        {
+            showSpiralSearch = !showSpiralSearch;
+            loadTestMap();
         }
         
         hexFoV.calcFoV(atLoc.x, atLoc.y, 12);
@@ -275,7 +306,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         int wallY = (ROWS / 4) * 3;
         for(int y = wallY; y > ROWS / 4; y--)
             passMap[wallX][y] = false;
-            
+        
         // start and end locations
         passMap[4][4] = true;
         passMap[COLUMNS - 4][ROWS - 4] = true;
@@ -287,7 +318,16 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             else
                 strMap[x][y] = "#";
         }
-        strMap[COLUMNS - 4][ROWS - 4] = ">";
+        
+        // '>' for searching
+        strMap[4][4] = ">";
+        strMap[4][ROWS - 5] = ">";
+        strMap[COLUMNS - 5][4] = ">";
+        strMap[COLUMNS - 5][ROWS - 5] = ">";
+        passMap[4][4] = true;
+        passMap[4][ROWS - 5] = true;
+        passMap[COLUMNS - 5][4] = true;
+        passMap[COLUMNS - 5][ROWS - 5] = true;
         rectFoV = new ShadowFoV(passMap);
         hexFoV = new ShadowFoVHex(passMap);
         dijkstraMap = new DijkstraMap(passMap);
@@ -332,6 +372,18 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             }
         }
         roguePanel.setString(atLoc.x, atLoc.y, "@");
+        
+        // if spiralSearch, execute search and invert colors of target (if any)
+        if(showSpiralSearch)
+        {
+            if(searchLoc != null)
+            {
+                Color fg = roguePanel.getBGColor(searchLoc.x, searchLoc.y);
+                Color bg = roguePanel.getFGColor(searchLoc.x, searchLoc.y);
+                roguePanel.setBGColor(searchLoc.x, searchLoc.y, bg);
+                roguePanel.setFGColor(searchLoc.x, searchLoc.y, fg);
+            }
+        }
     }
     
     private void drawPath()
@@ -360,6 +412,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                 }
             }
         }
+        search();
         loadTestMap();
     }
     
@@ -421,7 +474,15 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     
     public void testMode()
     {
-        atLoc = new Coord(15, 15);
+        setTestMap();         
+        strMap[4][3] = "#"; 
+        strMap[4][5] = "#"; 
+        strMap[3][4] = "#"; 
+        strMap[5][4] = "#";
+        passMap[4][3] = false;
+        passMap[4][5] = false;
+        passMap[3][4] = false;
+        passMap[5][4] = false;
     }
     
     // returns a random color, which skews towards being brighter

@@ -1,126 +1,193 @@
+/********************************************************************
+Returns adjacent tiles, spiraling out from the origin. No further
+tiles left when returns null.
+
+
+
+********************************************************************/
+
+
 package WidlerSuite;
+
+import java.util.*;
 
 public class SpiralSearch implements WSConstants
 {
-	private static boolean[][] returnArea;
-    private static boolean[][] alreadySearched;
-    private static int mode = RECT_MODE;
-    private static boolean searchDiagonal = false;
+	private boolean[][] searchArea;
+    private boolean[][] alreadySearched;
+    private int mode = RECT_MODE;
+    private boolean searchDiagonal = false;
+    private CoordQueue coordQueue;
     
-    // only half the adjacent tiles are needed in rect mode (does not fill diagonally)
 
 	
-	public static boolean[][] fill(boolean area[][], int x, int y)
+	public SpiralSearch(boolean area[][], int startX, int startY, int tileMode, boolean diag)
 	{	
-		returnArea = new boolean[area.length][area[0].length];
+		searchArea = new boolean[area.length][area[0].length];
         alreadySearched = new boolean[area.length][area[0].length];
+        mode = tileMode;
+        searchDiagonal = diag;
+        
+        for(int x = 0; x < area.length; x++)
+        for(int y = 0; y < area[0].length; y++)
+            searchArea[x][y] = area[x][y];
+        coordQueue = new CoordQueue(new Coord(startX, startY));
+        alreadySearched[startX][startY] = true;
 		
-		floodFill(area, x, y);
-		
-		return returnArea;
+		search(startX, startY);
 	}
 	
-	public static boolean[][] fill(boolean area[][], Coord loc)
-	{
-		return fill(area, loc.x, loc.y);
-	}
-	
-	
-	private static void floodFill(boolean area[][], int x, int y)
-	//	fills the array with true, using true as the boundary
-	// start on or adjacent to false
-	{
-		if(isInBounds(x, y) && !alreadySearched[x][y])
+	public SpiralSearch(boolean area[][], Coord startLoc, int tileMode, boolean diag){this(area, startLoc.x, startLoc.y, tileMode, diag);}
+	public SpiralSearch(boolean area[][], Coord startLoc){this(area, startLoc.x, startLoc.y, RECT_MODE, SEARCH_DIAGONAL);}
+	public SpiralSearch(boolean area[][], int startX, int startY){this(area, startX, startY, RECT_MODE, SEARCH_DIAGONAL);}
+    
+    public Coord getNext()
+    {
+        Coord c = null;
+        if(coordQueue.size() > 0)
         {
-            alreadySearched[x][y] = true;
-			if(area[x][y] == true)
-			{
-				returnArea[x][y] = true;
-                int[][] searchPattern = null;
-                if(mode == HEX_MODE)
-                    if(y % 2 == 1)
-                        searchPattern = HEX_ODD_ROW;
-                    else
-                        searchPattern = HEX_EVEN_ROW;
-                else // RECT_MODE
-                    if(searchDiagonal)
-                        searchPattern = RECT_DIAG;
-                    else
-                        searchPattern = RECT_ORTHO;
-				for(int[] cell : searchPattern)
-                    floodFill(area, x + cell[0], y + cell[1]);
-			}
-		}
-	}
+            c = coordQueue.pop();
+            search(c.x, c.y);
+        }
+        return c;
+    }
     
     // checks if the passed tile location is in the display bounds
-    public static boolean isInBounds(int x, int y)
+    private boolean isInBounds(int x, int y)
     {
-        if(x >= 0 && y >= 0 && x < returnArea.length && y < returnArea[0].length)
+        if(x >= 0 && y >= 0 && x < searchArea.length && y < searchArea[0].length)
             return true;
         return false;
     }
-	
-	
-	public static String getVisual(boolean arr[][])
+    
+    // marks the current tile as searched, adds adjacent to queue
+    private void search(int x, int y)
 	{
-		String value = "";
-		String printout = "";
-		for(int x = 0; x < arr.length; x++)
-		{
-			for(int y = 0; y < arr[0].length; y++)
-			{
-				if(arr[x][y] == true)
-					value = ".";
-				else
-					value = "#";
-				printout = printout + value; 
-			}
-			printout = printout + "\n";
-		}
-		return printout;
-	}
-	
-	
-	public static void invertMap(boolean[][] map)
-	// not necessary, but often useful
-	{
-		for(int x = 0; x < map.length; x++)
-		for(int y = 0; y < map[0].length; y++)
-			map[x][y] = !map[x][y];
-	}
-	
-	
-	public static void main(String args[])
-	{
-		boolean demo[][] = new boolean[20][20];
-		mode = HEX_MODE;
-		for(int x = 0; x < 20; x++)
-		{
-			for(int y = 0; y < 20; y++)
-			{
-				demo[x][y] = true;
-			}
-		}
+        int x2;
+        int y2;
         
-        for(int x = 5; x <= 11; x++)
+        int[][] searchPattern = getSearchPattern(y);
+		for(int[] cell : searchPattern)
         {
-            demo[x][5] = false;
-            demo[x][11] = false;
-        }
-        for(int y = 5; y <= 11; y++)
-        {
-            demo[5][y] = false;
-            demo[11][y] = false;
-        }
-		
-		demo[1][1] = false;
-		demo[1][3] = false;
-		
-		System.out.println(getVisual(demo));
-		
-		boolean[][] map = fill(demo, 7, 7);
-		
-		System.out.println(getVisual(map));
+            x2 = x + cell[0];
+            y2 = y + cell[1];
+            if(isInBounds(x2, y2) && !alreadySearched[x2][y2] && searchArea[x2][y2])
+            {
+                coordQueue.push(new Coord(x2, y2));
+                alreadySearched[x2][y2] = true;
+            }
+		}
 	}
+    
+    private int[][] getSearchPattern(int y)
+    {
+        int[][] searchPattern = null;
+        if(mode == HEX_MODE)        // hex mode
+            if(y % 2 == 1)
+                searchPattern = HEX_ODD_ROW;
+            else
+                searchPattern = HEX_EVEN_ROW;
+        else                        // rect mode
+            if(searchDiagonal)
+                searchPattern = RECT_DIAG;
+            else
+                searchPattern = RECT_ORTHO;
+        return searchPattern;
+    }
+    
+    
+    //////////////////////////////////////////////////////////
+        
+    // a private class for maintaining a queue of tiles to search. New tiles are added to the end, pops come off the beginning
+    private class CoordQueue
+    {
+        private int size;
+        private Link head;
+    
+        public CoordQueue()
+        {
+            size = 0;
+            head = null;
+        }
+        
+        public CoordQueue(Coord d)
+        {
+            this();
+            addToEmpty(d);
+        }
+        
+        public int size()
+        {
+            return size;
+        }
+    
+        public void addToEmpty(Coord d)
+        {
+            head = new Link(d);
+            size = 1;
+        }   
+        
+        // push a new data into the list, maintaining a sort by f.
+        public void push(Coord d)
+        {
+            if(size == 0)
+                addToEmpty(d);
+            else
+            {
+                head.insert(d);
+                size++;
+            }
+        }
+        
+        // pops the top (ie, lowest f) data from the list
+        public Coord pop()
+        {
+            if(size == 0)
+                return null;
+            Coord topData = head.data;
+            Link newHead = head.next;
+            head.remove();
+            head = newHead;
+            size -= 1;
+            if(size == 0)
+                head = null;
+            return topData;
+        }
+        
+        // a wrapper to hold the Coords in the linked list
+        private class Link
+        {
+            public Coord data;
+            public Link prev;
+            public Link next;
+            
+            public Link(Coord d){this(d, null, null);}
+            public Link(Coord _data, Link _prev, Link _next)
+            {
+                data = _data;
+                prev = _prev;
+                next = _next;
+                if(prev == null)
+                    prev = this;
+                if(next == null)
+                    next = this;
+            }
+            
+            // remove this link from the list
+            public void remove()
+            {
+                next.prev = this.prev;
+                prev.next = this.next;
+            }
+            
+            // insert a new link with the passed node immedeatly ahead of this link
+            public void insert(Coord d)
+            {
+                Link newLink = new Link(d, this.prev, this);
+                this.prev.next = newLink;
+                this.prev = newLink;
+            }
+        }
+    }
+    /////////////////////////////////////////////////////////
 }

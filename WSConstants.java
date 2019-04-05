@@ -7,9 +7,10 @@ package WidlerSuite;
 
 public interface WSConstants
 {
-
     public static final int RECT_MODE = 0;
     public static final int HEX_MODE = 1;
+    public static final boolean SEARCH_DIAGONAL = true;
+    public static final boolean DONT_SEARCH_DIAGONAL = false;
     
     // adjacency lists: x, y, stepCost
     public static final int[][] RECT_ORTHO = {{-1, 0, 10}, {0, -1, 10}, {1, 0, 10}, {0, 1, 10}};
