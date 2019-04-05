@@ -24,4 +24,17 @@ public interface WSConstants
     public static final int SW = 3;
     public static final int W  = 4;
     public static final int NW = 5;
+    
+    public static final int[][] RECT_FILL_LIST_ORTHO = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    public static final int[][] RECT_FILL_LIST_DIAG =  {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+    public static final int[][] HEX_FILL_LIST_ODD =    {{hexOddRow[E][0],   hexOddRow[E][1]},
+                                                        {hexOddRow[NW][0],  hexOddRow[NW][1]},
+                                                        {hexOddRow[SW][0],  hexOddRow[SW][1]}};
+    public static final int[][] HEX_FILL_LIST_EVEN =   {{hexEvenRow[E][0],  hexEvenRow[E][1]},
+                                                        {hexEvenRow[NW][0], hexEvenRow[NW][1]},
+                                                        {hexEvenRow[SW][0], hexEvenRow[SW][1]}};
+    
+    // display settings
+    public static final double GRAVITY = .04;           // tiles per tick
+    public static final int FRAMES_PER_SECOND = 24;
 }

@@ -1,20 +1,14 @@
-/***************************************************
-//
-//	A different implementation of a flood fill algorythm.
-//  Accepts a boolean array and starting location; false is impassable,
-//  true is passable. Retuns an array. Not thread safe (will collide with self)
-//
-***************************************************/
-
 package WidlerSuite;
 
-
-public class FloodFill implements WSConstants
+public class SpiralSearch implements WSConstants
 {
 	private static boolean[][] returnArea;
     private static boolean[][] alreadySearched;
     private static int mode = RECT_MODE;
     private static boolean searchDiagonal = false;
+    
+    // only half the adjacent tiles are needed in rect mode (does not fill diagonally)
+
 	
 	public static boolean[][] fill(boolean area[][], int x, int y)
 	{	

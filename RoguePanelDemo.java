@@ -11,14 +11,12 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private JTextArea testTextArea;
     private RoguePanel panel;
     private JButton borderButton;
-    private JButton dmButton;
-    private JButton rnButton;
-    private JButton scButton;
-    private JButton sdButton;
-    private JButton tpButton;
+    private JComboBox<String> modeDD;
+    private JComboBox<String> traceDD;
+    private JComboBox<String> areaDD;
     private static int displayMode = RECT_MODE;
+    private static boolean searchDiagonal = true;
     private static boolean showBorders = false;
-    private static boolean randomNonsense = false;
     private static boolean showFoV = false;
     private static boolean showDijkstra = false;
     public static final int COLUMNS = 40;
@@ -33,6 +31,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private ShadowFoVHex hexFoV;
     private DijkstraMap dijkstraMap;
     private boolean traceType = true;   // true is A*, false is StraightLine
+    private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode"};
+    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
+    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra"};
     
     // test function
     public RoguePanelDemo()
@@ -52,20 +53,20 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         panel = new RoguePanel();
         panel.setColumnsAndRows(COLUMNS, ROWS);
         panel.setString(5, 10, "@");
+        panel.setTileBorderColor(Color.ORANGE);
         
         setTestMap();
         loadTestMap();
         
         add(panel);
         
-        javax.swing.Timer timer = new javax.swing.Timer(1000 / 30, panel);
+        javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, panel);
         
         testFrame = new JFrame();
         testFrame.setSize(300, 500);
         testFrame.setLocation(1100, 100);
         testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       // testFrame.setFocusable(false);
-        testFrame.setLayout(new GridLayout(8, 1));
+        testFrame.setLayout(new GridLayout(6, 1));
         
         JLabel label = new JLabel("Click on panel to add Unbound String.");
         label.setFocusable(false);
@@ -75,40 +76,34 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         testTextArea.setEditable(false);
         testTextArea.setFocusable(false);
         testFrame.add(testTextArea);
-        
-        dmButton = new JButton("Toggle Display Mode");
-        dmButton.addActionListener(this);
-        dmButton.setFocusable(false);
-        testFrame.add(dmButton);
-        
+         
         borderButton = new JButton("Toggle Borders");
         borderButton.addActionListener(this);
         borderButton.setFocusable(false);
         testFrame.add(borderButton);
         
-        rnButton = new JButton("Toggle Random Nonsense");
-        rnButton.addActionListener(this);
-        rnButton.setFocusable(false);
-        testFrame.add(rnButton);
+        modeDD = new JComboBox<>(displayModeList);
+        modeDD.addActionListener(this);
+        modeDD.setFocusable(false);
+        modeDD.setSelectedIndex(0);
+        testFrame.add(modeDD);
         
-        scButton = new JButton("Toggle Shadowcasting");
-        scButton.addActionListener(this);
-        scButton.setFocusable(false);
-        testFrame.add(scButton);
+        areaDD = new JComboBox<>(areaList);
+        areaDD.addActionListener(this);
+        areaDD.setFocusable(false);
+        areaDD.setSelectedIndex(0);
+        testFrame.add(areaDD);
         
-        sdButton = new JButton("Toggle Dijkstra");
-        sdButton.addActionListener(this);
-        sdButton.setFocusable(false);
-        testFrame.add(sdButton);
-        
-        tpButton = new JButton("Trace: A*");
-        tpButton.addActionListener(this);
-        tpButton.setFocusable(false);
-        testFrame.add(tpButton);
+        traceDD = new JComboBox<>(traceList);
+        traceDD.addActionListener(this);
+        traceDD.setFocusable(false);
+        traceDD.setSelectedIndex(0);
+        testFrame.add(traceDD);
         
         testFrame.setVisible(true);
         
         setVisible(true);
+        testFrame.setFocusable(false);
         timer.start();
     }
 
@@ -145,22 +140,47 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         {
             UnboundString star = new UnboundString("*", randomColor(), panel.mouseColumn(), panel.mouseRow());
             star.setLifespan(15);
-            star.setSpeed((Math.random() * .4) - .2, (Math.random() * .4) - .2);
+            star.setSpeed((Math.random() * .4) - .2, -.5 + (Math.random() * .2));
+            star.setAffectedByGravity(true);
             panel.add(star);
         }
     }
     
     public void actionPerformed(ActionEvent ae)
     {
-        if(ae.getSource() == dmButton)
+        if(ae.getSource() == modeDD)
         {
-            if(displayMode == HEX_MODE)
-                displayMode = RECT_MODE;
-            else
-                displayMode = HEX_MODE;
+            switch(modeDD.getSelectedIndex())
+            {
+                case 0 :    displayMode = RECT_MODE;
+                            searchDiagonal = true;
+                            break;
+                case 1 :    displayMode = RECT_MODE;
+                            searchDiagonal = false;
+                            break;
+                case 2 :    displayMode = HEX_MODE;
+                            break;
+            }
             panel.setDisplayMode(displayMode);
             aStar.setMode(displayMode);
             StraightLine.setMode(displayMode);
+            loadTestMap();
+        }
+        
+        if(ae.getSource() == areaDD)
+        {
+            switch(areaDD.getSelectedIndex())
+            {
+                case 0 :    showFoV = false;
+                            showDijkstra = false;
+                            break;
+                case 1 :    showFoV = true;
+                            showDijkstra = false;
+                            break;
+                case 2 :    showFoV = false;
+                            showDijkstra = true;
+                            break;
+            }
             loadTestMap();
         }
         
@@ -170,37 +190,6 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             panel.showTileBorders(showBorders);
         }
         
-        if(ae.getSource() == rnButton)
-        {
-            randomNonsense = !randomNonsense;
-            if(randomNonsense)
-                panel.randomize();
-            else
-                loadTestMap();
-        }
-        
-        if(ae.getSource() == scButton)
-        {
-            showFoV = !showFoV;
-            showDijkstra = false;
-            loadTestMap();
-        }
-        
-        if(ae.getSource() == sdButton)
-        {
-            showDijkstra = !showDijkstra;
-            showFoV = false;
-            loadTestMap();
-        }
-        
-        if(ae.getSource() == tpButton)
-        {
-            traceType = !traceType;
-            if(traceType)
-                tpButton.setText("Trace: A*");
-            else
-                tpButton.setText("Trace: StraightLine");
-        }
         hexFoV.calcFoV(atLoc.x, atLoc.y, 12);
         rectFoV.calcFoV(atLoc.x, atLoc.y, 12);
     }
@@ -223,11 +212,29 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             fgMap[x][y] = Color.WHITE;
         }
         
+        // box
+        for(int x = 5; x < 11; x++)
+        {
+            passMap[x][5] = false;
+            passMap[x][10] = false;
+        }
+        for(int y = 5; y < 11; y++)
+        {
+            passMap[5][y] = false;
+            passMap[10][y] = false;
+        }
+        for(int x = 6; x < 10; x++)
+        for(int y = 6; y < 10; y++)
+        {
+            passMap[x][y] = true;
+        }
+        
         // vertical wall
         int wallX = COLUMNS / 2;
         int wallY = (ROWS / 4) * 3;
         for(int y = wallY; y > ROWS / 4; y--)
             passMap[wallX][y] = false;
+            
         // start and end locations
         passMap[4][4] = true;
         passMap[COLUMNS - 4][ROWS - 4] = true;
@@ -249,7 +256,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     {
         dijkstraMap = new DijkstraMap(passMap);
         dijkstraMap.setMode(displayMode);
+        dijkstraMap.setSearchDiagonal(true);
         dijkstraMap.addGoal(atLoc.x, atLoc.y);
+        dijkstraMap.setSearchDiagonal(searchDiagonal);
         dijkstraMap.process();
         for(int x = 0; x < COLUMNS; x++)
         for(int y = 0; y < ROWS; y++)
@@ -271,8 +280,8 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             else if(showDijkstra)
             {
                 int val = dijkstraMap.getValue(x, y);
-                if(val < 256 && bgMap[x][y] == Color.BLACK)
-                    panel.setTile(x, y, strMap[x][y], fgMap[x][y], new Color(0, 255 - val, 0));
+                if(val < 128 && bgMap[x][y] == Color.BLACK)
+                    panel.setTile(x, y, strMap[x][y], fgMap[x][y], new Color(0, 255 - (val * 2), 0));
                 else
                     panel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
             }
@@ -291,7 +300,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             bgMap[x][y] = Color.BLACK;
         if(panel.mouseColumn() != -1 && panel.mouseRow() != -1)
         {
-            if(traceType)   // A*
+            if(traceDD.getSelectedIndex() == 1)   // A*
             {
                 Vector<Coord> path = aStar.path(passMap, atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
                 for(Coord loc : path)
@@ -300,7 +309,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                         bgMap[loc.x][loc.y] = Color.BLUE;
                 }
             }
-            else        // StraightLine
+            else if(traceDD.getSelectedIndex() == 2)        // StraightLine
             {
                 Vector<Coord> path = StraightLine.findLine(atLoc, new Coord(panel.mouseColumn(), panel.mouseRow()));
                 for(Coord loc : path)
@@ -371,8 +380,6 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     
     public void testMode()
     {
-        dmButton.doClick();
-        scButton.doClick();
         atLoc = new Coord(15, 15);
     }
     

@@ -24,6 +24,7 @@ Color getBGColor(int x, int y)
 String getString(int x, int y)
 String getFontName()
 String getFont()
+Color getTileBorderColor()
 int getMouseColumn()    // returns the index of the row in which the mouse is currently located (ie, the X location)
 int getMouseRow()       // returns the index of the column in which the mouse is currently located (ie, the Y location)
     UnboundString functions:
@@ -35,6 +36,7 @@ void clearUnboundStrings()
 void setCornerCell(int x, int y)    // call this xor next function for properly displaying unbound strings
 void setCenterCell(int x, int y)    // call this xor previous function for properly displaying unbound strings
     inherits from JPanel
+void setTileBorderColor(Color bc)
 
 
 **********************************************************************************/
@@ -73,12 +75,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
 
 	public Font getFont(){return font;}
 	public String getFontName(){return fontName;}
+    public Color getTileBorderColor(){return borderColor;}
     
     public int columns(){return str.length;}
     public int rows(){return str[0].length;}
     public int mouseColumn(){return mouseLoc[0];}
     public int mouseRow(){return mouseLoc[1];}
-    public Color getTileBorderColor(){return borderColor;}
 
 
 	public void setFontName(String f){fontName = f; setFont();}

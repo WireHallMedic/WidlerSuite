@@ -17,7 +17,7 @@ public class DijkstraMap implements WSConstants
 	private int[][] map;
 	private Vector<Coord> goalList;
     private int mode;
-    private boolean diagOkay = false;
+    private boolean searchDiagonal = false;
 
 
 	public boolean[][] getPassMap(){return passMap;}
@@ -29,7 +29,7 @@ public class DijkstraMap implements WSConstants
 	public void setMap(int[][] m){map = m;}
 	public void setGoalList(Vector<Coord> g){goalList = g;}
     public void setMode(int m){mode = m;}
-    public void setDiagonal(boolean d){diagOkay = d;}
+    public void setSearchDiagonal(boolean d){searchDiagonal = d;}
    
    
    public DijkstraMap(boolean[][] pm)
@@ -213,7 +213,7 @@ public class DijkstraMap implements WSConstants
         }
         else
         {
-            if(diagOkay)
+            if(searchDiagonal)
                 stepList = rectDiag;
             else
                 stepList = rectOrtho;
@@ -240,7 +240,7 @@ public class DijkstraMap implements WSConstants
         }
         else
         {
-            if(diagOkay)
+            if(searchDiagonal)
                 stepList = rectDiag;
             else
                 stepList = rectOrtho;

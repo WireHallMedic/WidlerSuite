@@ -11,19 +11,19 @@ import java.util.*;
         The cell's neighbors are added to the process list (checking if in bounds, in range and not already added for each)
 */
 public class ShadowFoVHex implements WSConstants
-{
-    // for calculating shadows
-    private static double[][] SHADOW_ARR = {{0.5, 0.25}, {0.5, -.25}, {-.5, 0.25}, {-.5, -.25}, {0.0, .5}, {0.0, -.5}};
- //   private static double[][] SHADOW_ARR = {{0.5, 0.5}, {-.5, 0.5}, {0.5, -.5}, {-.5, -.5}};
-                                                 
+{                   
     private boolean[][] transparencyMap;    // which tiles are visible
     private int[][] visibilityMap;          // which tiles can be seen from most recent calcFoV()
     private int[][] addedMap;               // which tiles have been added to processList
     private int width;
     private int height;
-    private int flag;   // used to avoid unnecessary reassignment to refresh visibilityMap
-    private Vector<Coord> processList;  // processing needs to be stack-based, rather than recursive
+    private int flag;                       // used to avoid unnecessary reassignment to refresh visibilityMap
+    private Vector<Coord> processList;      // processing needs to be stack-based, rather than recursive
     private Vector<Shadow> shadowList;
+    private static double tileRadius = .5;
+    private int listIndex;                  // avoid the cost of removing items from the front of the vector
+    
+    public static void setTileRadius(double tr){tileRadius = tr;}
     
     // constructor
     public ShadowFoVHex(boolean[][] transMap)
@@ -39,6 +39,7 @@ public class ShadowFoVHex implements WSConstants
         visibilityMap = new int[width][height];
         addedMap = new int[width][height];
         flag = 1;
+        listIndex = 0;
     }
     
     // checks if a location is in the map bounds
@@ -74,12 +75,17 @@ public class ShadowFoVHex implements WSConstants
             
         shadowList = new Vector<Shadow>();
         processList = new Vector<Coord>();
+        listIndex = 1;
         int maxDistMetric = radius * radius;
         Coord observer = new Coord(xLoc, yLoc);
         processOrigin(observer, maxDistMetric);
-        while(processList.size() > 0)
+        if(processList.size() > 0)
         {
-            processCell(observer, popProcessList(), maxDistMetric);
+            while(processList.size() >= listIndex)
+            {
+                processCell(observer, processList.elementAt(listIndex - 1), maxDistMetric);
+                listIndex += 1;
+            }
         }
     }
     
@@ -98,7 +104,7 @@ public class ShadowFoVHex implements WSConstants
         for(Shadow shadow : shadowList)
         {
             double angleTo = getAngle(observer, target);
-            if(shadow.shades(angleTo))
+            if(shadow.shades(angleTo, observer, target))
                 return;
         }
         
@@ -168,26 +174,6 @@ public class ShadowFoVHex implements WSConstants
         return MathTools.getAngle(x, y) + MathTools.FULL_CIRCLE;
     }
     
-    // tests if a cell lies in an existing shadow
-    private boolean isLit(Coord observer, Coord target)
-    {
-        addedMap[target.x][target.y] = flag;
-        double angle = getAngle(observer, target);
-        for(Shadow shadow : shadowList)
-        {
-            if(shadow.shades(angle))
-                return false;
-        }
-        return true;
-    }
-    
-    private Coord popProcessList()
-    {
-        Coord c = processList.elementAt(0);
-        processList.removeElementAt(0);
-        return c;
-    }
-    
     // private class for storing shadows. Angles are stored at +2pi to avoid straddling 0.0
     private class Shadow
     {
@@ -204,7 +190,18 @@ public class ShadowFoVHex implements WSConstants
             lower = theta - sweep;
         }
         
-        public boolean shades(double angle)
+        // check if tile is shaded by checking center and two sides
+        public boolean shades(double angle, Coord observer, Coord target)
+        {            
+            double x = MathTools.getHexX(target) - MathTools.getHexX(observer);
+            double y = target.y - observer.y;
+            double sweep = getSweep(x, y) / 2;
+            return //shadowCheck(angle) &&
+                   shadowCheck(angle + sweep) &&
+                   shadowCheck(angle - sweep);
+        }
+        
+        private boolean shadowCheck(double angle)
         {
             if(upper >= angle && lower <= angle)
                 return true;
@@ -214,7 +211,7 @@ public class ShadowFoVHex implements WSConstants
         private double getSweep(double x, double y)
         {
             double h = Math.sqrt((x * x) + (y * y));
-            return Math.atan(.5 / h);
+            return Math.atan(tileRadius / h);
         }
     }
 

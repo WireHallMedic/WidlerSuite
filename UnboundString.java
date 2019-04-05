@@ -38,7 +38,7 @@ package WidlerSuite;
 import java.awt.*;
 import java.awt.event.*;
 
-public class UnboundString implements ActionListener
+public class UnboundString implements ActionListener, WSConstants
 {
 	private Color bgColor;
 	private Color fgColor;
@@ -51,9 +51,11 @@ public class UnboundString implements ActionListener
 	private boolean backgroundBox;
 	private int lifespan;
 	private int age;
+    private boolean affectedByGravity;
     
     private static int defaultLifespan = 15;
     public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 128);
+    public static final boolean GRAVITY_DEFAULT = false;
 
 
 	public Color getBGColor(){return bgColor;}
@@ -66,6 +68,7 @@ public class UnboundString implements ActionListener
 	public double getYOffset(){return yOffset;}
 	public boolean hasBackgroundBox(){return backgroundBox;}
     public static int getDefaultLifespan(){return defaultLifespan;}
+    public boolean isAffectedByGravity(){return affectedByGravity;}
 
 
 	public void setBGColor(Color b){bgColor = b;}
@@ -81,6 +84,7 @@ public class UnboundString implements ActionListener
 	public void setLifespan(int l){lifespan = l;}
 	public void setAge(int a){age = a;}
     public void setDefaultLifespan(int dl){defaultLifespan = dl;}
+    public void setAffectedByGravity(boolean abg){affectedByGravity = abg;}
 
     public UnboundString(String s)
     {
@@ -101,6 +105,7 @@ public class UnboundString implements ActionListener
         backgroundBox = false;
         xSpeed = 0.0;
         ySpeed = 0.0;
+        affectedByGravity = GRAVITY_DEFAULT;
     }
     
     // if an unbound string should be removed by the manager
@@ -120,6 +125,8 @@ public class UnboundString implements ActionListener
     public void actionPerformed(ActionEvent ae)
     {
         age++;
+        if(affectedByGravity)
+            ySpeed += GRAVITY;
         xOffset += xSpeed;
         yOffset += ySpeed;
     }
