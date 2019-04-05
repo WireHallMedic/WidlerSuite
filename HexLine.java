@@ -120,9 +120,9 @@ public class HexLine extends StraightLine
         Coord step = new Coord(0, 0);
         
         // select correct array
-        int[][] intArr = hexEvenRow;
+        int[][] intArr = HEX_EVEN_ROW;
         if(origin.y % 2 == 1)
-            intArr = hexOddRow;
+            intArr = HEX_ODD_ROW;
         
         step.x = intArr[hextant][0] + origin.x;
         step.y = intArr[hextant][1] + origin.y;
@@ -175,9 +175,9 @@ public class HexLine extends StraightLine
     private static Coord[] getAdjArray(Coord c)
     {
         Coord[] arr = new Coord[6];
-        int[][] stepArr = hexEvenRow;
+        int[][] stepArr = HEX_EVEN_ROW;
         if(c.y % 2 == 1)
-            stepArr = hexOddRow;
+            stepArr = HEX_ODD_ROW;
         for(int i = 0; i < 6; i++)
         {
             arr[i] = new Coord(c.x + stepArr[i][0], c.y + stepArr[i][1]);

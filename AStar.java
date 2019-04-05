@@ -45,12 +45,13 @@ public class AStar implements WSConstants
     private int width;
     private int height;
     private int mode = RECT_MODE;
-    private boolean diagOkay = true;
+    private boolean searchDiagonal = true;
     
     public static final int MAX_LOOPS = 5000;
     public static final double HEURISTIC_MULTIPLER = 11.0;
     
     public void setMode(int m){mode = m;}
+    public void setSearchDiagonal(boolean sd){searchDiagonal = sd;}
     
     // constructor
     public AStar()
@@ -140,17 +141,17 @@ public class AStar implements WSConstants
             AStarNode curNode = openList.pop();
             if(mode == RECT_MODE)
             {
-                if(diagOkay)
-                    adjTiles = rectDiag;
+                if(searchDiagonal)
+                    adjTiles = RECT_DIAG;
                 else
-                    adjTiles = rectOrtho;
+                    adjTiles = RECT_ORTHO;
             }
             else
             {
                 if(curNode.getLoc().y % 2 == 0)
-                    adjTiles = hexEvenRow;
+                    adjTiles = HEX_EVEN_ROW;
                 else 
-                    adjTiles = hexOddRow;
+                    adjTiles = HEX_ODD_ROW;
             }
             for(int[] locInfo : adjTiles)
             {

@@ -45,14 +45,14 @@ public class FloodFill implements WSConstants
                 int[][] searchPattern = null;
                 if(mode == HEX_MODE)
                     if(y % 2 == 1)
-                        searchPattern = HEX_FILL_LIST_ODD;
+                        searchPattern = HEX_ODD_ROW;
                     else
-                        searchPattern = HEX_FILL_LIST_EVEN;
+                        searchPattern = HEX_EVEN_ROW;
                 else // RECT_MODE
                     if(searchDiagonal)
-                        searchPattern = RECT_FILL_LIST_ORTHO;
+                        searchPattern = RECT_DIAG;
                     else
-                        searchPattern = RECT_FILL_LIST_ORTHO;
+                        searchPattern = RECT_ORTHO;
 				for(int[] cell : searchPattern)
                     floodFill(area, x + cell[0], y + cell[1]);
 			}

@@ -207,16 +207,16 @@ public class DijkstraMap implements WSConstants
         if(mode == HEX_MODE)
         {
             if(y % 2 == 0)
-                stepList = hexEvenRow;
+                stepList = HEX_EVEN_ROW;
             else
-                stepList = hexOddRow;
+                stepList = HEX_ODD_ROW;
         }
         else
         {
             if(searchDiagonal)
-                stepList = rectDiag;
+                stepList = RECT_DIAG;
             else
-                stepList = rectOrtho;
+                stepList = RECT_ORTHO;
         }
         Coord[] adjList = new Coord[stepList.length];
         for(int i = 0; i < adjList.length; i++)
@@ -234,16 +234,16 @@ public class DijkstraMap implements WSConstants
         if(mode == HEX_MODE)
         {
             if(y % 2 == 0)
-                stepList = hexEvenRow;
+                stepList = HEX_EVEN_ROW;
             else
-                stepList = hexOddRow;
+                stepList = HEX_ODD_ROW;
         }
         else
         {
             if(searchDiagonal)
-                stepList = rectDiag;
+                stepList = RECT_DIAG;
             else
-                stepList = rectOrtho;
+                stepList = RECT_ORTHO;
         }
         int[] distList = new int[stepList.length];
         for(int i = 0; i < distList.length; i++)

@@ -133,9 +133,9 @@ public class ShadowFoVHex implements WSConstants
     // add neighbors if they are not yet added, in range, and in bounds
     private void processNeighbors(Coord observer, Coord curCell, int maxDistMetric)
     {
-        int[][] hexArr = hexEvenRow;
+        int[][] hexArr = HEX_EVEN_ROW;
         if(curCell.y % 2 == 1)
-            hexArr = hexOddRow;
+            hexArr = HEX_ODD_ROW;
         for(int i = 0; i < 6; i++)
         {
             Coord c = new Coord(curCell.x + hexArr[i][0], curCell.y + hexArr[i][1]);
