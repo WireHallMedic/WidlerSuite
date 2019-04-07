@@ -315,6 +315,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     // store which tile the mouse is in, or {-1, -1} if it is out of the tiled area
     private void updateMouseLoc(MouseEvent me)
     {
+        // avoid a div0 exception
+        if(rowHeight == 0)
+        {
+            mouseLoc[0] = -1;
+            mouseLoc[1] = -1;
+        }
+        
         int xLoc = me.getX() - arrayXInset;
         int yLoc = me.getY() - arrayYInset;
         boolean oob = false;

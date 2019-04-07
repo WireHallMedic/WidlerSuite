@@ -25,6 +25,8 @@ public interface WSConstants
     public static final int SW = 3;
     public static final int W  = 4;
     public static final int NW = 5;
+    public static final int N  = 6; // not used for hexes
+    public static final int S  = 7; // not used for hexes
     
     // display settings
     public static final double GRAVITY = .04;           // tiles per tick

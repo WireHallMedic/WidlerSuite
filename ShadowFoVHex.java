@@ -2,13 +2,14 @@ package WidlerSuite;
 
 import java.util.*;
 /*
-    An implementation of shadowcasting FoV for hex modes. Angles are stored at +2pi to avoid straddling 0.0
+    An implementation of shadowcasting FoV for hex modes. Checks if the center of a tile has LoS to six points on the
+    target tile.
     
     Basic procedure:
+        The cell's neighbors are added to the process list (checking if in bounds, in range and not already added for each)
         If a cell is in shadow, it is skipped
         The cell is marked as visible
         If the cell is not transparent, it registers a shadow.
-        The cell's neighbors are added to the process list (checking if in bounds, in range and not already added for each)
 */
 public class ShadowFoVHex implements WSConstants
 {                   
@@ -18,12 +19,11 @@ public class ShadowFoVHex implements WSConstants
     private int width;
     private int height;
     private int flag;                       // used to avoid unnecessary reassignment to refresh visibilityMap
-    private Vector<Coord> processList;      // processing needs to be stack-based, rather than recursive
+    private Vector<Coord> processList;      // processing is essentially a queue, rather than recursive (FIFO)
     private Vector<Shadow> shadowList;
-    private static double tileRadius = .5;
-    private int listIndex;                  // avoid the cost of removing items from the front of the vector
-    
-    public static void setTileRadius(double tr){tileRadius = tr;}
+    private int listIndex;                  // avoiding the cost of removing items from the front of the vector
+    private double[][] CORNER_LIST =  {{-.5, -.5}, {.5, -.5}, {-.5, .5}, {.5, .5}};  // for calculating shadow angles
+    private double[][] TILE_CHECK_LIST  = {{-.25, -.5}, {.25, -.5}, {-.25, .5}, {.25, .5}, {-.5, 0}, {.5, 0}};  // for calculating if a tile is shadowed
     
     // constructor
     public ShadowFoVHex(boolean[][] transMap)
@@ -33,7 +33,7 @@ public class ShadowFoVHex implements WSConstants
     
     public void reset(boolean[][] transMap)
     {
-        transparencyMap = transMap; // shallow copy
+        transparencyMap = transMap; // note: shallow copy
         width = transparencyMap.length;
         height = transparencyMap[0].length;
         visibilityMap = new int[width][height];
@@ -63,9 +63,8 @@ public class ShadowFoVHex implements WSConstants
         return isInBounds(x, y) && visibilityMap[x][y] == flag;
     }
     
-    
-    public void calcFoV(int xLoc, int yLoc, int radius)
     // Calculate lit squares from a given location and radius
+    public void calcFoV(int xLoc, int yLoc, int radius)
     {
         flag += 1;
         if(flag == Integer.MAX_VALUE)
@@ -75,15 +74,15 @@ public class ShadowFoVHex implements WSConstants
             
         shadowList = new Vector<Shadow>();
         processList = new Vector<Coord>();
-        listIndex = 1;
+        listIndex = 0;
         int maxDistMetric = radius * radius;
-        Coord observer = new Coord(xLoc, yLoc);
-        processOrigin(observer, maxDistMetric);
+        Coord origin = new Coord(xLoc, yLoc);
+        processOrigin(origin, maxDistMetric);
         if(processList.size() > 0)
         {
-            while(processList.size() >= listIndex)
+            while(processList.size() > listIndex)
             {
-                processCell(observer, processList.elementAt(listIndex - 1), maxDistMetric);
+                processCell(origin, processList.elementAt(listIndex), maxDistMetric);
                 listIndex += 1;
             }
         }
@@ -98,120 +97,137 @@ public class ShadowFoVHex implements WSConstants
     
     
     // main process for each cell
-    private void processCell(Coord observer, Coord target, int maxDistMetric)
+    private void processCell(Coord origin, Coord target, int maxDistMetric)
     {
+        // add neighbors
+        queueNeighbors(origin, target, maxDistMetric);
+        
         // if in shadow, return
-        for(Shadow shadow : shadowList)
-        {
-            double angleTo = getAngle(observer, target);
-            if(shadow.shades(angleTo, observer, target))
-                return;
-        }
+        if(isShadowed(origin, target))
+            return;
         
         // mark cell as visible
         visibilityMap[target.x][target.y] = flag;
         
         // if cell blocks LoS, cast a shadow
         if(transparencyMap[target.x][target.y] == false)
-            shadowList.add(new Shadow(observer, target));
+            shadowList.add(new Shadow(origin, target));
+    }
+    
+    // checks five points (diamond plus center) against the shadow list. 
+    private boolean isShadowed(Coord origin, Coord target)
+    {
+        if(shadowList.size() == 0)
+            return false;
+            
+        double x = MathTools.getHexX(target) - MathTools.getHexX(origin);
+        double y = target.y - origin.y;
+        double[] angleList = new double[TILE_CHECK_LIST.length];
+        for(int i = 0; i < TILE_CHECK_LIST.length; i++)
+        {
+            angleList[i] = MathTools.getAngle(x + TILE_CHECK_LIST[i][0], y + TILE_CHECK_LIST[i][1]);
+        }
         
-        // add neighbors
-        processNeighbors(observer, target, maxDistMetric);
+        int blockedPoints = 0;
+        for(double theta : angleList)
+        {
+            for(Shadow shadow : shadowList)
+            {
+                if(shadow.shades(theta, origin, target))
+                {
+                    blockedPoints++;
+                    break;
+                }
+            }
+        }
+        if(blockedPoints == angleList.length)
+            return true;
+        return false;
     }
     
     // the origin is always visible and does not cast shadows
-    private void processOrigin(Coord observer, int maxDistMetric)
+    private void processOrigin(Coord origin, int maxDistMetric)
     {
         // mark cell as visible
-        visibilityMap[observer.x][observer.y] = flag;
-        addedMap[observer.x][observer.y] = flag;
-        
-        // add neighbors
-        processNeighbors(observer, observer, maxDistMetric);
+        visibilityMap[origin.x][origin.y] = flag;
+        addedMap[origin.x][origin.y] = flag;
+        queueNeighbors(origin, origin, maxDistMetric);
     }
     
     // add neighbors if they are not yet added, in range, and in bounds
-    private void processNeighbors(Coord observer, Coord curCell, int maxDistMetric)
+    private void queueNeighbors(Coord origin, Coord curCell, int maxDistMetric)
     {
         int[][] hexArr = HEX_EVEN_ROW;
         if(curCell.y % 2 == 1)
             hexArr = HEX_ODD_ROW;
-        for(int i = 0; i < 6; i++)
+        for(int[] hex : hexArr)
         {
-            Coord c = new Coord(curCell.x + hexArr[i][0], curCell.y + hexArr[i][1]);
+            Coord c = new Coord(curCell.x + hex[0], curCell.y + hex[1]);
             if(isInBounds(c) &&
-               maxDistMetric >= MathTools.getDistanceMetric(observer, c) &&
+               maxDistMetric >= MathTools.getDistanceMetric(origin, c) &&
                addedMap[c.x][c.y] != flag)
             {
                 queueCell(c);
             }
         }
     }
-    
-    public boolean canSee(int x, int y)
-    {
-        if(isInBounds(x, y))
-            return flag == visibilityMap[x][y];
-        return false;
-    }
-    
-    public boolean[][] getArray(int startX, int startY, int w, int h)
-    {
-        boolean[][] visArr = new boolean[w][h];
-        for(int x = 0; x < w; x++)
-        for(int y = 0; y < h; y++)
-        {
-            visArr[x][y] = canSee(startX + x, startY + y);
-        }
-        return visArr;
-    }
+
     
     // returns the angle to the center of the tile
     private double getAngle(Coord origin, Coord target)
     {
         double x = MathTools.getHexX(target) - MathTools.getHexX(origin);
         double y = target.y - origin.y;
-        return MathTools.getAngle(x, y) + MathTools.FULL_CIRCLE;
+        return MathTools.getAngle(x, y);
     }
     
-    // private class for storing shadows. Angles are stored at +2pi to avoid straddling 0.0
+    // private class for storing shadows
     private class Shadow
     {
         public double lower;
         public double upper;
         
-        public Shadow(Coord observer, Coord target)
+        public Shadow(Coord origin, Coord target)
         {
-            double x = MathTools.getHexX(target) - MathTools.getHexX(observer);
-            double y = target.y - observer.y;
-            double theta = getAngle(observer, target);
-            double sweep = getSweep(x, y);
-            upper = theta + sweep;
-            lower = theta - sweep;
+            setUpperAndLower(origin, target);
         }
         
-        // check if tile is shaded by checking center and two sides
-        public boolean shades(double angle, Coord observer, Coord target)
+        // returns true if an angle lies within the shadow
+        public boolean shades(double angle, Coord origin, Coord target)
         {            
-            double x = MathTools.getHexX(target) - MathTools.getHexX(observer);
-            double y = target.y - observer.y;
-            double sweep = getSweep(x, y) / 2;
-            return //shadowCheck(angle) &&
-                   shadowCheck(angle + sweep) &&
-                   shadowCheck(angle - sweep);
+            double subangle = angle - MathTools.FULL_CIRCLE;
+            return (upper >= angle && lower <= angle) || (upper >= subangle && lower <= subangle);
         }
-        
-        private boolean shadowCheck(double angle)
+    
+        // finds the two highest and lowest angled points
+        private void setUpperAndLower(Coord origin, Coord target)
         {
-            if(upper >= angle && lower <= angle)
-                return true;
-            return false;
-        }
-        
-        private double getSweep(double x, double y)
-        {
-            double h = Math.sqrt((x * x) + (y * y));
-            return Math.atan(tileRadius / h);
+            double x = MathTools.getHexX(target) - MathTools.getHexX(origin);
+            double y = target.y - origin.y;
+            double big;
+            double little;
+            
+            // generate list of angles to the four corners
+            double[] cornerAngle = new double[4];
+            for(int i = 0; i < 4; i++)
+            {
+                cornerAngle[i] = MathTools.getAngle(x + CORNER_LIST[i][0], y + CORNER_LIST[i][1]);
+            }
+            
+            // adjust for anything that straddles zero radians
+            little = Math.min(Math.min(cornerAngle[0], cornerAngle[1]), Math.min(cornerAngle[2], cornerAngle[3]));
+            for(int i = 0; i < 4; i++)
+            {
+                // if an angle is more than pi radians different from the smallest, make it negative
+                if(Math.abs(cornerAngle[i] - little) > MathTools.HALF_CIRCLE)
+                {
+                    cornerAngle[i] -= MathTools.FULL_CIRCLE;
+                }
+            }
+            
+            // set
+            this.lower = Math.min(Math.min(cornerAngle[0], cornerAngle[1]), Math.min(cornerAngle[2], cornerAngle[3]));
+            this.upper = Math.max(Math.max(cornerAngle[0], cornerAngle[1]), Math.max(cornerAngle[2], cornerAngle[3]));
         }
     }
 

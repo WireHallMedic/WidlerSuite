@@ -10,17 +10,15 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private JTextArea testTextArea;
     private RoguePanel roguePanel;
     private JPanel controlPanel;
-    private JButton borderButton;
-    private JButton spiralSearchButton;
+    private JCheckBox borderButton;
+    private JCheckBox spiralSearchButton;
     private JComboBox<String> modeDD;
     private JComboBox<String> traceDD;
     private JComboBox<String> areaDD;
     private int displayMode = RECT_MODE;
     private boolean searchDiagonal = true;
-    private boolean showBorders = false;
     private boolean showFoV = false;
     private boolean showDijkstra = false;
-    private boolean showSpiralSearch = false;
     public static final int COLUMNS = 40;
     public static final int ROWS = 40;
     private String[][] strMap;
@@ -84,13 +82,13 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         controlPanel.add(testTextArea);
          
         // border toggle button
-        borderButton = new JButton("Toggle Borders");
+        borderButton = new JCheckBox("Show Tile Borders");
         borderButton.addActionListener(this);
         borderButton.setFocusable(false);
         controlPanel.add(borderButton);
          
         // spiral search toggle button
-        spiralSearchButton = new JButton("Toggle SpiralSearch");
+        spiralSearchButton = new JCheckBox("SpiralSearch to Nearest >");
         spiralSearchButton.addActionListener(this);
         spiralSearchButton.setFocusable(false);
         controlPanel.add(spiralSearchButton);
@@ -252,13 +250,11 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         
         if(ae.getSource() == borderButton)
         {
-            showBorders = !showBorders;
-            roguePanel.showTileBorders(showBorders);
+            roguePanel.showTileBorders(borderButton.isSelected());
         }
         
         if(ae.getSource() == spiralSearchButton)
         {
-            showSpiralSearch = !showSpiralSearch;
             loadTestMap();
         }
         
@@ -276,9 +272,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         for(int x = 0; x < COLUMNS; x++)
         for(int y = 0; y < ROWS; y++)
         {
-            if(x < 2 || y < 2 || x > COLUMNS - 3 || y > ROWS - 3 || Math.random() < .15)
+   /*         if(x < 2 || y < 2 || x > COLUMNS - 3 || y > ROWS - 3 || Math.random() < .15)
                 passMap[x][y] = false;
-            else
+            else*/
                 passMap[x][y] = true;
             bgMap[x][y] = Color.BLACK;
             fgMap[x][y] = Color.WHITE;
@@ -353,7 +349,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             }
             else if(showFoV && displayMode == HEX_MODE)
             {
-                if(hexFoV.canSee(x, y) && bgMap[x][y] == Color.BLACK)
+                if(hexFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
                     roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
                 else
                     roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
@@ -374,7 +370,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         roguePanel.setString(atLoc.x, atLoc.y, "@");
         
         // if spiralSearch, execute search and invert colors of target (if any)
-        if(showSpiralSearch)
+        if(spiralSearchButton.isSelected())
         {
             if(searchLoc != null)
             {
@@ -474,15 +470,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     
     public void testMode()
     {
-        setTestMap();         
-        strMap[4][3] = "#"; 
-        strMap[4][5] = "#"; 
-        strMap[3][4] = "#"; 
-        strMap[5][4] = "#";
-        passMap[4][3] = false;
-        passMap[4][5] = false;
-        passMap[3][4] = false;
-        passMap[5][4] = false;
+        atLoc = new Coord(9, 9);
+        modeDD.setSelectedIndex(2);
+        areaDD.setSelectedIndex(1);
     }
     
     // returns a random color, which skews towards being brighter
