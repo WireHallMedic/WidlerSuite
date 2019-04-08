@@ -19,6 +19,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private boolean searchDiagonal = true;
     private boolean showFoV = false;
     private boolean showDijkstra = false;
+    private boolean showBSP = false;
     public static final int COLUMNS = 40;
     public static final int ROWS = 40;
     private String[][] strMap;
@@ -31,10 +32,12 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private ShadowFoVHex hexFoV;
     private DijkstraMap dijkstraMap;
     private Coord searchLoc;
+    private Vector<Room> roomList;
+    private Vector<Color> roomColorList;
     private boolean traceType = true;   // true is A*, false is StraightLine
     private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode"};
     private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
-    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra"};
+    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", "Show Binary Serch Partitioning"};
     
     // test function
     public RoguePanelDemo()
@@ -163,9 +166,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     {
         String str = "Mouse pixel location: " + String.format("[%d, %d]\n", me.getX(), me.getY());
         str += "Mouse tile location: " + String.format("[%d, %d]\n", roguePanel.mouseColumn(), roguePanel.mouseRow());
-        double x = MathTools.getHexX(roguePanel.mouseColumn(), roguePanel.mouseRow()) - MathTools.getHexX(atLoc);
+        double x = WSTools.getHexX(roguePanel.mouseColumn(), roguePanel.mouseRow()) - WSTools.getHexX(atLoc);
         double y = roguePanel.mouseRow() - atLoc.y;
-        str += "Angle to mouseLoc: " + (MathTools.getAngle(x, y));
+        str += "Angle to mouseLoc: " + (WSTools.getAngle(x, y));
         testTextArea.setText(str);
         drawPath();
     }
@@ -191,7 +194,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         {
             for(int i = 0; i < 16; i++)
             {
-                UnboundString star = new UnboundString("*", randomColor(), roguePanel.mouseColumn(), roguePanel.mouseRow());
+                UnboundString star = new UnboundString("*", WSTools.randomColor(), roguePanel.mouseColumn(), roguePanel.mouseRow());
                 star.setLifespan(15);
                 star.setSpeed((Math.random() * .4) - .2, -.5 + (Math.random() * .2));
                 star.setAffectedByGravity(true);
@@ -233,17 +236,18 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         
         if(ae.getSource() == areaDD)
         {
+            showFoV = false;
+            showDijkstra = false;
+            showBSP = false;
             switch(areaDD.getSelectedIndex())
             {
-                case 0 :    showFoV = false;
-                            showDijkstra = false;
-                            break;
                 case 1 :    showFoV = true;
-                            showDijkstra = false;
                             break;
-                case 2 :    showFoV = false;
-                            showDijkstra = true;
+                case 2 :    showDijkstra = true;
                             break;
+                case 3 :    showBSP = true;
+                            break;
+                default :   break;
             }
             loadTestMap();
         }
@@ -268,13 +272,17 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         passMap = new boolean[COLUMNS][ROWS];
         bgMap = new Color[COLUMNS][ROWS];
         fgMap = new Color[COLUMNS][ROWS];
+        roomList = BinarySpacePartitioning.partition(new Coord(COLUMNS, ROWS), 5, 12);
+        roomColorList = new Vector<Color>();
+        for(int i = 0; i < roomList.size(); i++)
+            roomColorList.add(WSTools.randomColor().darker().darker());
         
         for(int x = 0; x < COLUMNS; x++)
         for(int y = 0; y < ROWS; y++)
         {
-   /*         if(x < 2 || y < 2 || x > COLUMNS - 3 || y > ROWS - 3 || Math.random() < .15)
+            if(x < 2 || y < 2 || x > COLUMNS - 3 || y > ROWS - 3 || Math.random() < .05)
                 passMap[x][y] = false;
-            else*/
+            else
                 passMap[x][y] = true;
             bgMap[x][y] = Color.BLACK;
             fgMap[x][y] = Color.WHITE;
@@ -368,6 +376,25 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             }
         }
         roguePanel.setString(atLoc.x, atLoc.y, "@");
+        
+        // BSP
+        if(showBSP)
+        {
+            for(int i = 0; i < roomList.size(); i++)
+            {
+                Room room = roomList.elementAt(i);
+                if(room.isParent == false)
+                {
+                    Color c = WSTools.randomColor().darker().darker();
+                    for(int x = 0; x < room.size.x; x++)
+                    for(int y = 0; y < room.size.y; y++)
+                    {
+                        if(bgMap[x + room.origin.x][y + room.origin.y] == Color.BLACK)
+                            roguePanel.setBGColor(x + room.origin.x, y + room.origin.y, roomColorList.elementAt(i));
+                    }
+                }
+            }
+        }
         
         // if spiralSearch, execute search and invert colors of target (if any)
         if(spiralSearchButton.isSelected())
@@ -473,11 +500,5 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         atLoc = new Coord(9, 9);
         modeDD.setSelectedIndex(2);
         areaDD.setSelectedIndex(1);
-    }
-    
-    // returns a random color, which skews towards being brighter
-    public Color randomColor()
-    {
-        return new Color((float)Math.random(), (float)Math.random(), (float)Math.random()).brighter();
     }
 }

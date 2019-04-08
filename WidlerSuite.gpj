@@ -12,7 +12,7 @@ s#i0
 s#k0
 s#j0
 s#l0
-!402;g
+!449;g
 %\011Vect.java
 %\011FloodFill.java
 %\011UnboundString.java
@@ -20,10 +20,11 @@ s#l0
 %\011SpiralSearch.java
 %\011AStar.java
 %\011Coord.java
-%\011MathTools.java
 %\011HexLine.java
+%\011WSTools.java
 %\011RectLine.java
 %\011RoguePanel.java
+%\011Room.java
 %\011AStarNode.java
 %\011StraightLine.java
 %\011AStarOpenList.java
@@ -32,7 +33,8 @@ s#l0
 %\011RoguePanelDemo.java
 %\011ShadowFoV.java
 %\011DijkstraMap.java
-!402;f
+%\011BinarySpacePartitioning.java
+!449;f
 %\011Vect.java
 %\011FloodFill.java
 %\011UnboundString.java
@@ -40,10 +42,11 @@ s#l0
 %\011SpiralSearch.java
 %\011AStar.java
 %\011Coord.java
-%\011MathTools.java
 %\011HexLine.java
+%\011WSTools.java
 %\011RectLine.java
 %\011RoguePanel.java
+%\011Room.java
 %\011AStarNode.java
 %\011StraightLine.java
 %\011AStarOpenList.java
@@ -52,5 +55,6 @@ s#l0
 %\011RoguePanelDemo.java
 %\011ShadowFoV.java
 %\011DijkstraMap.java
+%\011BinarySpacePartitioning.java
 !49;m
 RunSelect	APPLICATION:WidlerSuite.RoguePanelDemo

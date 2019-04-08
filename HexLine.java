@@ -55,8 +55,8 @@ public class HexLine extends StraightLine
     private static int getRow(double y)
     {
         if(roundToEven)
-            return MathTools.roundToEven(y);
-        return MathTools.roundToInt(y);
+            return WSTools.roundToEven(y);
+        return WSTools.roundToInt(y);
     }
     
     private static int getColumn(double x, int y)
@@ -64,8 +64,8 @@ public class HexLine extends StraightLine
         if(y % 2 == 1)
             x -= .5;
         if(roundToEven)
-            return MathTools.roundToEven(x);
-        return MathTools.roundToInt(x);
+            return WSTools.roundToEven(x);
+        return WSTools.roundToInt(x);
     }
     
     private static int countSteps(Coord origin, Coord target)
@@ -140,16 +140,16 @@ public class HexLine extends StraightLine
 		if(x == 0.0)
         {
 			if(y < 0.0)
-				angle = MathTools.THREE_QUARTER_CIRCLE;
+				angle = WSTools.THREE_QUARTER_CIRCLE;
 			else
-				angle = MathTools.QUARTER_CIRCLE;
+				angle = WSTools.QUARTER_CIRCLE;
         }
 		else
 		{
 			angle = Math.atan(y / x);
 			if(x < 0.0)
-				angle += MathTools.HALF_CIRCLE;
-			angle = MathTools.simplifyAngle(angle);
+				angle += WSTools.HALF_CIRCLE;
+			angle = WSTools.simplifyAngle(angle);
 		}
 		return angle;
     }
@@ -157,8 +157,8 @@ public class HexLine extends StraightLine
     private static int getHextant(Coord origin, Coord target)
     {
         double angle = getAngle(origin, target);
-        angle += MathTools.TWELFTH_CIRCLE;
-        int hextant = (int)(angle / MathTools.SIXTH_CIRCLE) + E;
+        angle += WSTools.TWELFTH_CIRCLE;
+        int hextant = (int)(angle / WSTools.SIXTH_CIRCLE) + E;
         return hextant % 6;
     }
     

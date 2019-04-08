@@ -90,15 +90,15 @@ public class Vect
 		{
 			this.angle = Math.atan( (double)(-1.0 * cart.y) / (double)cart.x);
 			if(cart.x < 0)
-				angle += MathTools.HALF_CIRCLE;
-			angle = MathTools.simplifyAngle(angle);
+				angle += WSTools.HALF_CIRCLE;
+			angle = WSTools.simplifyAngle(angle);
 		}
 		catch(ArithmeticException aEx)
 		{
 			if(cart.y > 0)
-				angle = MathTools.THREE_QUARTER_CIRCLE;
+				angle = WSTools.THREE_QUARTER_CIRCLE;
 			else
-				angle = MathTools.QUARTER_CIRCLE;
+				angle = WSTools.QUARTER_CIRCLE;
 		}	
 	}
 	
@@ -109,12 +109,12 @@ public class Vect
 
 	public int getX()
 	{
-		return MathTools.roundToInt(Math.cos(this.angle) * this.magnitude);
+		return WSTools.roundToInt(Math.cos(this.angle) * this.magnitude);
 	}
 	
 	public int getY()
 	{
-		return MathTools.roundToInt((Math.sin(this.angle) * this.magnitude * -1));
+		return WSTools.roundToInt((Math.sin(this.angle) * this.magnitude * -1));
 	}
 	
 	public double getXAsDouble()

@@ -120,12 +120,12 @@ public class ShadowFoVHex implements WSConstants
         if(shadowList.size() == 0)
             return false;
             
-        double x = MathTools.getHexX(target) - MathTools.getHexX(origin);
+        double x = WSTools.getHexX(target) - WSTools.getHexX(origin);
         double y = target.y - origin.y;
         double[] angleList = new double[TILE_CHECK_LIST.length];
         for(int i = 0; i < TILE_CHECK_LIST.length; i++)
         {
-            angleList[i] = MathTools.getAngle(x + TILE_CHECK_LIST[i][0], y + TILE_CHECK_LIST[i][1]);
+            angleList[i] = WSTools.getAngle(x + TILE_CHECK_LIST[i][0], y + TILE_CHECK_LIST[i][1]);
         }
         
         int blockedPoints = 0;
@@ -164,7 +164,7 @@ public class ShadowFoVHex implements WSConstants
         {
             Coord c = new Coord(curCell.x + hex[0], curCell.y + hex[1]);
             if(isInBounds(c) &&
-               maxDistMetric >= MathTools.getDistanceMetric(origin, c) &&
+               maxDistMetric >= WSTools.getDistanceMetric(origin, c) &&
                addedMap[c.x][c.y] != flag)
             {
                 queueCell(c);
@@ -176,9 +176,9 @@ public class ShadowFoVHex implements WSConstants
     // returns the angle to the center of the tile
     private double getAngle(Coord origin, Coord target)
     {
-        double x = MathTools.getHexX(target) - MathTools.getHexX(origin);
+        double x = WSTools.getHexX(target) - WSTools.getHexX(origin);
         double y = target.y - origin.y;
-        return MathTools.getAngle(x, y);
+        return WSTools.getAngle(x, y);
     }
     
     // private class for storing shadows
@@ -195,14 +195,14 @@ public class ShadowFoVHex implements WSConstants
         // returns true if an angle lies within the shadow
         public boolean shades(double angle, Coord origin, Coord target)
         {            
-            double subangle = angle - MathTools.FULL_CIRCLE;
+            double subangle = angle - WSTools.FULL_CIRCLE;
             return (upper >= angle && lower <= angle) || (upper >= subangle && lower <= subangle);
         }
     
         // finds the two highest and lowest angled points
         private void setUpperAndLower(Coord origin, Coord target)
         {
-            double x = MathTools.getHexX(target) - MathTools.getHexX(origin);
+            double x = WSTools.getHexX(target) - WSTools.getHexX(origin);
             double y = target.y - origin.y;
             double big;
             double little;
@@ -211,7 +211,7 @@ public class ShadowFoVHex implements WSConstants
             double[] cornerAngle = new double[4];
             for(int i = 0; i < 4; i++)
             {
-                cornerAngle[i] = MathTools.getAngle(x + CORNER_LIST[i][0], y + CORNER_LIST[i][1]);
+                cornerAngle[i] = WSTools.getAngle(x + CORNER_LIST[i][0], y + CORNER_LIST[i][1]);
             }
             
             // adjust for anything that straddles zero radians
@@ -219,9 +219,9 @@ public class ShadowFoVHex implements WSConstants
             for(int i = 0; i < 4; i++)
             {
                 // if an angle is more than pi radians different from the smallest, make it negative
-                if(Math.abs(cornerAngle[i] - little) > MathTools.HALF_CIRCLE)
+                if(Math.abs(cornerAngle[i] - little) > WSTools.HALF_CIRCLE)
                 {
-                    cornerAngle[i] -= MathTools.FULL_CIRCLE;
+                    cornerAngle[i] -= WSTools.FULL_CIRCLE;
                 }
             }
             

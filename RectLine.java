@@ -36,13 +36,13 @@ public class RectLine extends StraightLine
             Coord c = new Coord();
             if(roundToEven)
             {
-                c.y = MathTools.roundToEven(i * yStep);
-                c.x = MathTools.roundToEven(i * xStep);
+                c.y = WSTools.roundToEven(i * yStep);
+                c.x = WSTools.roundToEven(i * xStep);
             }
             else
             {
-                c.y = MathTools.roundToInt(i * yStep);
-                c.x = MathTools.roundToInt(i * xStep);
+                c.y = WSTools.roundToInt(i * yStep);
+                c.x = WSTools.roundToInt(i * xStep);
             }
             c.x += origin.x;
             c.y += origin.y;
