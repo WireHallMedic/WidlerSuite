@@ -1,62 +1,56 @@
-/*****************************************************************
+/*******************************************************************************************
 //
-//	Vector system.  Used for tracking angle and magnitude
-//	Michael Widler
+//  A simple mathematical vector system for WidlerSuite. Plays nicely with Coord.
 //
-//
-*****************************************************************/
+*******************************************************************************************/
 
 package WidlerSuite;
 
 
-public class Vect
+public class Vect implements WSConstants
 {
-	public double angle; //	in radians
+	public double angle;        //	in radians
 	public double magnitude;
-   
-   public static final double FULL_CIRCLE = Math.PI * 2;
-   public static final double HALF_CIRCLE = FULL_CIRCLE / 2;
-   public static final double QUARTER_CIRCLE = FULL_CIRCLE / 4;
-   public static final double EIGHTH_CIRCLE = FULL_CIRCLE / 8;
 	
-	
+	// empty constructor
 	public Vect()
 	{
 		angle = 0.0;
 		magnitude = 0;
 	}
 	
-	
+	// double constructor
 	public Vect(double theta, double length)
 	{
 		this.set(theta, length);
 	}
 	
-	
+	// double/int constructor
 	public Vect(double theta, int length)
 	{
 		this.set(theta, (double)length);
 	}
 	
-	
+	// constructor that converts a Coord
 	public Vect(Coord cart)
 	{
 		this.set(cart);
 	}
 	
-	
+	// copy constructor
 	public Vect(Vect that)
 	{
 		this.angle = that.angle;
 		this.magnitude = that.magnitude;
 	}
 	
-	
+	// constructor that returns the Vect between two points
 	public Vect(Coord origin, Coord terminus)
 	{
 		this.set(origin, terminus);
 	}
 	
+    // returns a deep copy of this
 	public Vect copy()
 	{
 		return new Vect(this);

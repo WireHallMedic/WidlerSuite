@@ -1,3 +1,11 @@
+/*******************************************************************************************
+//
+//  A collection of utility functions which can be called statically.
+//
+//
+//
+*******************************************************************************************/
+
 package WidlerSuite;
 
 import java.util.*;
@@ -12,7 +20,7 @@ public class WSTools
 	public final static double QUARTER_CIRCLE = Math.PI / 2;             // 90 degrees
 	public final static double EIGHTH_CIRCLE = Math.PI / 4;              // 45 degrees
 	public final static double SIXTH_CIRCLE = Math.PI / 3;               // 30 degrees
-	public final static double TWELFTH_CIRCLE = Math.PI / 6;            // 15 degrees
+	public final static double TWELFTH_CIRCLE = Math.PI / 6;             // 15 degrees
 	
     private static java.util.Random rng = new java.util.Random();
 	private static void setRNGSeed(long val){rng.setSeed(val);}
@@ -36,7 +44,7 @@ public class WSTools
         return new Color((float)random(), (float)random(), (float)random());
     }
 
-	// Rounds a double to an int.
+	// rounds a double to an int
 	public static int roundToInt(double value)
 	{
 		if(value > 0.0)
@@ -58,8 +66,6 @@ public class WSTools
 			if(returnVal % 2 == -1)
 				returnVal++;
 		}
-
-		
 		return returnVal;
 	}
 	
@@ -69,7 +75,6 @@ public class WSTools
 	{
 		while(angle <= 0.0)
 			angle += FULL_CIRCLE;
-			
 		return angle % FULL_CIRCLE;
 	}
    
@@ -82,14 +87,14 @@ public class WSTools
       value = Math.min(value, max);
       return Math.max(value, min);
    }
+   
+   // bounds a double by the passed values
    public static double minMax(double min, double value, double max)
    {
       value = Math.min(value, max);
       return Math.max(value, min);
    }
 
-	
-	
 	//	returns the distance of a passed path
 	//	assumes that the passed vector contains a sequential list of adjacent cells
 	public static double pathDistance(Coord origin, Vector<Coord> path, double diagonalCost)
@@ -126,7 +131,8 @@ public class WSTools
 		return dist;
 	} public double pathDistance(Coord origin, Vector<Coord> path){return pathDistance(origin, path, 1.41);}
 
-
+    
+    // returns a string representing a double as a (integer) percentage. Ex: .346 returns "34%"
 	public static String doubleToPercent(double d)
 	{
 		d *= 100;
@@ -134,7 +140,7 @@ public class WSTools
 	}
    
    
-   // all the long axis plus half the short axis
+   // returns all the long axis plus half the short axis
    public static int getAngbandMetric(Coord start, Coord end){return getAngbandMetric(start.x, start.y, end.x, end.y);}
    public static int getAngbandMetric(int startX, int startY, int endX, int endY)
    {
@@ -146,14 +152,7 @@ public class WSTools
       
       return Math.abs(totalY) + Math.abs(totalX / 2);
    }
-   
-   /*
-   public static int getNumberOfSteps(Coord start, Coord end)
-   {
-      return StraightLine.findLine(start, end, StraightLine.REMOVE_ORIGIN).size();
-   }
-	
-	*/
+
    // returns the square of the hypotenuse; used for quickly calculating which of several distances is longer
    public static int getDistanceMetric(Coord start, Coord end){return getDistanceMetric(start.x, start.y, end.x, end.y);}
    public static int getDistanceMetric(int startX, int startY, int endX, int endY)
@@ -163,6 +162,7 @@ public class WSTools
 		return (a * a) + (b * b);
    }
    
+   // returns the actual distance
    public static double getDistance(Coord start, Coord end){return getDistance(start.x, start.y, end.x, end.y);}
    public static double getDistance(int startX, int startY, int endX, int endY)
    {
@@ -214,6 +214,7 @@ public class WSTools
         return c;
     }
     
+    // returns the actual x position of a passed hex tile (every odd row is indented by .5 tiles)
     public static double getHexX(int rectX, int rectY)
     {
         double hexX = rectX;
@@ -223,7 +224,7 @@ public class WSTools
     }
     public static double getHexX(Coord c){return getHexX(c.x, c.y);}
     
-    
+    // returns the angle from 0, 0 to the passed point
     public static double getAngle(double x, double y)
     {
         double angle = 0.0;

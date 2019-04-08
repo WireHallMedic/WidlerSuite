@@ -1,3 +1,21 @@
+/*******************************************************************************************
+//
+//  A binary space partitioning algorithm, which recursively splits an area into smaller
+//  rooms. As there is little data to keep track of other than the list of rooms,
+//  basically you can just call BinarySpacePartitioning.partition(x, y, minRoomDiameter, 
+//  maxRoomDiameter).
+//  
+//  The first room on the returned list (index 0) is the entire area; beyond that, every pair
+//  ((n*2)-1) and (n*2) are sibilings and either horizontally or vertically adjacent. The 
+//  first sibiling is always the left or top of the pair.
+//
+//  If you just want the lowest level of the tree, remove every room where isParent == true.
+//  
+//  Modeled after the algorithm at:
+//    http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
+//
+*******************************************************************************************/
+
 package WidlerSuite;
 
 import java.util.*;
@@ -5,26 +23,30 @@ import java.util.*;
 
 public class BinarySpacePartitioning
 {
-    private static double partitionChance = .5;
+    private static double partitionChance = .5;     // how likely a room is to split if it's below
+                                                    // max size but could still split into legal rooms
     
     public void setPartitionChance(double pc){partitionChance = pc;}
     
-	public static Vector<Room> partition(Coord size, int minRoomDiameter, int maxRoomDiameter)
+    // the main function
+	public static Vector<Room> partition(int x, int y, int minRoomDiameter, int maxRoomDiameter)
 	{
 		Vector<Room> roomList = new Vector<Room>();
 		Room[] addRooms;
 		
+        // The max has to be at least twice the min
 		if(maxRoomDiameter < 2 * minRoomDiameter)
 			maxRoomDiameter = 2 * minRoomDiameter;
 		
 		Room startRoom = new Room();
 		startRoom.origin = new Coord(0, 0);
-		startRoom.size = new Coord(size);
+		startRoom.size = new Coord(x, y);
 		startRoom.iteration = 0;
 		roomList.add(startRoom);
 		
 		for(int i = 0; i < roomList.size(); i++)
 		{
+            // rooms that are larger than the max are always split
 			if(roomList.elementAt(i).size.x > maxRoomDiameter ||
 			   roomList.elementAt(i).size.y > maxRoomDiameter)
 			{
@@ -32,7 +54,7 @@ public class BinarySpacePartitioning
 				roomList.add(addRooms[0]);
 				roomList.add(addRooms[1]);
 			}
-			else // if less than max room size
+			else // rooms which can be, but don't need to be split, are handled here
 			{
 				if(roomList.elementAt(i).size.x >= minRoomDiameter * 2 ||
 			      roomList.elementAt(i).size.y >= minRoomDiameter * 2)
@@ -44,11 +66,15 @@ public class BinarySpacePartitioning
 				}
 			}
 		}
-		
 		return roomList;
 	}
-
+    public static Vector<Room> partition(Coord size, int minRoomDiameter, int maxRoomDiameter)
+    {
+        return partition(size.x, size.y, minRoomDiameter, maxRoomDiameter);
+    }
 	
+
+	// the main work method. Splits a room and returns its children
 	private static Room[] divide(Room r, int minRoomDiameter)
 	{
 		Room a = new Room();

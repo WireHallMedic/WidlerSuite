@@ -1,10 +1,19 @@
-/********************************************************************
-Returns adjacent tiles, spiraling out from the origin. No further
-tiles left when returns null.
-
-
-
-********************************************************************/
+/*******************************************************************************************
+//
+//  After calling the constructor, each call to getNext() returns the next Coord in an
+//  increasing spiral. Part of calling the constructor is defining what tiles can be searched;
+//  these tiles also block the search (that is, this is a step-by-step flood fill).
+//
+//  getNext() returns null if no tiles remain to be searched.
+//
+//  The intended use is to find something that may or may not exist, when a location isn't 
+//  known, or when you want to find the closest to a particular thing.
+//
+//  If you search a stunningly huge area, you might eventually run out of heap memory. Maybe 
+//  don't do that. However, as the algorithm only processes a couple tiles ahead of where
+//  getNext() is, an external loop counter or somesuch is trivial to implement.
+//
+*******************************************************************************************/
 
 
 package WidlerSuite;
@@ -20,7 +29,7 @@ public class SpiralSearch implements WSConstants
     private CoordQueue coordQueue;
     
 
-	
+	// Constructor. Sets the paramaters of the search, and primes the queue.
 	public SpiralSearch(boolean area[][], int startX, int startY, int tileMode, boolean diag)
 	{	
 		searchArea = new boolean[area.length][area[0].length];
@@ -41,6 +50,7 @@ public class SpiralSearch implements WSConstants
 	public SpiralSearch(boolean area[][], Coord startLoc){this(area, startLoc.x, startLoc.y, RECT_MODE, SEARCH_DIAGONAL);}
 	public SpiralSearch(boolean area[][], int startX, int startY){this(area, startX, startY, RECT_MODE, SEARCH_DIAGONAL);}
     
+    // returns the next coord in the queue
     public Coord getNext()
     {
         Coord c = null;
@@ -79,6 +89,7 @@ public class SpiralSearch implements WSConstants
 		}
 	}
     
+    // returns the search patter to use based on mode and location
     private int[][] getSearchPattern(int y)
     {
         int[][] searchPattern = null;
@@ -98,36 +109,41 @@ public class SpiralSearch implements WSConstants
     
     //////////////////////////////////////////////////////////
         
-    // a private class for maintaining a queue of tiles to search. New tiles are added to the end, pops come off the beginning
+    // a private class for maintaining a queue of tiles to search. New tiles are added to the end, pops come off the beginning.
+    // Pretty standard linked list stay at O(1) for pushing and popping, as we never need to search.
     private class CoordQueue
     {
-        private int size;
-        private Link head;
-    
+        private int size;       // number of elements in the queue
+        private Link head;      // first element
+        
+        // empty constructor
         public CoordQueue()
         {
             size = 0;
             head = null;
         }
         
+        // constructor with initial Coord
         public CoordQueue(Coord d)
         {
             this();
             addToEmpty(d);
         }
         
+        // returns the size of the queue
         public int size()
         {
             return size;
         }
-    
+        
+        // pushes a Coord into an empty queue
         public void addToEmpty(Coord d)
         {
             head = new Link(d);
             size = 1;
         }   
         
-        // push a new data into the list, maintaining a sort by f.
+        // push a new Coord to the back of the queue
         public void push(Coord d)
         {
             if(size == 0)
@@ -139,7 +155,7 @@ public class SpiralSearch implements WSConstants
             }
         }
         
-        // pops the top (ie, lowest f) data from the list
+        // pops the first Coord
         public Coord pop()
         {
             if(size == 0)
@@ -173,14 +189,14 @@ public class SpiralSearch implements WSConstants
                     next = this;
             }
             
-            // remove this link from the list
+            // remove this link from the list, updating neighbors
             public void remove()
             {
                 next.prev = this.prev;
                 prev.next = this.next;
             }
             
-            // insert a new link with the passed node immedeatly ahead of this link
+            // insert a new link with the passed Coord immedeatly ahead of this link
             public void insert(Coord d)
             {
                 Link newLink = new Link(d, this.prev, this);
