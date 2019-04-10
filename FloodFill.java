@@ -1,10 +1,13 @@
-/***************************************************
-//
-//	A different implementation of a flood fill algorythm.
-//  Accepts a boolean array and starting location; false is impassable,
-//  true is passable. Retuns an array. Not thread safe (will collide with self)
-//
-***************************************************/
+/*******************************************************************************************
+  
+    A different implementation of a flood fill algorythm, intended to be used statically.
+    Accepts a boolean array and starting location; false is impassable,
+    true is passable. Retuns an array. Not thread safe (will collide with self)
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+  
+*******************************************************************************************/
 
 package WidlerSuite;
 
@@ -16,6 +19,7 @@ public class FloodFill implements WSConstants
     private static int mode = RECT_MODE;
     private static boolean searchDiagonal = false;
 	
+    // primary method. Returns a boolean array of where true is filled, and false is what was not.
 	public static boolean[][] fill(boolean area[][], int x, int y)
 	{	
 		returnArea = new boolean[area.length][area[0].length];
@@ -26,18 +30,20 @@ public class FloodFill implements WSConstants
 		return returnArea;
 	}
 	
+    // alternate calling of primary method
 	public static boolean[][] fill(boolean area[][], Coord loc)
 	{
 		return fill(area, loc.x, loc.y);
 	}
 	
-	
+    // fills the array with true, using false as the boundary
+	// walks the original map, while filling the new one
 	private static void floodFill(boolean area[][], int x, int y)
-	//	fills the array with true, using true as the boundary
-	// start on or adjacent to false
 	{
+        // reject invalid or already-searched cells
 		if(isInBounds(x, y) && !alreadySearched[x][y])
         {
+            // mark as searched, mark as true or false, add neighbors to recursion
             alreadySearched[x][y] = true;
 			if(area[x][y] == true)
 			{
@@ -67,7 +73,7 @@ public class FloodFill implements WSConstants
         return false;
     }
 	
-	
+	// returns a String representing the passed boolean array
 	public static String getVisual(boolean arr[][])
 	{
 		String value = "";
@@ -87,16 +93,15 @@ public class FloodFill implements WSConstants
 		return printout;
 	}
 	
-	
-	public static void invertMap(boolean[][] map)
 	// not necessary, but often useful
+	public static void invertMap(boolean[][] map)
 	{
 		for(int x = 0; x < map.length; x++)
 		for(int y = 0; y < map[0].length; y++)
 			map[x][y] = !map[x][y];
 	}
 	
-	
+	// test method
 	public static void main(String args[])
 	{
 		boolean demo[][] = new boolean[20][20];

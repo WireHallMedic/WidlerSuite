@@ -1,19 +1,21 @@
 /*******************************************************************************************
-//
-//  A binary space partitioning algorithm, which recursively splits an area into smaller
-//  rooms. As there is little data to keep track of other than the list of rooms,
-//  basically you can just call BinarySpacePartitioning.partition(x, y, minRoomDiameter, 
-//  maxRoomDiameter).
-//  
-//  The first room on the returned list (index 0) is the entire area; beyond that, every pair
-//  ((n*2)-1) and (n*2) are sibilings and either horizontally or vertically adjacent. The 
-//  first sibiling is always the left or top of the pair.
-//
-//  If you just want the lowest level of the tree, remove every room where isParent == true.
-//  
-//  Modeled after the algorithm at:
-//    http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
-//
+  
+    A binary space partitioning algorithm, which recursively splits an area into smaller
+    rooms. As there is little data to keep track of other than the list of rooms,
+    basically you can just call BinarySpacePartitioning.partition(x, y, minRoomDiameter, 
+    maxRoomDiameter).
+    
+    The first room on the returned list (index 0) is the entire area; beyond that, every pair
+    ((n*2)-1) and (n*2) are sibilings and either horizontally or vertically adjacent. The 
+    first sibiling is always the left or top of the pair.
+  
+    If you just want the lowest level of the tree, remove every room where isParent == true.
+    
+    Modeled after the algorithm at:
+      http:  www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
 *******************************************************************************************/
 
 package WidlerSuite;

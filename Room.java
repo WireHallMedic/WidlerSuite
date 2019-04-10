@@ -1,10 +1,13 @@
 /*******************************************************************************************
-//
-//  A class used by the BSP generator. Keeps track of abstract rooms. Child rooms are made 
-//  by splitting a single parent room.
-//  Modeled after the algorithm at:
-//    http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
-//
+  
+    A class used by the BSP generator. Keeps track of abstract rooms. Child rooms are made 
+    by splitting a single parent room.
+    Modeled after the algorithm at:
+      http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+  
 *******************************************************************************************/
 
 package WidlerSuite;

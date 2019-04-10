@@ -1,36 +1,33 @@
-/*****************************************************************
-//
-//	A* Pathing Class
-//	A portable A* class.  Requires Coord.
-//	Accepts an array of boolean values, or difficulty mulitipliers 
-//		for the map.
-//	Internally keeps decimal data as int types, to help with speed
-//	Once generated, cannot be modified
-//
-//	Attempts to increase speed of AStarPath by only creating nodes 
-//	for cells which are used.
-//
-*****************************************************************/
+/*******************************************************************************************
+  
+  	A portable A* pathing class.
+  	Accepts an array of boolean values, or difficulty mulitipliers 
+  		for the map.
+  	Internally keeps decimal data as int types, to help with speed
+  	
+    Procedure:
+    OL = open list, CL = closed list, H = estimated distance to target,
+    G = distance traveled so far
+    	
+    Procedure:
+    	1) Add origin node to OL
+    	2) Node P = the node which has the lowest H+G on the OL.
+    	3) For each passable cell adjacent to P that is not on the CL,
+    		if new cell == target, end.
+    		newG = P.G + entry cost of this node.
+    		If not on OL: Add to OL.  G = newG
+    		If on OL: if G > newG, G = newG, parent = P
+    		else do nothing
+       4) Add P to CL.  Go to step 2.
 
-/*
-OL = open list, CL = closed list, H = estimated distance to target,
-G = distance traveled so far
-	
-Procedure:
-	1) Add origin node to OL
-	2) Node P = the node which has the lowest H+G on the OL.
-	3) For each passable cell adjacent to P that is not on the CL,
-		if new cell == target, end.
-		newG = P.G + entry cost of this node.
-		If not on OL: Add to OL.  G = newG
-		If on OL: if G > newG, G = newG, parent = P
-		else do nothing
-   4) Add P to CL.  Go to step 2.
+    Once you end, then follow the parents back for the target node to find the path.
+    Returns a Vector of Coords; either from the origin to the path, or empty if no path
+    was found.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+*******************************************************************************************/
 
-Once you end, then follow the parents back for the target node to find the path.
-
-
-*/
 package WidlerSuite;
 
 import java.util.Vector;
@@ -64,6 +61,7 @@ public class AStar implements WSConstants
         height = 0;
     }
     
+    // Primary function. Attempts to make a path.
     public Vector<Coord> path(boolean[][] pm, Coord start, Coord end)
     {
         setMap(pm);
@@ -124,12 +122,12 @@ public class AStar implements WSConstants
         }
         return pathToTerminus;
     }
-    
-    public Vector<Coord> findPath(int originX, int originY, int terminusX, int terminusY)
+    public Vector<Coord> getPath(int originX, int originY, int terminusX, int terminusY)
     {
         return getPath(new Coord(originX, originY), new Coord(terminusX, terminusY));
     }
     
+    // main work loop. See description at beginning of document.
     private void mainLoop(Coord origin, Coord terminus)
     {
         openList = new AStarOpenList(origin, getDistHeur(origin, terminus));
@@ -138,7 +136,10 @@ public class AStar implements WSConstants
         int[][] adjTiles;
         while(openList.pathExists(terminus) == false && openList.size() > 0 && loops < MAX_LOOPS)
         {
+            // pop the list
             AStarNode curNode = openList.pop();
+            
+            // get list of adjacent tile directions
             if(mode == RECT_MODE)
             {
                 if(searchDiagonal)
@@ -158,58 +159,26 @@ public class AStar implements WSConstants
                 Coord curLoc = new Coord(curNode.getLoc().x + locInfo[0], curNode.getLoc().y + locInfo[1]);
                 if(isInBounds(curLoc) && closedMap[curLoc.x][curLoc.y] != iteration && passMap[curLoc.x][curLoc.y])
                 {
+                    // did we find the end?
                     if(curLoc.equals(terminus))
                     {
                         openList.pushToFront(new AStarNode(curLoc, curNode, 0, locInfo[2]));
                     }
+                    // else is this already on the openlist?
                     else if(openList.contains(curLoc))
                     {
                         openList.update(curLoc, curNode, locInfo[2]);
                     }
+                    // final else
                     else
                     {
                         openList.push(new AStarNode(curLoc, curNode, getDistHeur(curLoc, terminus), locInfo[2]));
                     }
+                    // mark as closed
                     closedMap[curLoc.x][curLoc.y] = iteration;
                     loops += 1;
                 }
             }
         }
     }
-    
-    
-    // test function
-    public static void main(String[] args)
-    {
-        boolean[][] testMap = new boolean[40][10];
-        String[][] outMap = new String[40][10];
-        for(int x = 0; x < 40; x++)
-        for(int y = 0; y < 10; y++)
-        {
-            testMap[x][y] = true;
-            outMap[x][y] = ".";
-        }
-        for(int y = 3; y < 8; y++)
-        {
-            testMap[20][y] = false;
-            outMap[20][y] = "#";
-        }
-        outMap[0][5] = "@";
-        outMap[39][5] = ">";
-        AStar aStar = new AStar();
-        Vector<Coord> path = aStar.path(testMap, new Coord(0, 5), new Coord(39, 5));
-        for(Coord loc : path)
-        {
-            outMap[loc.x][loc.y] = "X";
-        }
-        for(int y = 0; y < 10; y++)
-        {
-            for(int x = 0; x < 40; x++)
-            {
-                System.out.print(outMap[x][y]);
-            }
-            System.out.println();
-        }
-    }
-
 }

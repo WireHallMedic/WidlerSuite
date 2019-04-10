@@ -1,3 +1,12 @@
+/*******************************************************************************************
+  
+  	Part of the A* section of WidlerSuite. Used to track nodes for AStar and AStarOpenList.
+    Direct use of this class is generally not necessary.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+*******************************************************************************************/
+
 package WidlerSuite;
 
 import java.util.*;

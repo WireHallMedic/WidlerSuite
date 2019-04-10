@@ -1,25 +1,32 @@
-//////////////////////////////////////////////////////////////////////////////
-//
-// An implementation of Bresenham's Line
-//
-//
-//
-//
-///////////////////////////////////////////////////////////////////////////////
+/*******************************************************************************************
+  
+    Creates a straight line between two points on a hex grid.
+    I'll be super honest here; this one's got a dirty workaround in it. The only good 
+    solution I came up with involves handling the coordinates in an entirely different manner,
+    and then it clashes with the rest of the suite. So it works fine, but if anyone has a 
+    cleaner solution shoot me an email.
+    
+    Can be called directly or throught StraightLine, when StraightLine is in Hex Mode. Static.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+  
+*******************************************************************************************/
 
 package WidlerSuite;
 import java.util.*;
 
 public class HexLine extends StraightLine
 {
-   public static final double THIRTY_DEGREE_SLOPE = Math.atan(Math.PI / 6.0);
+   public static final double THIRTY_DEGREE_SLOPE = SIXTH_CIRCLE;
    
+   // returns the line between two points, subject to arguments
    public static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget){return findLine(tileOrigin, tileTarget, 0);}
    public static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget, int arguments)
    {
-      double xOrigin = getHexX(tileOrigin.x, tileOrigin.y);
+      double xOrigin = WSTools.getHexX(tileOrigin.x, tileOrigin.y);
       double yOrigin = tileOrigin.y;
-      double xTarget = getHexX(tileTarget.x, tileTarget.y);
+      double xTarget = WSTools.getHexX(tileTarget.x, tileTarget.y);
       double yTarget = tileTarget.y;
       double totalX = xTarget - xOrigin;
       double totalY = yTarget - yOrigin;
@@ -29,6 +36,7 @@ public class HexLine extends StraightLine
       int x;
       int y;
       
+      // create the list
       Vector<Coord> list = new Vector<Coord>();
       for(int i = 0; i <= steps; i++)
       {
@@ -36,22 +44,17 @@ public class HexLine extends StraightLine
           x = getColumn(xOrigin + (i * xStep), y);
           list.add(new Coord(x, y));
       }
+      
       // fill in gaps which occur in x-dominant lines
       smooth(list);
       
+      // remove head and/or tail as specified
       trim(list, arguments);
       
       return list;
    }
-
-    private static double getHexX(int rectX, int rectY)
-    {
-        double hexX = rectX;
-        if(rectY % 2 == 1)
-            hexX += .5;
-        return hexX;
-    }
     
+    // returns the row in which a y position lies
     private static int getRow(double y)
     {
         if(roundToEven)
@@ -59,6 +62,7 @@ public class HexLine extends StraightLine
         return WSTools.roundToInt(y);
     }
     
+    // returns in which column and x, y position lies
     private static int getColumn(double x, int y)
     {
         if(y % 2 == 1)
@@ -68,6 +72,7 @@ public class HexLine extends StraightLine
         return WSTools.roundToInt(x);
     }
     
+    // returns the number of steps in the shortest possible line
     private static int countSteps(Coord origin, Coord target)
     {
         Vector<Coord> minWalk = walkTo(origin, target);
@@ -104,6 +109,7 @@ public class HexLine extends StraightLine
         }
     }
     
+    // walks towards the target diagonally, until it can walk horizontally
     private static Vector<Coord> walkTo(Coord origin, Coord target)
     {
         Vector<Coord> list = new Vector<Coord>();
@@ -113,7 +119,7 @@ public class HexLine extends StraightLine
         return list;
     }
     
-
+    // returns the single next step towards the target
     private static Coord getStepTowards(Coord origin, Coord target)
     {
         int hextant = getHextant(origin, target);
@@ -124,36 +130,22 @@ public class HexLine extends StraightLine
         if(origin.y % 2 == 1)
             intArr = HEX_ODD_ROW;
         
+        // set the next step
         step.x = intArr[hextant][0] + origin.x;
         step.y = intArr[hextant][1] + origin.y;
 
         return step;
     }
     
-
+    // calculates the angle from origin to target in hex mode
     private static double getAngle(Coord origin, Coord target)
     {
-        double x = getHexX(target.x, target.y) - getHexX(origin.x, origin.y);
+        double x = WSTools.getHexX(target.x, target.y) - WSTools.getHexX(origin.x, origin.y);
         double y = (double)(target.y - origin.y);
-        double angle = 0.0;
-
-		if(x == 0.0)
-        {
-			if(y < 0.0)
-				angle = WSTools.THREE_QUARTER_CIRCLE;
-			else
-				angle = WSTools.QUARTER_CIRCLE;
-        }
-		else
-		{
-			angle = Math.atan(y / x);
-			if(x < 0.0)
-				angle += WSTools.HALF_CIRCLE;
-			angle = WSTools.simplifyAngle(angle);
-		}
-		return angle;
+        return WSTools.getAngle(x, y);
     }
     
+    // calculates in which hextant the line from origin to target (relative to origin) lies
     private static int getHextant(Coord origin, Coord target)
     {
         double angle = getAngle(origin, target);
@@ -162,6 +154,7 @@ public class HexLine extends StraightLine
         return hextant % 6;
     }
     
+    // checks if two cells are adjacent by brute force
     private static boolean areAdjacent(Coord a, Coord b)
     {
         for(Coord c : getAdjArray(a))
@@ -172,6 +165,7 @@ public class HexLine extends StraightLine
         return false;
     }
     
+    // returns an array of the six tiles adjacent to the argument
     private static Coord[] getAdjArray(Coord c)
     {
         Coord[] arr = new Coord[6];
@@ -185,13 +179,4 @@ public class HexLine extends StraightLine
         return arr;
     }
     
-    private static Vector<Coord> combine(Vector<Coord> to, Vector<Coord> from)
-    {
-        Vector<Coord> list = new Vector<Coord>();
-        for(Coord c : to)
-            list.add(c);
-        for(int i = from.size() - 1; i >= 0; i--)
-            list.add(from.elementAt(i));
-        return list;
-    }
 }

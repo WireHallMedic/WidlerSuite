@@ -1,4 +1,4 @@
-/**********************************************************************************
+/*******************************************************************************************
 A class for a curses implementation. Everything is pretty much handled internally, 
 except for being hooked up to a timer (which is passed on to the unbound string stuff,
 as long as this panel is visible).
@@ -38,8 +38,10 @@ void setCenterCell(int x, int y)    // call this xor previous function for prope
     inherits from JPanel
 void setTileBorderColor(Color bc)
 
-
-**********************************************************************************/
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+  
+*******************************************************************************************/
 package WidlerSuite;
 
 import javax.swing.*;
@@ -87,7 +89,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     public void showTileBorders(boolean sb){showBorders = sb;}
     public void setTileBorderColor(Color bc){borderColor = bc;}
     
-    
+    // constructor
     public RoguePanel()
     {
         super();
@@ -116,11 +118,11 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         for(int x = 0; x < columns(); x++)
         for(int y = 0; y < rows(); y++)
         {
-            setBGColor(x, y, new Color((float)Math.random(), (float)Math.random(), (float)Math.random(), (float)1.0));
+            setBGColor(x, y, new Color((float)WSTools.random(), (float)WSTools.random(), (float)WSTools.random(), (float)1.0));
             int charVal = (int)'a';
-            if(Math.random() > .5)
+            if(WSTools.random() > .5)
                 charVal = (int)'A';
-            charVal += (int)(Math.random() * 26);
+            charVal += (int)(WSTools.random() * 26);
             setString(x, y, (char)charVal);
         }
     }
@@ -128,6 +130,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     //////////////////////////////////////////////////////
     // public setters
     
+    // sets the number of columns and rows
     public void setColumnsAndRows(int x, int y)
     {
         fgColor = new Color[x][y];
@@ -216,6 +219,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     //////////////////////////////////////////////////////////
     // public getters
     
+    // returns the foreground color of the passed location
     public Color getFGColor(int x, int y)
     {
         if(isInBounds(x, y))
@@ -223,6 +227,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         return null;
     }
     
+    // returns the background color of the passed location
     public Color getBGColor(int x, int y)
     {
         if(isInBounds(x, y))
@@ -230,6 +235,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         return null;
     }
     
+    // returns the string of the passed location
     public String getString(int x, int y)
     {
         if(isInBounds(x, y))
@@ -269,7 +275,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         }
     }
     
-    // font can only be set internally
+    // font can only be set internally; externally, use setFontName(String)
     private void setFont()
     {
         int ptHeight = rowHeight * 5 / 4;

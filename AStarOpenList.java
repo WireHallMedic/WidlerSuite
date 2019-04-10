@@ -1,3 +1,13 @@
+/*******************************************************************************************
+  
+  	Part of the A* section of WidlerSuite. A linked list used as a priority queue for node
+    processing.
+    Direct use of this class is generally not necessary.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+*******************************************************************************************/
+
 package WidlerSuite;
 
 import java.util.*;
@@ -6,30 +16,35 @@ public class AStarOpenList
 {
     private int size;
     private Link head;
-//////////////////////////////////////////////////////////////////////////////////
+    
+    // empty constructor
     public AStarOpenList()
     {
         size = 0;
         head = null;
     }
     
+    // main constructor
     public AStarOpenList(Coord l, int distToEnd)
     {
         this();
         addToEmpty(new AStarNode(l, distToEnd));
     }
     
+    // returns the size of the queue
     public int size()
     {
         return size;
     }
-
+    
+    // adds a new link based on the passed node; assumes queue is empty.
     public void addToEmpty(AStarNode node)
     {
         head = new Link(node);
         size = 1;
     }   
     
+    // checks if any of the links contain a specific node index
     public boolean contains(Coord c)
     {
         if(size == 0)
@@ -47,6 +62,7 @@ public class AStarOpenList
         return false;
     }
     
+    // potentially updates a node with a new parent if that route is shorter
     public void update(Coord loc, AStarNode possibleParent, int stepDist)
     {
         Link curLink = head;
@@ -114,6 +130,7 @@ public class AStarOpenList
         return topNode;
     }
     
+    // checks the top node without popping it
     public AStarNode peek()
     {
         if(size == 0)

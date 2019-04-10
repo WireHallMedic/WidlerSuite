@@ -1,7 +1,11 @@
 /*******************************************************************************************
-//
-//  A simple cartesian coordinate system for WidlerSuite. Plays nicely with Vect.
-//
+  
+    A simple cartesian coordinate system for WidlerSuite. Plays nicely with Vect. Treated
+    as more of a struct than a class.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+  
 *******************************************************************************************/
 
 package WidlerSuite;

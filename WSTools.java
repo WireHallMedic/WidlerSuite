@@ -11,17 +11,9 @@ package WidlerSuite;
 import java.util.*;
 import java.awt.*;
 
-public class WSTools
+public class WSTools implements WSConstants
 {
-	//	Enumerators
-	public final static double FULL_CIRCLE = 2 * Math.PI;                // 360 degrees
-	public final static double THREE_QUARTER_CIRCLE = 3 * (Math.PI / 2); // 270 degrees
-	public final static double HALF_CIRCLE = Math.PI;                    // 180 degrees
-	public final static double QUARTER_CIRCLE = Math.PI / 2;             // 90 degrees
-	public final static double EIGHTH_CIRCLE = Math.PI / 4;              // 45 degrees
-	public final static double SIXTH_CIRCLE = Math.PI / 3;               // 30 degrees
-	public final static double TWELFTH_CIRCLE = Math.PI / 6;             // 15 degrees
-	
+	// a central random number generator with good performance (comparied to Math.random(), at least)
     private static java.util.Random rng = new java.util.Random();
 	private static void setRNGSeed(long val){rng.setSeed(val);}
 	private static void setRNGSeed(){rng.setSeed((int)(Math.random() * Long.MAX_VALUE));}
@@ -69,7 +61,6 @@ public class WSTools
 		return returnVal;
 	}
 	
-	
 	//	removes full circles (including negative circles) from an angle
 	public static double simplifyAngle(double angle)
 	{
@@ -78,22 +69,19 @@ public class WSTools
 		return angle % FULL_CIRCLE;
 	}
    
+    // bounds an int by the passed values
+    public static int minMax(int min, int value, int max)
+    {
+        value = Math.min(value, max);
+        return Math.max(value, min);
+    }
    
-   
-   
-   // bounds an int by the passed values
-   public static int minMax(int min, int value, int max)
-   {
-      value = Math.min(value, max);
-      return Math.max(value, min);
-   }
-   
-   // bounds a double by the passed values
-   public static double minMax(double min, double value, double max)
-   {
-      value = Math.min(value, max);
-      return Math.max(value, min);
-   }
+    // bounds a double by the passed values
+    public static double minMax(double min, double value, double max)
+    {
+        value = Math.min(value, max);
+        return Math.max(value, min);
+    }
 
 	//	returns the distance of a passed path
 	//	assumes that the passed vector contains a sequential list of adjacent cells
@@ -139,62 +127,61 @@ public class WSTools
 		return (int)d + "%";
 	}
    
-   
-   // returns all the long axis plus half the short axis
-   public static int getAngbandMetric(Coord start, Coord end){return getAngbandMetric(start.x, start.y, end.x, end.y);}
-   public static int getAngbandMetric(int startX, int startY, int endX, int endY)
-   {
-      int totalX = endX - startX;
-      int totalY = endY - startY;
+    // returns all the long axis plus half the short axis
+    public static int getAngbandMetric(Coord start, Coord end){return getAngbandMetric(start.x, start.y, end.x, end.y);}
+    public static int getAngbandMetric(int startX, int startY, int endX, int endY)
+    {
+        int totalX = endX - startX;
+        int totalY = endY - startY;
       
-      if(Math.abs(totalX) > Math.abs(totalY))
-         return Math.abs(totalX) + Math.abs(totalY / 2);
+        if(Math.abs(totalX) > Math.abs(totalY))
+            return Math.abs(totalX) + Math.abs(totalY / 2);
       
-      return Math.abs(totalY) + Math.abs(totalX / 2);
-   }
+        return Math.abs(totalY) + Math.abs(totalX / 2);
+    }
 
-   // returns the square of the hypotenuse; used for quickly calculating which of several distances is longer
-   public static int getDistanceMetric(Coord start, Coord end){return getDistanceMetric(start.x, start.y, end.x, end.y);}
-   public static int getDistanceMetric(int startX, int startY, int endX, int endY)
-   {
+    // returns the square of the hypotenuse; used for quickly calculating which of several distances is longer
+    public static int getDistanceMetric(Coord start, Coord end){return getDistanceMetric(start.x, start.y, end.x, end.y);}
+    public static int getDistanceMetric(int startX, int startY, int endX, int endY)
+    {
 		int a = Math.abs(endX - startX);
 		int b = Math.abs(endY - startY);
 		return (a * a) + (b * b);
-   }
+    }
    
-   // returns the actual distance
-   public static double getDistance(Coord start, Coord end){return getDistance(start.x, start.y, end.x, end.y);}
-   public static double getDistance(int startX, int startY, int endX, int endY)
-   {
-      return Math.sqrt(getDistanceMetric(startX, startY, endX, endY));
-   }
-   
-   
-   // returns the value of a point between two values.  For example, if the passed values are 2 and 4, and the xOffset
-   // is .5 (halfway between the two), this will return 3.
-   public static double interpolateLinear(float p1, float p2, float xOff)
-   {
-      return (double)(p1 + ((p2 - p1) * xOff));
-   }
+    // returns the actual distance
+    public static double getDistance(Coord start, Coord end){return getDistance(start.x, start.y, end.x, end.y);}
+    public static double getDistance(int startX, int startY, int endX, int endY)
+    {
+        return Math.sqrt(getDistanceMetric(startX, startY, endX, endY));
+    }
    
    
-   // returns a value similar to interpolateLinear(), but on an s-curve so that results are more heavily weighted towards
-   // the closer of the two points.
-   public static double interpolateCosine(float p1, float p2, float xOff)
-   {
-      xOff = ((-1.0f * (float)Math.cos(Math.PI * xOff)) *.5f) + .5f;
-      return interpolateLinear(p1, p2, xOff);
-   }
+    // returns the value of a point between two values.  For example, if the passed values are 2 and 4, and the xOffset
+    // is .5 (halfway between the two), this will return 3.
+    public static double interpolateLinear(float p1, float p2, float xOff)
+    {
+        return (double)(p1 + ((p2 - p1) * xOff));
+    }
    
    
-   // returns the the fractional portion of max which cur is as a double
-   public static double getRatio(int cur, int max){return getRatio((double)cur, (double)max);}
-   public static double getRatio(double cur, double max)
-   {
-      if(max == 0.0)
-         return 1.0;
-      return cur / max;
-   }
+    // returns a value similar to interpolateLinear(), but on an s-curve so that results are more heavily weighted towards
+    // the closer of the two points.
+    public static double interpolateCosine(float p1, float p2, float xOff)
+    {
+        xOff = ((-1.0f * (float)Math.cos(Math.PI * xOff)) *.5f) + .5f;
+        return interpolateLinear(p1, p2, xOff);
+    }
+   
+   
+    // returns the the fractional portion of max which cur is as a double
+    public static double getRatio(int cur, int max){return getRatio((double)cur, (double)max);}
+    public static double getRatio(double cur, double max)
+    {
+        if(max == 0.0)
+            return 1.0;
+        return cur / max;
+    }
    
     // returns the index of the tile in which the pixel lies, accounting for hex offset
     public static Coord getHexIndex(double x, double y){return getHexIndex(x, y, false);}
