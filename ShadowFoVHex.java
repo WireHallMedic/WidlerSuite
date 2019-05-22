@@ -1,68 +1,53 @@
-package WidlerSuite;
-
-import java.util.*;
-/*
-    An implementation of shadowcasting FoV for hex modes. Checks if the center of a tile has LoS to six points on the
-    target tile.
+/*******************************************************************************************
+  
+    An implementation of shadowcasting FoV for hex modes. Checks if the center of a tile has LoS 
+    to at least one of six points on the target tile.
     
     Basic procedure:
-        The cell's neighbors are added to the process list (checking if in bounds, in range and not already added for each)
+        The cell's neighbors are added to the process list (checking if in bounds, in range and 
+            not already added for each)
         If a cell is in shadow, it is skipped
         The cell is marked as visible
         If the cell is not transparent, it registers a shadow.
-*/
-public class ShadowFoVHex implements WSConstants
+    
+    Shadows:
+        A shadow is two angles; anything entirely occluded by shadows cannot be seen. Some tiles 
+            are occluded by multiple shadows (that is, no shadow covers all six points, but all
+            six points are in shadow)
+        As tiles are searched in an outward spiralling pattern, it is not necessary to note a 
+            shadow's starting point.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+  
+*******************************************************************************************/
+package WidlerSuite;
+
+import java.util.*;
+
+public class ShadowFoVHex extends ShadowFoV
 {                   
-    private boolean[][] transparencyMap;    // which tiles are visible
-    private int[][] visibilityMap;          // which tiles can be seen from most recent calcFoV()
-    private int[][] addedMap;               // which tiles have been added to processList
-    private int width;
-    private int height;
-    private int flag;                       // used to avoid unnecessary reassignment to refresh visibilityMap
     private Vector<Coord> processList;      // processing is essentially a queue, rather than recursive (FIFO)
-    private Vector<Shadow> shadowList;
+    private Vector<Shadow> shadowList;      // used for iterating through list
     private int listIndex;                  // avoiding the cost of removing items from the front of the vector
     private double[][] CORNER_LIST =  {{-.5, -.5}, {.5, -.5}, {-.5, .5}, {.5, .5}};  // for calculating shadow angles
     private double[][] TILE_CHECK_LIST  = {{-.25, -.5}, {.25, -.5}, {-.25, .5}, {.25, .5}, {-.5, 0}, {.5, 0}};  // for calculating if a tile is shadowed
     
     // constructor
-    public ShadowFoVHex(boolean[][] transMap)
+    public ShadowFoVHex(boolean[][] transpMap)
     {
-        reset(transMap);
+        super(transpMap);
+        set(transparencyMap);
     }
     
-    public void reset(boolean[][] transMap)
+    // prepares the arrays to be run; does not need to be called between runs unless the map changes
+    public void set(boolean[][] transpMap)
     {
-        transparencyMap = transMap; // note: shallow copy
-        width = transparencyMap.length;
-        height = transparencyMap[0].length;
-        visibilityMap = new int[width][height];
+        super.reset(transpMap);
         addedMap = new int[width][height];
-        flag = 1;
         listIndex = 0;
     }
-    
-    // checks if a location is in the map bounds
-    public boolean isInBounds(int x, int y)
-    {
-        return x >= 0 && y >= 0 && x < width && y < height;
-    }
-    public boolean isInBounds(Coord c){return isInBounds(c.x, c.y);}
-    
-    // checks if a square blocks LoS
-    public boolean isBlocked(int x, int y)
-    {
-        if(isInBounds(x, y))
-            return !transparencyMap[x][y];
-        return false;
-    }
-    
-    // checks if a square is visible
-    public boolean isVisible(int x, int y)
-    {
-        return isInBounds(x, y) && visibilityMap[x][y] == flag;
-    }
-    
+
     // Calculate lit squares from a given location and radius
     public void calcFoV(int xLoc, int yLoc, int radius)
     {
@@ -114,7 +99,7 @@ public class ShadowFoVHex implements WSConstants
             shadowList.add(new Shadow(origin, target));
     }
     
-    // checks five points (diamond plus center) against the shadow list. 
+    // checks six points (hexagonal) against the shadow list. 
     private boolean isShadowed(Coord origin, Coord target)
     {
         if(shadowList.size() == 0)
@@ -172,7 +157,6 @@ public class ShadowFoVHex implements WSConstants
         }
     }
 
-    
     // returns the angle to the center of the tile
     private double getAngle(Coord origin, Coord target)
     {

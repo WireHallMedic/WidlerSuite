@@ -20,6 +20,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private boolean showFoV = false;
     private boolean showDijkstra = false;
     private boolean showBSP = false;
+    private boolean showVoronoi = false;
     public static final int COLUMNS = 40;
     public static final int ROWS = 40;
     private String[][] strMap;
@@ -28,7 +29,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private Color[][] fgMap;
     private AStar aStar;
     private Coord atLoc;
-    private ShadowFoV rectFoV;
+    private ShadowFoVRect rectFoV;
     private ShadowFoVHex hexFoV;
     private DijkstraMap dijkstraMap;
     private Coord searchLoc;
@@ -37,7 +38,10 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private boolean traceType = true;   // true is A*, false is StraightLine
     private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode"};
     private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
-    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", "Show Binary Serch Partitioning"};
+    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", "Show Binary Serch Partitioning", "Show Voronoi Map"};
+    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
+    private static final Color[] voronoiColors = getVoronoiColors();
+    private static final String BULLET_STR = "" + (char)8226;
     
     // test function
     public RoguePanelDemo()
@@ -58,7 +62,6 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         
         setTestMap();
         
-        
         // roguePanel
         roguePanel = new RoguePanel();
         roguePanel.setColumnsAndRows(COLUMNS, ROWS);
@@ -69,13 +72,17 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         
         // controlPanel
         controlPanel = new JPanel();
-        controlPanel.setLayout(new GridLayout(10, 1));
+        controlPanel.setLayout(new GridLayout(7, 1));
         this.add(controlPanel);
         
         // instructions
-        JTextArea label = new JTextArea("Click or double-click on RoguePanel for UnboundStrings.\nSpiralSearch to find nearest '>'");
+        JTextArea label = new JTextArea("Click or double-click on RoguePanel for UnboundStrings.\n" +
+                                        "Arrow keys or numpad to move @.");
         label.setFocusable(false);
         label.setEditable(false);
+        label.setWrapStyleWord(true);
+        label.setLineWrap(true);
+        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 20));
         controlPanel.add(label);
         
         // mouse metrics
@@ -119,8 +126,8 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         
         controlPanel.setFocusable(false);
         
-        
         loadTestMap();
+        
         javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, roguePanel);
         setVisible(true);
         timer.start();
@@ -231,6 +238,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             aStar.setMode(displayMode);
             aStar.setSearchDiagonal(searchDiagonal);
             StraightLine.setMode(displayMode);
+            calcFoV();
             drawPath();
         }
         
@@ -239,13 +247,17 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             showFoV = false;
             showDijkstra = false;
             showBSP = false;
+            showVoronoi = false;
             switch(areaDD.getSelectedIndex())
             {
                 case 1 :    showFoV = true;
+                            calcFoV();
                             break;
                 case 2 :    showDijkstra = true;
                             break;
                 case 3 :    showBSP = true;
+                            break;
+                case 4 :    showVoronoi = true;
                             break;
                 default :   break;
             }
@@ -261,9 +273,6 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         {
             loadTestMap();
         }
-        
-        hexFoV.calcFoV(atLoc.x, atLoc.y, 12);
-        rectFoV.calcFoV(atLoc.x, atLoc.y, 12);
     }
     
     private void setTestMap()
@@ -332,7 +341,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         passMap[4][ROWS - 5] = true;
         passMap[COLUMNS - 5][4] = true;
         passMap[COLUMNS - 5][ROWS - 5] = true;
-        rectFoV = new ShadowFoV(passMap);
+        rectFoV = new ShadowFoVRect(passMap);
         hexFoV = new ShadowFoVHex(passMap);
         dijkstraMap = new DijkstraMap(passMap);
     }
@@ -350,7 +359,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         {
             if(showFoV && displayMode == RECT_MODE)
             {
-                if(rectFoV.canSee(x, y) && bgMap[x][y] == Color.BLACK)
+                if(rectFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
                     roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
                 else
                     roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
@@ -393,6 +402,21 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                             roguePanel.setBGColor(x + room.origin.x, y + room.origin.y, roomColorList.elementAt(i));
                     }
                 }
+            }
+        }
+        
+        if(showVoronoi)
+        {
+            int[][] vMap = Voronoi.generate(voronoiPoints, COLUMNS, ROWS);
+            for(int x = 0; x < COLUMNS; x++)
+            for(int y = 0; y < ROWS; y++)
+            {
+                roguePanel.setBGColor(x, y, voronoiColors[vMap[x][y]]);
+            }
+            for(int i = 0; i < voronoiPoints.size(); i++)
+            {
+                roguePanel.setString(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, BULLET_STR);
+                roguePanel.setFGColor(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, Color.CYAN);
             }
         }
         
@@ -478,9 +502,41 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                 case KeyEvent.VK_NUMPAD3 : atLoc.x += stepArr[SE][0]; atLoc.y += stepArr[SE][1]; break;
             }
         }
+        calcFoV();
+        drawPath();
+    }
+    
+    private static Vector<Coord> getVoronoiPoints()
+    {
+        int xIncrement = COLUMNS / 5;
+        int yIncrement = ROWS / 5;
+        int xInset = (COLUMNS / 10) - (4);
+        int yInset = (ROWS / 10) - (2);
+        Vector<Coord> list = new Vector<Coord>();
+        
+        for(int x = 0; x < 5; x++)
+        for(int y = 0; y < 5; y++)
+        {
+            Coord c = new Coord((xInset + (xIncrement * x) + WSTools.random(8)), yInset + (yIncrement * y) + WSTools.random(4));
+            c.x = WSTools.minMax(0, c.x, COLUMNS - 1);
+            c.y = WSTools.minMax(0, c.y, ROWS - 1);
+            list.add(c);
+        }
+        return list;
+    }
+    
+    private static Color[] getVoronoiColors()
+    {
+        Color[] arr = new Color[25];
+        for(int i = 0; i < 25; i++)
+            arr[i] = WSTools.randomColor().darker().darker();
+        return arr;
+    }
+    
+    private void calcFoV()
+    {
         hexFoV.calcFoV(atLoc.x, atLoc.y, 12);
         rectFoV.calcFoV(atLoc.x, atLoc.y, 12);
-        drawPath();
     }
     
     

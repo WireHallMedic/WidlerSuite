@@ -12,7 +12,8 @@ s#i0
 s#k0
 s#j0
 s#l0
-!449;g
+!108;u
+a0	b68	c255	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0	iWidlerSuite.RoguePanelDemo!491;g
 %\011Vect.java
 %\011FloodFill.java
 %\011UnboundString.java
@@ -22,6 +23,8 @@ s#l0
 %\011Coord.java
 %\011HexLine.java
 %\011WSTools.java
+%\011ShadowFoVRect.java
+%\011Voronoi.java
 %\011RectLine.java
 %\011RoguePanel.java
 %\011Room.java
@@ -34,7 +37,7 @@ s#l0
 %\011ShadowFoV.java
 %\011DijkstraMap.java
 %\011BinarySpacePartitioning.java
-!449;f
+!491;f
 %\011Vect.java
 %\011FloodFill.java
 %\011UnboundString.java
@@ -44,6 +47,8 @@ s#l0
 %\011Coord.java
 %\011HexLine.java
 %\011WSTools.java
+%\011ShadowFoVRect.java
+%\011Voronoi.java
 %\011RectLine.java
 %\011RoguePanel.java
 %\011Room.java

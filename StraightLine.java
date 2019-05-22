@@ -4,7 +4,7 @@
     the appropropriate child class (rect or hex), and holds the shared functions those two
     children need.
     
-    HexLine and Rect line can also be called directly, if preferred.
+    HexLine and RectLine can also be called directly, if preferred.
   
     Copyright 2019 Michael Widler
     Free for private or public use. No warranty is implied or expressed.

@@ -1,6 +1,9 @@
 /*******************************************************************************************
 //
 //  A simple mathematical vector system for WidlerSuite. Plays nicely with Coord.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
 //
 *******************************************************************************************/
 
@@ -59,7 +62,6 @@ public class Vect implements WSConstants
 ///////////////////////////////////////////////////
 	//	setters
 	
-	
 	public void set(double a, double m)
 		{angle = a; magnitude = m;}
 	
@@ -69,12 +71,12 @@ public class Vect implements WSConstants
 	public void set(Vect that)
 		{this.angle = that.angle; this.magnitude = that.magnitude;}
 	
-	public void set(Coord origin, Coord terminus)
 	//	sets the values of this Vect equal to the difference of the passed coords
+	public void set(Coord origin, Coord terminus)
 		{this.set(new Coord(terminus.x - origin.x, terminus.y - origin.y));}
 	
-	public void set(Coord cart)
 	//	converts the values of the passed Coord to a Vect, then sets this Vect to those
+	public void set(Coord cart)
 	{
 		double x = Math.abs(cart.x);
 		double y = Math.abs(cart.y);
@@ -100,7 +102,6 @@ public class Vect implements WSConstants
 	//	Getters.  Most common getters are unnecessary, as
 	//		both data members are public
 	
-
 	public int getX()
 	{
 		return WSTools.roundToInt(Math.cos(this.angle) * this.magnitude);
@@ -121,25 +122,24 @@ public class Vect implements WSConstants
 		return (Math.sin(this.angle) * this.magnitude * -1);
 	}
 	
-
 /////////////////////////////////////////////
 	//	Other methods
 	
-	
+	// loss of precision may result if the magnitudes are small, as Coord members are all int.
 	public void add(Vect that)
-	// loss of precision may result if the magnitudes are small, as Coord
-	//	members are all int.
 	{
 		Coord tempCoord = new Coord(this);
 		tempCoord.add(new Coord(that));
 		this.set(tempCoord);
 	}
 	
+    // adds a Coord
 	public void add(Coord that)
 	{
 		this.add(new Vect(that));
 	}
 	
+    // checks for equality
 	public boolean equals(Vect that)
 	{
 		if(this.angle == that.angle &&
@@ -149,10 +149,10 @@ public class Vect implements WSConstants
 			return false;
 	}
     
+    // returns the equivalent Coord
     public Coord getAsCoord()
     {
         return new Coord(this);
     }
-	
 	
 }

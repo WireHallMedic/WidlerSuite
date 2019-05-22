@@ -1,9 +1,10 @@
 /*******************************************************************************************
-//
-//  A collection of utility functions which can be called statically.
-//
-//
-//
+  
+    A collection of utility functions which can be called statically.
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
+  
 *******************************************************************************************/
 
 package WidlerSuite;
@@ -25,7 +26,7 @@ public class WSTools implements WSConstants
 	}
 	
     // returns a random integer from 0 to (n-1) inclusive
-	public static double random(int n)
+	public static int random(int n)
 	{
 		return (int)(rng.nextDouble() * n);
 	}

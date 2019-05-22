@@ -30,6 +30,9 @@ boolean hasBackgroundBox()
 static int getDefaultLifespan()
     constants:
 TRANSPARENT_BLACK                                   // common background color
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
 
 **********************************************************************************/
 
@@ -85,12 +88,14 @@ public class UnboundString implements ActionListener, WSConstants
 	public void setAge(int a){age = a;}
     public void setDefaultLifespan(int dl){defaultLifespan = dl;}
     public void setAffectedByGravity(boolean abg){affectedByGravity = abg;}
-
+    
+    // minimal constructor
     public UnboundString(String s)
     {
         this(s, Color.WHITE, 0, 0);
     }
     
+    // setting constructors
     public UnboundString(String s, Color fg, Coord l){this(s, fg, l.x, l.y);}
     public UnboundString(String s, Color fg, int x, int y)
     {

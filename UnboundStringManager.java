@@ -18,6 +18,9 @@ void addLocking(UnboundString us)       // adds an unbound string to the lock li
 void add(UnboundString us)              // adds an unbound string to the nonlock list
 void addNonlocking(UnboundString us)    // adds an unbound string to the nonlock list
 
+  
+    Copyright 2019 Michael Widler
+    Free for private or public use. No warranty is implied or expressed.
 
 **********************************************************************************/
 package WidlerSuite;
@@ -28,26 +31,31 @@ import java.awt.event.*;
 
 public class UnboundStringManager implements ActionListener
 {
-    private Vector<UnboundString> lockList = new Vector<UnboundString>();
+    private Vector<UnboundString> lockList = new Vector<UnboundString>();   
     private Vector<UnboundString> nonlockList = new Vector<UnboundString>();
     private RoguePanel parentPanel;
     
+    // constructor, requires the RoguePanel that it is managing
     public UnboundStringManager(RoguePanel pp)
     {
         parentPanel = pp;
     }
     
+    // adding unbound strings
     public void addLocking(UnboundString str){lockList.add(str);}
     public void addNonlocking(UnboundString str){nonlockList.add(str);}
     
+    // getting lists
     public Vector<UnboundString> getLockList(){return lockList;}
     public Vector<UnboundString> getNonlockList(){return nonlockList;}
     
+    // check if should wait until animation is completed to proceed
     public boolean isLocked()
     {
         return lockList.size() > 0;
     }
     
+    // clears the lists
     public void clear()
     {
         lockList = new Vector<UnboundString>();
