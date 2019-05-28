@@ -51,14 +51,14 @@ import java.awt.event.*;
 
 public class RoguePanel extends JPanel implements ComponentListener, ActionListener, MouseListener, MouseMotionListener, WSConstants
 {
-	private Color[][] fgColor = new Color[1][1];
-	private Color[][] bgColor = new Color[1][1];
-	private String[][] str = new String[1][1];
-	private int[][] strXInset = new int[1][1];
-	private int[][] strYInset = new int[1][1];
-	private Font font = null;
+    private Color[][] fgColor = new Color[1][1];
+    private Color[][] bgColor = new Color[1][1];
+    private String[][] str = new String[1][1];
+    private int[][] strXInset = new int[1][1];
+    private int[][] strYInset = new int[1][1];
+    private Font font = null;
     private FontMetrics fontMetrics = null;
-	private String fontName = "Monospaced";
+    private String fontName = "Monospaced";
     private int colWidth = 0;       // in pixels
     private int rowHeight = 0;      // in pixels
     private int arrayXInset = 0;
@@ -72,22 +72,33 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     private int displayMode = RECT_MODE;
     private boolean showBorders = false;
     private Color borderColor = Color.WHITE;
+    private Color oobBGColor = Color.BLACK;
+    private Color oobFGColor = Color.WHITE;
+    private String oobString = " ";
+    private double screenShakeTilesX = 0.0;  // in tiles
+    private double screenShakeTilesY = 0.0;  // in tiles
+    private int screenShakeDuration = 0;     // in ticks
+    private int screenShakeOffsetX = 0;      // in pixels
+    private int screenShakeOffsetY = 0;      // in pixels
     
-
-
-	public Font getFont(){return font;}
-	public String getFontName(){return fontName;}
+    public Font getFont(){return font;}
+    public String getFontName(){return fontName;}
     public Color getTileBorderColor(){return borderColor;}
+    public Color getOOBBGColor(){return oobBGColor;}
+    public Color getOOBFGColor(){return oobFGColor;}
+    public String getOOBString(){return oobString;}
     
     public int columns(){return str.length;}
     public int rows(){return str[0].length;}
     public int mouseColumn(){return mouseLoc[0];}
     public int mouseRow(){return mouseLoc[1];}
 
-
-	public void setFontName(String f){fontName = f; setFont();}
+    public void setFontName(String f){fontName = f; setFont();}
     public void showTileBorders(boolean sb){showBorders = sb;}
     public void setTileBorderColor(Color bc){borderColor = bc;}
+    public void setOOBBGColor(Color c){oobBGColor = c;}
+    public void setOOBFGColor(Color c){oobFGColor = c;}
+    public void setOOBString(String s){oobString = s;}
     
     // constructor
     public RoguePanel()
@@ -105,6 +116,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // checks if the passed tile location is in the display bounds
+    public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
     public boolean isInBounds(int x, int y)
     {
         if(x >= 0 && y >= 0 && x < columns() && y < rows())
@@ -112,7 +124,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         return false;
     }
     
-    // test functionn
+    // checks if the screen is currently shaking
+    public boolean isShaking()
+    {
+      return screenShakeDuration > 0;
+    }
+    
+    // test function
     public void randomize()
     {
         for(int x = 0; x < columns(); x++)
@@ -123,7 +141,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             if(WSTools.random() > .5)
                 charVal = (int)'A';
             charVal += (int)(WSTools.random() * 26);
-            setString(x, y, (char)charVal);
+            setString(x, y, (char)charVal + "");
         }
     }
     
@@ -131,6 +149,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     // public setters
     
     // sets the number of columns and rows
+    public void setColumnsAndRows(Coord loc){setColumnsAndRows(loc.x, loc.y);}
     public void setColumnsAndRows(int x, int y)
     {
         fgColor = new Color[x][y];
@@ -151,6 +170,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // set foreground color of a specific tile
+    public void setFGColor(Coord loc, Color c){setFGColor(loc.x, loc.y, c);}
     public void setFGColor(int x, int y, Color c)
     {
         if(isInBounds(x, y))
@@ -158,6 +178,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // set background color of a specific tile
+    public void setBGColor(Coord loc, Color c){setBGColor(loc.x, loc.y, c);}
     public void setBGColor(int x, int y, Color c)
     {
         if(isInBounds(x, y))
@@ -165,7 +186,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // set the string (generally one character) of a specific tile
-    public void setString(int x, int y, char c){setString(x, y, c + "");}
+    public void setString(Coord loc, String s){setString(loc.x, loc.y, s);}
     public void setString(int x, int y, String s)
     {
         if(isInBounds(x, y))
@@ -176,6 +197,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // set a tile all at once
+    public void setTile(Coord loc, String s, Color fg, Color bg){setTile(loc.x, loc.y, s, fg, bg);}
     public void setTile(int x, int y, String s, Color fg, Color bg)
     {
         if(isInBounds(x, y))
@@ -188,6 +210,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // set a tile, excluding the background color, all at once
+    public void setTile(Coord loc, String s, Color fg){setTile(loc.x, loc.y, s, fg);}
     public void setTile(int x, int y, String s, Color fg)
     {
         if(isInBounds(x, y))
@@ -216,31 +239,43 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         }
     }
     
+    // set screen shake. Overwrites any existing screen shake
+    public void setScreenShake(double radius, int duration){setScreenShake(radius, radius, duration);}
+    public void setScreenShake(double radiusX, double radiusY, int duration)
+    {
+       screenShakeTilesX = radiusX;
+       screenShakeTilesY = radiusY;
+       screenShakeDuration = duration;
+    }
+    
     //////////////////////////////////////////////////////////
     // public getters
     
     // returns the foreground color of the passed location
+    public Color getFGColor(Coord loc){return getFGColor(loc.x, loc.y);}
     public Color getFGColor(int x, int y)
     {
         if(isInBounds(x, y))
             return fgColor[x][y];
-        return null;
+        return oobFGColor;
     }
     
     // returns the background color of the passed location
+    public Color getBGColor(Coord loc){return getBGColor(loc.x, loc.y);}
     public Color getBGColor(int x, int y)
     {
         if(isInBounds(x, y))
             return bgColor[x][y];
-        return null;
+        return oobBGColor;
     }
     
     // returns the string of the passed location
+    public String getString(Coord loc){return getString(loc.x, loc.y);}
     public String getString(int x, int y)
     {
         if(isInBounds(x, y))
             return str[x][y];
-        return "";
+        return oobString;
     }
     
     
@@ -294,6 +329,16 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         // no error checking as this can only be called internally
         strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
         strYInset[x][y] = (rowHeight * 9) / 10;    // because strings are drawn from the bottom
+    }
+    
+    // adjust display based on screen shake
+    private void shake()
+    {
+      int sizeMultiplier = Math.min(colWidth, rowHeight);
+      int screenShakePixelsX = (int)(sizeMultiplier * screenShakeTilesX);
+      int screenShakePixelsY = (int)(sizeMultiplier * screenShakeTilesY);
+      screenShakeOffsetX = WSTools.random(screenShakePixelsX + screenShakePixelsX + 1) - screenShakePixelsX;
+      screenShakeOffsetY = WSTools.random(screenShakePixelsY + screenShakePixelsY + 1) - screenShakePixelsY;
     }
     
     ///////////////////////////////////////////////////////////////////////
@@ -367,7 +412,17 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     {
         if(this.isVisible())
         {
+            // update unbound strings
             unboundStringManager.actionPerformed(ae);
+            
+            // update screen shake
+            if(isShaking())
+            {
+               shake();
+               screenShakeDuration--;
+            }
+            
+            // repaint screen
             this.repaint();
         }
     }
@@ -398,6 +453,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // set the corner cell, for properly displaying unbound strings
+    public void setCornerCell(Coord loc){setCornerCell(loc.x, loc.y);}
     public void setCornerCell(int x, int y)
     {
         cornerCell[0] = x;
@@ -405,6 +461,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     // set the corner cell by passing the center cell
+    public void setCenterCell(Coord loc){setCenterCell(loc.x, loc.y);}
     public void setCenterCell(int x, int y)
     {
         setCornerCell(x - (columns() / 2), y - (rows() / 2));
@@ -427,8 +484,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         for(int x = 0; x < columns(); x++)
         for(int y = 0; y < rows(); y++)
         {
-            xLoc = arrayXInset + (x * colWidth);
-            yLoc = arrayYInset + (y * rowHeight);
+            xLoc = arrayXInset + (x * colWidth) + screenShakeOffsetX;
+            yLoc = arrayYInset + (y * rowHeight) + screenShakeOffsetY;
             if(isOddRow(y))
                 xLoc += oddRowInset;
             // background
@@ -470,6 +527,9 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             {
                 xLoc = (xTile * colWidth) + arrayXInset + (colWidth / 2) - (fontMetrics.stringWidth(us.getString()) / 2) + (int)(us.getXOffset() * colWidth);
                 yLoc = (yTile * rowHeight) + arrayYInset + (rowHeight / 2) + (int)(us.getYOffset() * rowHeight);
+                
+                xLoc += screenShakeOffsetX;
+                yLoc += screenShakeOffsetY;
                 
                 // note that as unbound strings do not rectify their position, this stays static over the life of the US
                 if(isOddRow(yTile))

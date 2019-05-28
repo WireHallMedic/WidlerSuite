@@ -23,6 +23,24 @@
     Once you end, then follow the parents back for the target node to find the path.
     Returns a Vector of Coords; either from the origin to the path, or empty if no path
     was found.
+    
+    API:
+    implements WSConstants
+    public static final int MAX_LOOPS = 5000;
+    The maximum number of loops the algorithm 
+    public static final double HEURISTIC_MULTIPLER = 11.0;
+    public void setMode(int m){mode = m;}
+    public void setSearchDiagonal(boolean sd){searchDiagonal = sd;}
+    // constructor
+    public AStar()
+    // Primary function. Attempts to make a path.
+    public Vector<Coord> path(boolean[][] pm, Coord start, Coord end)
+    // makes a deep copy of a boolean map, and sets internal values accordingly
+    public void setMap(boolean[][] pm)
+// traces the path, then returns it
+public Vector<Coord> getPath(Coord origin, Coord terminus)
+// run the thing
+public Vector<Coord> getPath(int originX, int originY, int terminusX, int terminusY)
   
     Copyright 2019 Michael Widler
     Free for private or public use. No warranty is implied or expressed.
@@ -44,8 +62,8 @@ public class AStar implements WSConstants
     private int mode = RECT_MODE;
     private boolean searchDiagonal = true;
     
-    public static final int MAX_LOOPS = 5000;
-    public static final double HEURISTIC_MULTIPLER = 11.0;
+    public static int MAX_LOOPS = 5000;
+    public static double HEURISTIC_MULTIPLER = 11.0;
     
     public void setMode(int m){mode = m;}
     public void setSearchDiagonal(boolean sd){searchDiagonal = sd;}

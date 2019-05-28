@@ -10,6 +10,11 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private JTextArea testTextArea;
     private RoguePanel roguePanel;
     private JPanel controlPanel;
+    private JPanel shakePanel;
+    private JButton shakeButton;
+    private JTextField vertShakeField;
+    private JTextField horizShakeField;
+    private JTextField shakeDurField;
     private JCheckBox borderButton;
     private JCheckBox spiralSearchButton;
     private JComboBox<String> modeDD;
@@ -42,6 +47,8 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
     private static final Color[] voronoiColors = getVoronoiColors();
     private static final String BULLET_STR = "" + (char)8226;
+    private boolean upKeyHeld = false;    // for movement on hex grid with arrow keys
+    private boolean downKeyHeld = false;  // for movement on hex grid with arrow keys
     
     // test function
     public RoguePanelDemo()
@@ -72,7 +79,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         
         // controlPanel
         controlPanel = new JPanel();
-        controlPanel.setLayout(new GridLayout(7, 1));
+        controlPanel.setLayout(new GridLayout(8, 1));
         this.add(controlPanel);
         
         // instructions
@@ -82,14 +89,18 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         label.setEditable(false);
         label.setWrapStyleWord(true);
         label.setLineWrap(true);
-        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 20));
+        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 24));
         controlPanel.add(label);
         
         // mouse metrics
         testTextArea = new JTextArea();
         testTextArea.setEditable(false);
         testTextArea.setFocusable(false);
+        testTextArea.setFont(new Font(label.getFont().getName(), Font.PLAIN, 18));
         controlPanel.add(testTextArea);
+        
+        // set the screen shake panel
+        setShakePanel(controlPanel);
          
         // border toggle button
         borderButton = new JCheckBox("Show Tile Borders");
@@ -133,6 +144,32 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         timer.start();
     }
     
+    private void setShakePanel(JPanel parent)
+    {
+      shakePanel = new JPanel();
+      JPanel subpanel = new JPanel();
+      JPanel subpanel2 = new JPanel();
+      shakePanel.setLayout(new GridLayout(3, 2));
+      shakeButton = new JButton("Screen Shake");
+      shakeButton.setFocusable(false);
+      shakeButton.addActionListener(this);
+      shakePanel.add(shakeButton);
+      subpanel.setLayout(new GridLayout(1, 4));
+      shakePanel.add(subpanel);
+      vertShakeField = new JTextField(".2");
+      horizShakeField = new JTextField(".2");
+      subpanel.add(new JLabel("X Shake:"));
+      subpanel.add(horizShakeField);
+      subpanel.add(new JLabel("Y Shake:"));
+      subpanel.add(vertShakeField);
+      subpanel2.setLayout(new GridLayout(1, 2));
+      shakeDurField = new JTextField("10");
+      subpanel2.add(new JLabel("Shake Duration:"));
+      subpanel2.add(shakeDurField);
+      shakePanel.add(subpanel2);
+      parent.add(shakePanel);
+    }
+    
     // update the roguePanel and controlPanel sizes and locations when the frame is resized.
     private void setSizesAndLocs()
     {
@@ -153,7 +190,6 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     public void mousePressed(MouseEvent me){dispLoc(me); testClick(me.getClickCount());}
     public void mouseReleased(MouseEvent me){}
     public void mouseClicked(MouseEvent me){}
-    public void keyReleased(KeyEvent ke){}
     public void keyTyped(KeyEvent ke){}
     
     ///////////////////////////////////////////////////////////////////////
@@ -272,6 +308,21 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         if(ae.getSource() == spiralSearchButton)
         {
             loadTestMap();
+        }
+        
+        if(ae.getSource() == shakeButton)
+        {
+            try
+            {
+               double xShake = Double.parseDouble(horizShakeField.getText());
+               double yShake = Double.parseDouble(vertShakeField.getText());
+               int shakeD = Integer.parseInt(shakeDurField.getText());
+               roguePanel.setScreenShake(xShake, yShake, shakeD);
+            }
+            catch(Exception ex)
+            {
+               roguePanel.setScreenShake(0, 0);
+            }
         }
     }
     
@@ -463,11 +514,24 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         loadTestMap();
     }
     
+    public void keyReleased(KeyEvent ke)
+    {
+       if(ke.getKeyCode() == KeyEvent.VK_UP)
+          upKeyHeld = false;
+       if(ke.getKeyCode() == KeyEvent.VK_DOWN)
+          downKeyHeld = false;
+    }
+    
     public void keyPressed(KeyEvent ke)
     {
         if(ke.getKeyCode() == KeyEvent.VK_SPACE)
             testMode();
         
+       if(ke.getKeyCode() == KeyEvent.VK_UP)
+          upKeyHeld = true;
+       if(ke.getKeyCode() == KeyEvent.VK_DOWN)
+          downKeyHeld = true;
+          
         if(displayMode == RECT_MODE)
         {
             switch(ke.getKeyCode())
@@ -492,6 +556,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
             if(atLoc.y % 2 == 1)
                 stepArr = HEX_ODD_ROW;
             
+            // numpad keys
             switch(ke.getKeyCode())
             {
                 case KeyEvent.VK_NUMPAD4 : atLoc.x += stepArr[W][0]; atLoc.y += stepArr[W][1]; break;
@@ -500,6 +565,41 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                 case KeyEvent.VK_NUMPAD9 : atLoc.x += stepArr[NE][0]; atLoc.y += stepArr[NE][1]; break;
                 case KeyEvent.VK_NUMPAD1 : atLoc.x += stepArr[SW][0]; atLoc.y += stepArr[SW][1]; break;
                 case KeyEvent.VK_NUMPAD3 : atLoc.x += stepArr[SE][0]; atLoc.y += stepArr[SE][1]; break;
+            }
+            
+            // diagonals in hex mode
+            if(upKeyHeld)
+            {
+               if(ke.getKeyCode() == KeyEvent.VK_LEFT)
+               {
+                  atLoc.x += stepArr[NW][0]; 
+                  atLoc.y += stepArr[NW][1];
+               }
+               else if(ke.getKeyCode() == KeyEvent.VK_RIGHT)
+               {
+                  atLoc.x += stepArr[NE][0]; 
+                  atLoc.y += stepArr[NE][1];
+               }
+            }
+            else if(downKeyHeld)
+            {
+               if(ke.getKeyCode() == KeyEvent.VK_LEFT)
+               {
+                  atLoc.x += stepArr[SW][0]; 
+                  atLoc.y += stepArr[SW][1];
+               }
+               else if(ke.getKeyCode() == KeyEvent.VK_RIGHT)
+               {
+                  atLoc.x += stepArr[SE][0]; 
+                  atLoc.y += stepArr[SE][1];
+               }
+            }
+            else
+            {
+               if(ke.getKeyCode() == KeyEvent.VK_RIGHT)
+                  atLoc.x += 1;
+               else if(ke.getKeyCode() == KeyEvent.VK_LEFT)
+                  atLoc.x -= 1;
             }
         }
         calcFoV();

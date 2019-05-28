@@ -12,8 +12,9 @@ s#i0
 s#k0
 s#j0
 s#l0
-!108;u
-a0	b68	c255	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0	iWidlerSuite.RoguePanelDemo!491;g
+!152;u
+a0	b68	c255	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.RoguePanelDemo	iWidlerSuite.RoguePanelDemo!29;a
+a%\011WidlerSuite_doc	b	c0	d0!491;g
 %\011Vect.java
 %\011FloodFill.java
 %\011UnboundString.java

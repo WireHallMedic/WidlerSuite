@@ -17,83 +17,83 @@ import java.util.Vector;
 
 public class Voronoi
 {
-	private static int[][] map;
-	private static int[][] distance;
+    private static int[][] map;
+    private static int[][] distance;
     public static boolean ANGBAND = false;
     public static boolean TRUE_DIST = true;    // this is the default
-	
+    
     // only public functions
-	public static int[][] generate(Vector<Coord> pointList, Coord size){return generate(pointList, size.x, size.y, TRUE_DIST);}
-	public static int[][] generate(Vector<Coord> pointList, int sizeX, int sizeY){return generate(pointList, sizeX, sizeY, TRUE_DIST);}
-	public static int[][] generate(Vector<Coord> pointList, Coord size, boolean distType){return generate(pointList, size.x, size.y, distType);}
-	public static int[][] generate(Vector<Coord> pointList, int sizeX, int sizeY, boolean distType)
-	{
-		initializeMap(sizeX, sizeY);
-		
+    public static int[][] generate(Vector<Coord> pointList, Coord size){return generate(pointList, size.x, size.y, TRUE_DIST);}
+    public static int[][] generate(Vector<Coord> pointList, int sizeX, int sizeY){return generate(pointList, sizeX, sizeY, TRUE_DIST);}
+    public static int[][] generate(Vector<Coord> pointList, Coord size, boolean distType){return generate(pointList, size.x, size.y, distType);}
+    public static int[][] generate(Vector<Coord> pointList, int sizeX, int sizeY, boolean distType)
+    {
+        initializeMap(sizeX, sizeY);
+        
         if(distType == ANGBAND)
         {
-        	for(int i = 0; i < pointList.size(); i++)
-        		angbandProcess(pointList.elementAt(i), i);
+            for(int i = 0; i < pointList.size(); i++)
+                angbandProcess(pointList.elementAt(i), i);
         }
         else // distType == TRUE_DIST
         {
-        	for(int i = 0; i < pointList.size(); i++)
-        		trueDistProcess(pointList.elementAt(i), i);
+            for(int i = 0; i < pointList.size(); i++)
+                trueDistProcess(pointList.elementAt(i), i);
         }
-		
-		return map;
-	}
-	
-	// initializes the internal maps
-	private static void initializeMap(int sizeX, int sizeY)
-	{
-		map = new int[sizeX][sizeY];
-		distance = new int[sizeX][sizeY];
-		int maxDist = (sizeX * sizeX) + (sizeY + sizeY) + 1;
-		
-		for(int x = 0; x < sizeX; x++)
-		for(int y = 0; y < sizeY; y++)
-		{
-			map[x][y] = -1;
-			distance[x][y] = maxDist;
-		}
-	}
-	
-	// checks the passed point to flag each cell that is closer to it than to its current target, using the Angband metric
-	private static void angbandProcess(Coord loc, int index)
-	{
-		int curDist;
-		
-		for(int x = 0; x < map.length; x++)
-		for(int y = 0; y < map[0].length; y++)
-		{
-			curDist = WSTools.getAngbandMetric(loc.x, loc.y, x, y);
-			
-			if(curDist < distance[x][y])
-			{
-				map[x][y] = index;
-				distance[x][y] = curDist;
-			}
-		}
-	}
-	
-	// checks the passed point to flag each cell that is closer to it than to its current target, using Pythagorean theorem
-	private static void trueDistProcess(Coord loc, int index)
-	{
-		int curDist;
-		
-		for(int x = 0; x < map.length; x++)
-		for(int y = 0; y < map[0].length; y++)
-		{
-			curDist = WSTools.getDistanceMetric(loc.x, loc.y, x, y);
-			
-			if(curDist < distance[x][y])
-			{
-				map[x][y] = index;
-				distance[x][y] = curDist;
-			}
-		}
-	}
-	
-	
+        
+        return map;
+    }
+    
+    // initializes the internal maps
+    private static void initializeMap(int sizeX, int sizeY)
+    {
+        map = new int[sizeX][sizeY];
+        distance = new int[sizeX][sizeY];
+        int maxDist = (sizeX * sizeX) + (sizeY + sizeY) + 1;
+        
+        for(int x = 0; x < sizeX; x++)
+        for(int y = 0; y < sizeY; y++)
+        {
+            map[x][y] = -1;
+            distance[x][y] = maxDist;
+        }
+    }
+    
+    // checks the passed point to flag each cell that is closer to it than to its current target, using the Angband metric
+    private static void angbandProcess(Coord loc, int index)
+    {
+        int curDist;
+        
+        for(int x = 0; x < map.length; x++)
+        for(int y = 0; y < map[0].length; y++)
+        {
+            curDist = WSTools.getAngbandMetric(loc.x, loc.y, x, y);
+            
+            if(curDist < distance[x][y])
+            {
+                map[x][y] = index;
+                distance[x][y] = curDist;
+            }
+        }
+    }
+    
+    // checks the passed point to flag each cell that is closer to it than to its current target, using Pythagorean theorem
+    private static void trueDistProcess(Coord loc, int index)
+    {
+        int curDist;
+        
+        for(int x = 0; x < map.length; x++)
+        for(int y = 0; y < map[0].length; y++)
+        {
+            curDist = WSTools.getDistanceMetric(loc.x, loc.y, x, y);
+            
+            if(curDist < distance[x][y])
+            {
+                map[x][y] = index;
+                distance[x][y] = curDist;
+            }
+        }
+    }
+    
+    
 }
