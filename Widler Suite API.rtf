@@ -1,0 +1,444 @@
+{\rtf1\ansi\deff0\adeflang1025
+{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\froman\fprq2\fcharset128 Times New Roman;}{\f4\fmodern\fprq1\fcharset0 Courier New;}{\f5\froman\fprq0\fcharset128 ;}{\f6\fnil\fprq2\fcharset0 Microsoft YaHei;}{\f7\fswiss\fprq0\fcharset128 Arial;}}
+{\colortbl;\red0\green0\blue0;\red0\green0\blue128;\red128\green128\blue128;}
+{\stylesheet{\s0\snext0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033 Default;}
+{\*\cs15\snext15\cf2\ul\ulc0\langfe255\lang255 Internet Link;}
+{\s16\sbasedon0\snext17{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb240\sa120\keepn\cf0\kerning0\hich\af6\langfe2052\dbch\af2\loch\f2\fs28\lang1033 Heading;}
+{\s17\sbasedon0\snext17{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning0\hich\af0\langfe2052\dbch\af0\loch\f0\fs24\lang1033 Text body;}
+{\s18\sbasedon17\snext18{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning0\hich\af0\langfe2052\dbch\af7\loch\f0\fs24\lang1033 List;}
+{\s19\sbasedon0\snext19{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb120\sa120\cf0\i\kerning0\hich\af0\langfe2052\dbch\af7\ai\loch\f0\fs24\lang1033 Caption;}
+{\s20\sbasedon0\snext20{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning0\hich\af0\langfe2052\dbch\af7\loch\f0\fs24\lang1033 Index;}
+{\s21\sbasedon16\snext21{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\li0\ri0\lin0\rin0\fi0\sb240\sa120\keepn\cf0\b\kerning0\hich\af6\langfe2052\dbch\af2\ab\loch\f2\fs32\lang1033 Contents Heading;}
+{\s22\sbasedon20\snext22\tldot\tqr\tx9972{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\li0\ri0\lin0\rin0\fi0\cf0\kerning0\hich\af0\langfe2052\dbch\af7\loch\f0\fs24\lang1033 Contents 1;}
+}{\info{\author Michael Widler}{\creatim\yr2019\mo5\dy28\hr13\min6}{\revtim\yr0\mo0\dy0\hr0\min0}{\printim\yr0\mo0\dy0\hr0\min0}{\comment OpenOffice}{\vern4130}}\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709
+
+{\*\pgdsctbl
+{\pgdsc0\pgdscuse195\pgwsxn12240\pghsxn15840\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\pgdscnxt0 Default;}}
+\formshade{\*\pgdscno0}\paperh15840\paperw12240\margl1134\margr1134\margt1134\margb1134\sectd\sbknone\sectunlocked1\pgndec\pgwsxn12240\pghsxn15840\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\ftnbj\ftnstart1\ftnrstcont\ftnnar\aenddoc\aftnrstcont\aftnstart1\aftnnrlc
+\pgndec\pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033\qc{\b\afs36\ab\rtlch \ltrch\loch\fs36
+Widler Suite API}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+The Widler Suite is a set of tools primarily intended for roguelike programmers using Java. This document serves as the primary reference for the API. Many functions are overloaded; these share a single description in most cases. }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+For a demonstration of many of the following classes and functions, please run WidlerSuiteDemo.jar.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+AStar (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Implements: WSConstants}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+AStar is an implementation of the A* algorithm for pathfinding. This implementation operates on a boolean map (true = passable, false = impassable). It is primarily intended to be called with path().}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Note: AStar uses AStarNode and AStarOpenList, which should not be directly called by the application programmer during normal use. As such, they are not documented here.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static int MAX_LOOPS}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Maximum loops the algorithm will take, to prevent wasting time if no path exists. Default value is 5000.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static double HEURISTIC_MULTIPLER}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Used to tune the algorithm. Default value is 11.0.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setMode(int m)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Sets the search mode (which cells are considered adjacent). Accepts WSTools. RECT_MODE or WSTools.HEX_MODE, and defaults to the former. Search mode is static; this function will affect all subsequent searches, and as such is not thread safe.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setSearchDiagonal(boolean sd)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Sets whether diagonally adjacent cells are considered adjecent when in rect mode.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+AStar()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Empty constructor.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> path(boolean[][] pm, Coord start, Coord end)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\cf1\hich\af4\dbch\af4\rtlch \ltrch\loch\loch\f3
+Vector<Coord> path(boolean[][] pm, int startX, int startY, int endX, int endY)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Primary function. Attempts to make a path between start and end. Returns an empty vector if no such path exists, or if max iterations are performed.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setMap(boolean[][] pm)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Makes a deep copy of a boolean map, and sets internal values accordingly.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> getPath(Coord origin, Coord terminus)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> getPath(int originX, int originY, int terminusX, int terminusY)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Determine a path and return it. Only works on an AStar instance that already has its map set.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+AnimationManager (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Implements ActionListener}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+This class does two things; it manages unbound strings for a RoguePanel, and has several static functions related to animation. Only the static functions are expected to be called, as each RoguePanel instantiates its own AnimationManager and interacts with it without user meddling. If being used as intended, there is no need for the application programmer to instantiate their own AnimationManager. For this reason, non-static public functions are not described here.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Note that AnimationManager receives actionPerformed calls from its parent RoguePanel; if you have non-timer ActionEvents being listened to by the RoguePanel, maybe you'll need to do something about that.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static void pause()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Pauses UmboundString processing, though not blinking nor pulsing.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static void unpause()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Unpauses UnboundString processing.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static boolean slowBlink()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 60 ticks.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static boolean mediumBlink()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 40 ticks.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static boolean fastBlink()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 20 ticks.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch{\*\bkmkstart __DdeLink__1_1280345440}
+static int slowPulse()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch{\*\bkmkend __DdeLink__1_1280345440}
+Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 1, at 1 step per tick.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static int mediumPulse()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 2, at 1 step per tick.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static int fastPulse()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 3, at 1 step per tick.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+BinarySpacePartitioning (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+This class is entirely static. Its intended purpose is to execute binary space partitioning on an area defined by partition(). It returns a list of all rooms, not just the final rooms, with the first being representing the total space and each subsequent pair representing sibilings. Which is to say, every pair of rooms n and n+1, with n being odd and greater than zero, are adjacent. See full algorithm at }{{\field{\*\fldinst HYPERLINK "http://roguebasin.roguelikedevelopment.org/index.php?title=Basic_BSP_Dungeon_generation" }{\fldrslt \cf2\ul\ulc0\langfe255\lang255\cf2\i\ul\ulc0\langfe255\ai\rtlch \ltrch\loch\lang255
+http://roguebasin.roguelikedevelopment.org/index.php?title=Basic_BSP_Dungeon_generation}{\rtlch \ltrch\loch
+}}. }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setPartitionChance(double pc)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+sets the chance that a room which is equal to or below maximum size will be further split, so long as the child rooms are still equal to or above minimum size.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static Vector<Room> partition(int x, int y, int minRoomDiameter, int maxRoomDiameter)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static Vector<Room> partition(Coord size, int minRoomDiameter, int maxRoomDiameter)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+The main function. x and y determine total size. maxRoomDiameter must be at least twice minRoomDiameter, or it will be raised to that value.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+Coord (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Coord is essentially a struct, with a bit more functionality. It is used to represent x-y pairs, such as Cartesian coordinates, height and width, etc. It has two public data members, x and y, and no other data. It is used fairly extensively throughout the Widler Suite.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+int x, int y}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+The two data members. Both are public.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Coord()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Empty constructor. Default values are -1, -1.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Coord(int newX, int newY)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Constructor using ints.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Coord(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Deep copy constructor.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Coord(int[] that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Int array constructor. Chokes unless that[] has at least two members, and ignores anything beyond the first two.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Coord(Vect that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Converts polar to rectangular coordinates. See the Vect class, below.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void copy(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Deep copies an existing Coord into this one.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Coord copy()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a deep copy of this object.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void add(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Sums that Coord into this one (that is unchanged).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void subtract(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Subtracts that Coord from this one (that is unchanged).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void set(Vect that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set this Coord by a Vect (converts mathematical vector to Cartesian coordinates).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+double distanceTo(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Return the distance between this Coord and another one.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean equals(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Checks if two Coords are structurally equal.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean equals(int w, int h)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Checks if this Coord has identical data to the passed data.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean isAdjacent(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Checks if this and that are adjacent (orthogonally or diagonally).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean isOrthogonallyAdjacent(Coord that)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Checks if this and that are orthogonally adjacent.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vect getAsVect()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns this Coord as a Vect (converts Cartesian coordinates to mathematical vector).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+double getMagnitude()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Converts the xy coordinates to a mathematical vector, and returns just the magnitude.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+double getAngle()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Converts the xy coordinates to a mathematical vector, and returns just the angle.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+String toString()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a string representing the Coord, formatted as \'93[x][y]\'94.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static void removeDuplicates(Vector<Coord> list)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Traverses a (java.util.Vector, not WidlerSuite.Vect) of Coords and removes duplicates. This function modifies the Vector passed as an argument.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+DijkstraMap (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Implements: WSConstants}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Creates an int Dijkstra map of a passed boolean area, using any number of goals; calculates the distance from nearest goal. The expected use is that the application programmer will call the constructor, set goals as necessary, call process() or partiallyProcess(), then use the generated data as needed.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+The default value of a cell is 1,000,000. As distances are kept in decisteps (10 decisteps = 1 actual step), if your mapping requires maps large enough that 100,000 steps is a valid data point, you're gonna get weirdness. And performance issues, most likely.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Having a large number of goals increases the execution time by n. Having a large area increases the execution time by n^2.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+An implementation of the idea found at: http:  }{{\field{\*\fldinst HYPERLINK "http://www.roguebasin.com/index.php?title=The_Incredible_Power_of_Dijkstra_Maps" }{\fldrslt \cf2\ul\ulc0\langfe255\lang255\cf2\i\ul\ulc0\langfe255\ai\rtlch \ltrch\loch\lang255
+www.roguebasin.com/index.php?title=The_Incredible_Power_of_Dijkstra_Maps}{\rtlch \ltrch\loch
+}} }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch
+ }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+DijkstraMap(boolean[][] pm)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+The constructor. Takes a pass map (false cells will be ignored during processing; that is, the algorithm goes around them).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void addGoal(Coord c)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void addGoal(int x, int y)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Add a goal to the list. Goals are the thing that the algorithm determines distance from.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean[][] getPassMap()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a reference to the passability map. This is not a copy.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+int[][] getMap()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the Dijkstra map. Cell values are decisteps from nearest goal.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> getGoalList()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a reference to the list of goals. This is not a copy.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setPassMap(boolean[][] p)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Sets the passability map. Doesn't error check, so if the new map's size is different than the last one, make a new instance of this class instead.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setGoalList(Vector<Coord> g)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Overwrites the goal list with the passed one.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setMode(int m)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Sets the diagonal mode (either WSConstants.RECT_MODE or WSConstants.HEX_MODE). Default behavior is rectangular grid.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setSearchDiagonal(boolean d)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Sets whether, when in rect mode, the algorithm can step diagonally. Default behavior is true.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void clearGoalList()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Clears the list of goals.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+int getValue(Coord c)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+int getValue(int x, int y)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the value of the passed cell of the output map. Returns the default cell value (1,000,000) for out-of-bounds cells.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+int getStepValue(Coord c)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+int getStepValue(int x, int y)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the value of the passed cell of the output map, converted to steps. Returns the default cell value (100,000 steps) for out-of-bounds cells.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> getLowestAdjacent(Coord c)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> getLowestAdjacent(int xLoc, int yLoc)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a list of all cells that share the lowest adjacent value.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> getHighestAdjacent(Coord c)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<Coord> getHighestAdjacent(int xLoc, int yLoc)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a list of all cells that share the highest adjacent value.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void resetMap()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Readies the output map for another search, without changing the passability map.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void process()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Processes the entire output map. Clears it first, so you don't need to call resetMap().}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void partiallyProcess(int startX, int startY, int endX, int endY)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void partiallyProcess(int startX, int startY, int endX, int endY, boolean mapIsSet)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Processes part of the map (which can be all of it). Only clears the output map (all of it) if mapIsSet == false. Passed locations are inclusive.}
+\par }

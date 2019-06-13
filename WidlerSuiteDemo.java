@@ -5,16 +5,16 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener, KeyListener, ComponentListener, WSConstants
+public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener, KeyListener, ComponentListener, WSConstants
 {
     private JTextArea testTextArea;
     private RoguePanel roguePanel;
     private JPanel controlPanel;
     private JPanel shakePanel;
     private JButton shakeButton;
-    private JTextField vertShakeField;
-    private JTextField horizShakeField;
-    private JTextField shakeDurField;
+    private JComboBox<String> vertShakeDD;
+    private JComboBox<String> horizShakeDD;
+    private JComboBox<String> shakeDurDD;
     private JCheckBox borderButton;
     private JCheckBox spiralSearchButton;
     private JComboBox<String> modeDD;
@@ -49,15 +49,19 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     private static final String BULLET_STR = "" + (char)8226;
     private boolean upKeyHeld = false;    // for movement on hex grid with arrow keys
     private boolean downKeyHeld = false;  // for movement on hex grid with arrow keys
+    private String[] shakeList = {"0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0"};
+    private String[] shakeDurList = {"3", "5", "8", "10", "15", "20", "25", "30"};
+    private Color[] gradient = WSTools.getGradient(Color.BLUE, Color.BLACK, 21);
     
     // test function
-    public RoguePanelDemo()
+    public WidlerSuiteDemo()
     {
         super();
         setSize(1400, 1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         addComponentListener(this); // for resizing
+        setTitle("Widler Suite Demo");
         
         strMap = new String[COLUMNS][ROWS];
         passMap = new boolean[COLUMNS][ROWS];
@@ -139,7 +143,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         
         loadTestMap();
         
-        javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, roguePanel);
+        javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, null);
+        timer.addActionListener(this);
+        timer.addActionListener(roguePanel);
         setVisible(true);
         timer.start();
     }
@@ -156,17 +162,23 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
       shakePanel.add(shakeButton);
       subpanel.setLayout(new GridLayout(1, 4));
       shakePanel.add(subpanel);
-      vertShakeField = new JTextField(".2");
-      horizShakeField = new JTextField(".2");
+      vertShakeDD = new JComboBox<String>(shakeList);
+      horizShakeDD = new JComboBox<String>(shakeList);
       subpanel.add(new JLabel("X Shake:"));
-      subpanel.add(horizShakeField);
+      subpanel.add(horizShakeDD);
       subpanel.add(new JLabel("Y Shake:"));
-      subpanel.add(vertShakeField);
+      subpanel.add(vertShakeDD);
       subpanel2.setLayout(new GridLayout(1, 2));
-      shakeDurField = new JTextField("10");
+      shakeDurDD = new JComboBox<String>(shakeDurList);
       subpanel2.add(new JLabel("Shake Duration:"));
-      subpanel2.add(shakeDurField);
+      subpanel2.add(shakeDurDD);
       shakePanel.add(subpanel2);
+      vertShakeDD.setFocusable(false);
+      horizShakeDD.setFocusable(false);
+      shakeDurDD.setFocusable(false);
+      vertShakeDD.setSelectedIndex(1);
+      horizShakeDD.setSelectedIndex(1);
+      shakeDurDD.setSelectedIndex(2);
       parent.add(shakePanel);
     }
     
@@ -314,15 +326,51 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         {
             try
             {
-               double xShake = Double.parseDouble(horizShakeField.getText());
-               double yShake = Double.parseDouble(vertShakeField.getText());
-               int shakeD = Integer.parseInt(shakeDurField.getText());
+               double xShake = Double.parseDouble((String)horizShakeDD.getSelectedItem());
+               double yShake = Double.parseDouble((String)vertShakeDD.getSelectedItem());
+               int shakeD = Integer.parseInt((String)shakeDurDD.getSelectedItem());
                roguePanel.setScreenShake(xShake, yShake, shakeD);
             }
             catch(Exception ex)
             {
                roguePanel.setScreenShake(0, 0);
             }
+        }
+        
+        // blinks and pulses
+        if(ae.getSource() instanceof javax.swing.Timer)
+        {
+            int row = ROWS - 1;
+            roguePanel.setString(0, row, "B");
+            roguePanel.setString(1, row, "l");
+            roguePanel.setString(2, row, "i");
+            roguePanel.setString(3, row, "n");
+            roguePanel.setString(4, row, "k");
+            roguePanel.setString(5, row, ":");
+            if(AnimationManager.slowBlink())
+                roguePanel.setBGColor(7, row, Color.BLACK);
+            else
+                roguePanel.setBGColor(7, row, Color.BLUE);
+                
+            if(AnimationManager.mediumBlink())
+                roguePanel.setBGColor(9, row, Color.BLACK);
+            else
+                roguePanel.setBGColor(9, row, Color.BLUE);
+                
+            if(AnimationManager.fastBlink())
+                roguePanel.setBGColor(11, row, Color.BLACK);
+            else
+                roguePanel.setBGColor(11, row, Color.BLUE);
+            
+            roguePanel.setString(13, row, "P");
+            roguePanel.setString(14, row, "u");
+            roguePanel.setString(15, row, "l");
+            roguePanel.setString(16, row, "s");
+            roguePanel.setString(17, row, "e");
+            roguePanel.setString(18, row, ":");
+            roguePanel.setBGColor(20, row, gradient[AnimationManager.slowPulse()]);
+            roguePanel.setBGColor(22, row, gradient[AnimationManager.mediumPulse()]);
+            roguePanel.setBGColor(24, row, gradient[AnimationManager.fastPulse()]);
         }
     }
     
@@ -406,7 +454,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         dijkstraMap.setSearchDiagonal(searchDiagonal);
         dijkstraMap.process();
         for(int x = 0; x < COLUMNS; x++)
-        for(int y = 0; y < ROWS; y++)
+        for(int y = 0; y < ROWS - 1; y++)
         {
             if(showFoV && displayMode == RECT_MODE)
             {
@@ -449,8 +497,9 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
                     for(int x = 0; x < room.size.x; x++)
                     for(int y = 0; y < room.size.y; y++)
                     {
-                        if(bgMap[x + room.origin.x][y + room.origin.y] == Color.BLACK)
-                            roguePanel.setBGColor(x + room.origin.x, y + room.origin.y, roomColorList.elementAt(i));
+                        if(y + room.origin.y < ROWS - 1)
+                           if(bgMap[x + room.origin.x][y + room.origin.y] == Color.BLACK)
+                               roguePanel.setBGColor(x + room.origin.x, y + room.origin.y, roomColorList.elementAt(i));
                     }
                 }
             }
@@ -460,7 +509,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
         {
             int[][] vMap = Voronoi.generate(voronoiPoints, COLUMNS, ROWS);
             for(int x = 0; x < COLUMNS; x++)
-            for(int y = 0; y < ROWS; y++)
+            for(int y = 0; y < ROWS - 1; y++)
             {
                 roguePanel.setBGColor(x, y, voronoiColors[vMap[x][y]]);
             }
@@ -643,7 +692,7 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     // test functions
     public static void main(String[] args)
     {
-        RoguePanelDemo demoFrame = new RoguePanelDemo();
+        WidlerSuiteDemo demoFrame = new WidlerSuiteDemo();
         demoFrame.roguePanel.addMouseListener(demoFrame);
         demoFrame.roguePanel.addMouseMotionListener(demoFrame);
         demoFrame.roguePanel.addKeyListener(demoFrame);
@@ -653,8 +702,17 @@ public class RoguePanelDemo extends JFrame implements MouseListener, MouseMotion
     
     public void testMode()
     {
+      /*
         atLoc = new Coord(9, 9);
         modeDD.setSelectedIndex(2);
-        areaDD.setSelectedIndex(1);
+        areaDD.setSelectedIndex(1);*/
+        
+            UnboundString str = new UnboundString("!", Color.WHITE, 10, 10);
+            str.setLifespan(30);
+            str.setSpeed(0.0, -.1);
+            str.setBackgroundBox(true);
+            str.setBackgroundBoxType(UnboundString.CIRCLE);
+            str.setBGColor(Color.BLUE);
+            roguePanel.add(str);
     }
 }

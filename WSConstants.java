@@ -33,7 +33,7 @@ public interface WSConstants
     
     // display settings. Intentionally not final.
     public static double GRAVITY = .04;           // tiles per tick
-    public static int FRAMES_PER_SECOND = 24;
+    public static int FRAMES_PER_SECOND = 30;
     
 	//	angles
 	public final static double FULL_CIRCLE = 2 * Math.PI;                // 360 degrees

@@ -232,4 +232,30 @@ public class WSTools implements WSConstants
 		}
 		return angle;
     }
+    
+    // returns a color gradient from start to end, in a set number of steps
+    public static Color[] getGradient(Color startColor, Color endColor, int steps)
+    {
+      int[] startComp = {startColor.getRed(), startColor.getGreen(), startColor.getBlue(), startColor.getAlpha()};
+      int[] endComp = {endColor.getRed(), endColor.getGreen(), endColor.getBlue(), endColor.getAlpha()};
+      double[] stepComp = new double[4];
+      for(int i = 0; i < 4; i++)
+      {
+          stepComp[i] = (double)(endComp[i] - startComp[i]) / (double)steps;
+      }
+      Color[] gradient = new Color[steps];
+      gradient[0] = startColor;
+      gradient[steps - 1] = endColor;
+      
+      for(int i = 1; i < steps - 1; i++)
+      {
+          int[] midColorArr = new int[4];
+          for(int j = 0; j < 4; j++)
+          {
+              midColorArr[j] = startComp[j] + WSTools.roundToInt(stepComp[j] * (double)i);
+          }
+          gradient[i] = new Color(midColorArr[0], midColorArr[1], midColorArr[2], midColorArr[3]);
+      }
+      return gradient;
+   }
 }

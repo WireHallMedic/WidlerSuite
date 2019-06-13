@@ -64,7 +64,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     private int arrayXInset = 0;
     private int arrayYInset = 0;
     private int oddRowInset = 0;
-    private UnboundStringManager unboundStringManager;
+    private AnimationManager animationManager;
     private int[] cornerCell = {0, 0};
     private Vector<MouseListener> mouseListenerList;
     private Vector<MouseMotionListener> mouseMotionListenerList;
@@ -104,7 +104,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     public RoguePanel()
     {
         super();
-        unboundStringManager = new UnboundStringManager(this);
+        animationManager = new AnimationManager(this);
         mouseListenerList = new Vector<MouseListener>();
         mouseMotionListenerList = new Vector<MouseMotionListener>();
         addMouseListener(this);
@@ -405,7 +405,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     }
     
     ///////////////////////////////////////////////////////////////////////
-    // UnboundStringManager stuff
+    // AnimationManager stuff
     
     // update unbound strings and repaint when kicked by timer
     public void actionPerformed(ActionEvent ae)
@@ -413,7 +413,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         if(this.isVisible())
         {
             // update unbound strings
-            unboundStringManager.actionPerformed(ae);
+            animationManager.actionPerformed(ae);
             
             // update screen shake
             if(isShaking())
@@ -430,26 +430,26 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
     // add a locking unbound string
     public void addLocking(UnboundString us)
     {
-        unboundStringManager.addLocking(us);
+        animationManager.addLocking(us);
     }
     
     // add a non-locking unbound string
     public void addNonlocking(UnboundString us){add(us);}
     public void add(UnboundString us)
     {
-        unboundStringManager.addNonlocking(us);
+        animationManager.addNonlocking(us);
     }
     
     // check if external processes should be delayed while waiting for animation to complete
     public boolean isAnimationLocked()
     {
-        return unboundStringManager.isLocked();
+        return animationManager.isLocked();
     }
     
     // clear all the unbound string lists
     public void clearUnboundStrings()
     {
-        unboundStringManager.clear();
+        animationManager.clear();
     }
     
     // set the corner cell, for properly displaying unbound strings
@@ -505,8 +505,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
         }
             
         // unbound strings
-        drawUnboundStrings(g2d, unboundStringManager.getLockList());
-        drawUnboundStrings(g2d, unboundStringManager.getNonlockList());
+        drawUnboundStrings(g2d, animationManager.getLockList());
+        drawUnboundStrings(g2d, animationManager.getNonlockList());
     }
     
     // draw unbound strings. These will be in front of the background and foreground.
@@ -539,9 +539,21 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
                 if(us.hasBackgroundBox())
                 {
                     g2d.setColor(us.getBGColor());
-                    g2d.fillRoundRect(xLoc - (colWidth / 4), yLoc - ((rowHeight * 3) / 4), 
-                                      fontMetrics.stringWidth(us.getString()) + (colWidth / 2), rowHeight,
-                                      round, round);
+                    int bgBoxX = xLoc - (colWidth / 4);
+                    int bgBoxY = yLoc - rowHeight;
+                    int bgBoxW = fontMetrics.stringWidth(us.getString()) + (colWidth / 2);
+                    int bgBoxH = (rowHeight * 5) / 4;
+                    int cir = Math.max(bgBoxW, bgBoxH);
+                    switch(us.getBackgroundBoxType())
+                    {
+                     case UnboundString.RECT    :  g2d.fillRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                   break;
+                     case UnboundString.OVAL    :  g2d.fillOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                   break;
+                     case UnboundString.CIRCLE  :  g2d.fillOval(bgBoxX, bgBoxY, cir, cir);
+                                                   break;
+                     default    :                  g2d.fillRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                    }
                 }
                 
                 // draw the string

@@ -52,6 +52,7 @@ public class UnboundString implements ActionListener, WSConstants
     private double xSpeed;      // in tiles
     private double ySpeed;      // in tiles
 	private boolean backgroundBox;
+   private int backgroundBoxType;
 	private int lifespan;
 	private int age;
     private boolean affectedByGravity;
@@ -59,6 +60,10 @@ public class UnboundString implements ActionListener, WSConstants
     private static int defaultLifespan = 15;
     public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 128);
     public static final boolean GRAVITY_DEFAULT = false;
+    public static final int ROUNDED_RECT = 0;
+    public static final int RECT = 1;
+    public static final int OVAL = 2;
+    public static final int CIRCLE = 3;
 
 
 	public Color getBGColor(){return bgColor;}
@@ -70,6 +75,7 @@ public class UnboundString implements ActionListener, WSConstants
 	public double getXOffset(){return xOffset;}
 	public double getYOffset(){return yOffset;}
 	public boolean hasBackgroundBox(){return backgroundBox;}
+   public int getBackgroundBoxType(){return backgroundBoxType;}
     public static int getDefaultLifespan(){return defaultLifespan;}
     public boolean isAffectedByGravity(){return affectedByGravity;}
 
@@ -84,6 +90,7 @@ public class UnboundString implements ActionListener, WSConstants
 	public void setXOffset(double x){xOffset = x;}
 	public void setYOffset(double y){yOffset = y;}
 	public void setBackgroundBox(boolean b){backgroundBox = b;}
+   public void setBackgroundBoxType(int bt){backgroundBoxType = bt;}
 	public void setLifespan(int l){lifespan = l;}
 	public void setAge(int a){age = a;}
     public void setDefaultLifespan(int dl){defaultLifespan = dl;}
@@ -108,9 +115,28 @@ public class UnboundString implements ActionListener, WSConstants
         lifespan = defaultLifespan;
         age = 0;
         backgroundBox = false;
+        backgroundBoxType = ROUNDED_RECT;
         xSpeed = 0.0;
         ySpeed = 0.0;
         affectedByGravity = GRAVITY_DEFAULT;
+    }
+    
+    // copy constructor
+    public UnboundString(UnboundString that)
+    {
+        this.string = that.string;
+        this.bgColor = that.bgColor;
+        this.fgColor = that.fgColor;
+        this.loc = new Coord(that.loc);
+        this.xOffset = that.xOffset;
+        this.yOffset = that.yOffset;
+        this.lifespan = that.lifespan;
+        this.age = that.age;
+        this.backgroundBox = that.backgroundBox;
+        this.backgroundBoxType = that.backgroundBoxType;
+        this.xSpeed = that.xSpeed;
+        this.ySpeed = that.ySpeed;
+        this.affectedByGravity = that.affectedByGravity;
     }
     
     // if an unbound string should be removed by the manager
