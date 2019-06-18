@@ -25,7 +25,7 @@ import java.util.*;
 
 public class BinarySpacePartitioning
 {
-   private static double partitionChance = .5;     // how likely a room is to split if it's below
+   protected static double partitionChance = .5;     // how likely a room is to split if it's below
                                                    // max size but could still split into legal rooms
     
    public static void setPartitionChance(double pc){partitionChance = pc;}
@@ -76,7 +76,7 @@ public class BinarySpacePartitioning
    }
    
    // the main work method. Splits a room and returns its children
-   private static Room[] divide(Room r, int minRoomDiameter)
+   protected static Room[] divide(Room r, int minRoomDiameter)
    {
       Room a = new Room();
       Room b = new Room();

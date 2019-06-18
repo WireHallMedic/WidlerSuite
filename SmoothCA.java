@@ -13,10 +13,10 @@ package WidlerSuite;
 
 public class SmoothCA implements WSConstants
 {
-   private boolean[][] boolMap;
-   private boolean[][] tempMap;
-   private int width;
-   private int height;
+   protected boolean[][] boolMap;
+   protected boolean[][] tempMap;
+   protected int width;
+   protected int height;
    
    public boolean[][] getMap(){return boolMap;}
    
@@ -46,7 +46,7 @@ public class SmoothCA implements WSConstants
       tempMap = new boolean[width][height];
    }
    
-   private int sumNeighbors(int xLoc, int yLoc)
+   protected int sumNeighbors(int xLoc, int yLoc)
    {
       int neighbors = 0;
       for(int x = xLoc - 1; x < xLoc + 2; x++)
@@ -58,7 +58,7 @@ public class SmoothCA implements WSConstants
       return neighbors;
    }
    
-   private boolean getCell(int x, int y)
+   protected boolean getCell(int x, int y)
    {
       if(x >= width || y >= height || x < 0 || y < 0)
          return false;
@@ -91,7 +91,7 @@ public class SmoothCA implements WSConstants
       printArr(ba);
    }
    
-   private static void printArr(boolean[][] ba)
+   protected static void printArr(boolean[][] ba)
    {
       for(int y = 0; y < ba[0].length; y++)
       {

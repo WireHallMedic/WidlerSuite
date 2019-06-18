@@ -64,5 +64,5 @@ a%\011WidlerSuite_doc	b	c0	d0!507;g
 %\011DijkstraMap.java
 %\011BinarySpacePartitioning.java
 %\011ShadowFoV.java
-!49;m
-RunSelect	APPLICATION:WidlerSuite.RoguePanelDemo
+!50;m
+RunSelect	APPLICATION:WidlerSuite.WidlerSuiteDemo

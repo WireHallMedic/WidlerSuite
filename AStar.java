@@ -32,14 +32,14 @@ import java.util.Vector;
 
 public class AStar implements WSConstants
 {
-   private boolean[][] passMap;
-   private int[][] closedMap;
-   private AStarOpenList openList;
-   private int iteration;
-   private int width;
-   private int height;
-   private int mode = RECT_MODE;
-   private boolean searchDiagonal = true;
+   protected boolean[][] passMap;
+   protected int[][] closedMap;
+   protected AStarOpenList openList;
+   protected int iteration;
+   protected int width;
+   protected int height;
+   protected int mode = RECT_MODE;
+   protected boolean searchDiagonal = true;
     
    public static int MAX_LOOPS = 5000;
    public static double HEURISTIC_MULTIPLER = 11.0;
@@ -85,7 +85,7 @@ public class AStar implements WSConstants
     
    // Returns the distance heuristic. This is the primary tuning point; path optimization is improved by decreasing the multiplier,
    // but this increases the number of cycles needed.
-   private static int getDistHeur(Coord origin, Coord terminus)
+   protected static int getDistHeur(Coord origin, Coord terminus)
    {
        int x = origin.x - terminus.x;
        int y = origin.y - terminus.y;
@@ -93,7 +93,7 @@ public class AStar implements WSConstants
    }
     
    // check to stay in bounds
-   private boolean isInBounds(Coord c)
+   protected boolean isInBounds(Coord c)
    {
        return c.x >= 0 && c.y >= 0 && c.x < width && c.y < height;
    }
@@ -126,7 +126,7 @@ public class AStar implements WSConstants
    }
     
    // main work loop. See description at beginning of document.
-   private void mainLoop(Coord origin, Coord terminus)
+   protected void mainLoop(Coord origin, Coord terminus)
    {
       openList = new AStarOpenList(origin, getDistHeur(origin, terminus));
       int loops = 0;

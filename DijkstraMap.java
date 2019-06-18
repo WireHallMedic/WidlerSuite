@@ -23,13 +23,13 @@ import java.util.*;
 
 public class DijkstraMap implements WSConstants
 {
-   private boolean[][] passMap;
-   private int[][] map;
-   private Vector<Coord> goalList;
-   private int mode;
-   private boolean searchDiagonal = false;
-   private static final int OUT_OF_BOUNDS = 1000000;
-   private static final int OUT_OF_BOUNDS_PLUS_ONE = OUT_OF_BOUNDS + 1;
+   protected boolean[][] passMap;
+   protected int[][] map;
+   protected Vector<Coord> goalList;
+   protected int mode;
+   protected boolean searchDiagonal = false;
+   protected static final int OUT_OF_BOUNDS = 1000000;
+   protected static final int OUT_OF_BOUNDS_PLUS_ONE = OUT_OF_BOUNDS + 1;
    
    public boolean[][] getPassMap(){return passMap;}
    public int[][] getMap(){return map;}
@@ -206,7 +206,7 @@ public class DijkstraMap implements WSConstants
    }
    
    // process each adjacent (defined by mode and processDiagonal) cell
-   private boolean processCell(int cellX, int cellY)
+   protected boolean processCell(int cellX, int cellY)
    {
       boolean changeWasMade = false;
       int[][] adjList = getAdjCells(cellX, cellY);
@@ -225,8 +225,8 @@ public class DijkstraMap implements WSConstants
    }
    
    // returns a list of cells adjacent to this one, based on mode and possibly processDiagonal
-   private int[][] getAdjCells(Coord c){return getAdjCells(c.x, c.y);}
-   private int[][] getAdjCells(int x, int y)
+   protected int[][] getAdjCells(Coord c){return getAdjCells(c.x, c.y);}
+   protected int[][] getAdjCells(int x, int y)
    {
       int[][] stepList = null;
       if(mode == HEX_MODE)
@@ -247,8 +247,8 @@ public class DijkstraMap implements WSConstants
    }
    
    // makes sure the passed index is within the boundaries
-   private boolean isInBounds(Coord c){return isInBounds(c.x, c.y);}
-   private boolean isInBounds(int x, int y)
+   protected boolean isInBounds(Coord c){return isInBounds(c.x, c.y);}
+   protected boolean isInBounds(int x, int y)
    {
       return x >= 0 && y >= 0 && x < passMap.length && y < passMap[0].length;
    }

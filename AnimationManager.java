@@ -16,35 +16,35 @@ import java.awt.event.*;
 
 public class AnimationManager implements ActionListener
 {
-   private Vector<UnboundString> lockList = new Vector<UnboundString>();
-   private Vector<UnboundString> nonlockList = new Vector<UnboundString>();
-   private RoguePanel parentPanel;
-   private static boolean unpaused = true;
+   protected Vector<UnboundString> lockList = new Vector<UnboundString>();
+   protected Vector<UnboundString> nonlockList = new Vector<UnboundString>();
+   protected RoguePanel parentPanel;
+   protected static boolean unpaused = true;
    
    // animation flags and indexes
-   private static boolean slowBlink = true;
-   private static boolean mediumBlink = true;
-   private static boolean fastBlink = true;
-   private static int slowPulseIndex = 0;
-   private static int mediumPulseIndex = 0;
-   private static int fastPulseIndex = 0;
-   private static int masterTickIndex = 0;
-   private static int tickThrottle = 1;
+   protected static boolean slowBlink = true;
+   protected static boolean mediumBlink = true;
+   protected static boolean fastBlink = true;
+   protected static int slowPulseIndex = 0;
+   protected static int mediumPulseIndex = 0;
+   protected static int fastPulseIndex = 0;
+   protected static int masterTickIndex = 0;
+   protected static int tickThrottle = 1;
    
    // speeds and related inner variables
-   private static int slowBlinkTicks = 30;      // ticks for slow blink to change
-   private static int mediumBlinkTicks = 20;    // ticks for medium blink to change
-   private static int fastBlinkTicks = 10;      // ticks for fast blink to change
-   private static int blinkTickIndex = 0;
-   private static int maxBlinkTickIndex = 6000;
+   protected static int slowBlinkTicks = 30;      // ticks for slow blink to change
+   protected static int mediumBlinkTicks = 20;    // ticks for medium blink to change
+   protected static int fastBlinkTicks = 10;      // ticks for fast blink to change
+   protected static int blinkTickIndex = 0;
+   protected static int maxBlinkTickIndex = 6000;
    
-   private static int pulseTicks = 3;           // ticks to update the pulses
-   private static int pulseTickIndex = 0;
-   private static int maxPulseIndex = 20;       // should be a multiple of 6 or might not hit highest index
-   private static int slowPulseStep = 1;
-   private static int mediumPulseStep = 2;
-   private static int fastPulseStep = 3;
-   private static int maxPulseTickIndex = 6;
+   protected static int pulseTicks = 3;           // ticks to update the pulses
+   protected static int pulseTickIndex = 0;
+   protected static int maxPulseIndex = 20;       // should be a multiple of 6 or might not hit highest index
+   protected static int slowPulseStep = 1;
+   protected static int mediumPulseStep = 2;
+   protected static int fastPulseStep = 3;
+   protected static int maxPulseTickIndex = 6;
    
    public static void pause(){unpaused = false;}
    public static void unpause(){unpaused = true;}
@@ -63,6 +63,7 @@ public class AnimationManager implements ActionListener
       setMaxTickIndex();
    }
    
+   // ticks and pulses only increment every n ticks, where n = tickThrottle
    public static void setThrottle(int t)
    {
       tickThrottle = t;
@@ -90,13 +91,13 @@ public class AnimationManager implements ActionListener
    }
    
    // set where the tick index resets
-   private static void setMaxTickIndex()
+   protected static void setMaxTickIndex()
    {
       maxBlinkTickIndex = slowBlinkTicks * mediumBlinkTicks * fastBlinkTicks;
    }
    
    // set where the tick index resets
-   private static void setMaxPulseTickIndex()
+   protected static void setMaxPulseTickIndex()
    {
       maxPulseTickIndex = slowPulseStep * mediumPulseStep * fastPulseStep;
    }
@@ -115,7 +116,7 @@ public class AnimationManager implements ActionListener
    }
    
    // update each unbound string in a list
-   private void processList(Vector<UnboundString> list, ActionEvent ae)
+   protected void processList(Vector<UnboundString> list, ActionEvent ae)
    {
       for(int i = 0; i < list.size(); i++)
       {
@@ -129,12 +130,12 @@ public class AnimationManager implements ActionListener
    }
    
    // update the pulses and blinks
-   private static void increment()
+   protected static void increment()
    {
       // early exit based on tickThrottle
       masterTickIndex++;
       if(masterTickIndex < tickThrottle)
-      return;
+         return;
       
       // blinks
       blinkTickIndex++;

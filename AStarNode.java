@@ -13,11 +13,11 @@ import java.util.*;
 
 public class AStarNode
 {
-   private int f;
-   private int g;
-   private int h;
-   private AStarNode parentNode;
-   private Coord loc;
+   protected int f;
+   protected int g;
+   protected int h;
+   protected AStarNode parentNode;
+   protected Coord loc;
    
    
    public int getF(){return f;}

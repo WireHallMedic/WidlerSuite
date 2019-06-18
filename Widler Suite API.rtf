@@ -1,6 +1,6 @@
 {\rtf1\ansi\deff0\adeflang1025
 {\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\froman\fprq2\fcharset128 Times New Roman;}{\f4\fmodern\fprq1\fcharset0 Courier New;}{\f5\froman\fprq0\fcharset128 ;}{\f6\fnil\fprq2\fcharset0 Microsoft YaHei;}{\f7\fswiss\fprq0\fcharset128 Arial;}}
-{\colortbl;\red0\green0\blue0;\red0\green0\blue128;\red128\green128\blue128;}
+{\colortbl;\red0\green0\blue0;\red0\green0\blue128;\red120\green120\blue120;\red250\green100\blue0;\red128\green128\blue128;}
 {\stylesheet{\s0\snext0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033 Default;}
 {\*\cs15\snext15\cf2\ul\ulc0\langfe255\lang255 Internet Link;}
 {\s16\sbasedon0\snext17{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb240\sa120\keepn\cf0\kerning0\hich\af6\langfe2052\dbch\af2\loch\f2\fs28\lang1033 Heading;}
@@ -96,10 +96,10 @@ Determine a path and return it. Only works on an AStar instance that already has
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
 AnimationManager (class)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
-Implements ActionListener}
+Implements: ActionListener}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 This class does two things; it manages unbound strings for a RoguePanel, and has several static functions related to animation. Only the static functions are expected to be called, as each RoguePanel instantiates its own AnimationManager and interacts with it without user meddling. If being used as intended, there is no need for the application programmer to instantiate their own AnimationManager. For this reason, non-static public functions are not described here.}
-\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Note that AnimationManager receives actionPerformed calls from its parent RoguePanel; if you have non-timer ActionEvents being listened to by the RoguePanel, maybe you'll need to do something about that.}
@@ -115,6 +115,12 @@ Pauses UmboundString processing, though not blinking nor pulsing.}
 static void unpause()}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Unpauses UnboundString processing.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static void setThrottle(int t)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+// ticks and pulses only increment every n ticks, where n = throttle}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
@@ -135,9 +141,9 @@ static boolean fastBlink()}
 Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 20 ticks.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
-\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch{\*\bkmkstart __DdeLink__1_1280345440}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{{\*\bkmkstart __DdeLink__1_1280345440}{\*\bkmkend __DdeLink__1_1280345440}\rtlch \ltrch\loch
 static int slowPulse()}
-\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch{\*\bkmkend __DdeLink__1_1280345440}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{{\*\bkmkstart __DdeLink__1_12803454401}{\*\bkmkend __DdeLink__1_12803454401}\i\ai\rtlch \ltrch\loch
 Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 1, at 1 step per tick.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
@@ -441,4 +447,68 @@ void partiallyProcess(int startX, int startY, int endX, int endY)}
 void partiallyProcess(int startX, int startY, int endX, int endY, boolean mapIsSet)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Processes part of the map (which can be all of it). Only clears the output map (all of it) if mapIsSet == false. Passed locations are inclusive.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+FloodFill (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Implements WSConstants}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+An of a flood fill algorithm, intended to be used statically. Accepts a boolean array and starting location; false is impassable, true is passable. Returns a boolean array of the same size, where true is filled and false is not. Not thread safe (will collide with self).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static boolean[][] fill(boolean area[][], int x, int y)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static boolean[][] fill(boolean area[][], Coord loc)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Primary method. Returns a boolean array where true is filled, and false is what was not.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static boolean isInBounds(int x, int y)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Checks if the passed tile location is in the display bounds.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static void invertMap(boolean[][] map)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Not necessary, but often useful.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+HexLine (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Extends: StraightLine}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Creates a straight line between two points on a hex grid. I'll be super honest here; this one's got a dirty workaround in it. The only good solution I came up with involves handling the coordinates in an entirely different manner, and then it clashes with the rest of the suite. So it works fine, but if anyone has a cleaner solution shoot me an email.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Can be called directly or throught StraightLine, when StraightLine is in Hex Mode. Static.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget, int arguments)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the line between two points, subject to arguments.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
+RectLine (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i0\ai0\rtlch \ltrch\loch
+Extends: StraightLine}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Creates a straight line between two points on a rectangular grid. This is an implementation of Bresenham's Line. Can be called directly or through StraightLine when StraightLine is in Rect Mode. Static.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static Vector<Coord> findLine(Coord origin, Coord target)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+static Vector<Coord> findLine(Coord origin, Coord target, int arguments)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the line between two points, subject to arguments.}
 \par }
