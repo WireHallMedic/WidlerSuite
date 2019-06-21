@@ -27,6 +27,7 @@ public class UnboundString implements ActionListener, WSConstants
    protected int lifespan;
    protected int age;
    protected boolean affectedByGravity;
+   protected boolean affectedByAge;
    
    protected static int defaultLifespan = 15;
    public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 128);
@@ -48,7 +49,9 @@ public class UnboundString implements ActionListener, WSConstants
    public boolean hasBackgroundBox(){return backgroundBox;}
    public int getBackgroundBoxType(){return backgroundBoxType;}
    public static int getDefaultLifespan(){return defaultLifespan;}
+   public static void setDefaultLifespan(int dl){defaultLifespan = dl;}
    public boolean isAffectedByGravity(){return affectedByGravity;}
+   public boolean isAffectedByAge(){return affectedByAge;}
    
    
    public void setBGColor(Color b){bgColor = b;}
@@ -64,8 +67,8 @@ public class UnboundString implements ActionListener, WSConstants
    public void setBackgroundBoxType(int bt){backgroundBoxType = bt;}
    public void setLifespan(int l){lifespan = l;}
    public void setAge(int a){age = a;}
-   public void setDefaultLifespan(int dl){defaultLifespan = dl;}
    public void setAffectedByGravity(boolean abg){affectedByGravity = abg;}
+   public void setAffectedByAge(boolean aba){affectedByAge = aba;}
    
    // minimal constructor
    public UnboundString(String s)
@@ -90,6 +93,7 @@ public class UnboundString implements ActionListener, WSConstants
       xSpeed = 0.0;
       ySpeed = 0.0;
       affectedByGravity = GRAVITY_DEFAULT;
+      affectedByAge = true;
    }
    
    // copy constructor
@@ -123,13 +127,20 @@ public class UnboundString implements ActionListener, WSConstants
       ySpeed = y;
    }
    
+   // manually expires the UnboundString
+   public void forceExpire()
+   {
+      age = lifespan;
+   }
+   
    // timer kick
    public void actionPerformed(ActionEvent ae)
    {
-      age++;
+      if(affectedByAge)
+         age++;
       if(affectedByGravity)
-      ySpeed += GRAVITY;
+         ySpeed += GRAVITY;
       xOffset += xSpeed;
       yOffset += ySpeed;
-      }
+   }
 }

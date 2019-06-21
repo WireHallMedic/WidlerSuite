@@ -31,7 +31,7 @@ public class WSTools implements WSConstants
       return (int)(rng.nextDouble() * n);
    }
    
-   // returns a random color, which skews towards being brighter
+   // returns a random color
    public static Color randomColor()
    {
       return new Color((float)random(), (float)random(), (float)random());
@@ -119,7 +119,7 @@ public class WSTools implements WSConstants
       
       return dist;
    } 
-   public double pathDistance(Coord origin, Vector<Coord> path){return pathDistance(origin, path, 1.41);}
+   public static double pathDistance(Coord origin, Vector<Coord> path){return pathDistance(origin, path, 1.41);}
    
    
    // returns a string representing a double as a (integer) percentage. Ex: .346 returns "34%"
@@ -212,6 +212,19 @@ public class WSTools implements WSConstants
       return hexX;
    }
    public static double getHexX(Coord c){return getHexX(c.x, c.y);}
+   
+   // returns the indices of the six hexes adjacent to the passed location
+   public static Coord[] getAdjacentHexes(int originX, int originY)
+   {
+      Coord[] cellArr = new Coord[6];
+      int[][] stepArr = WSConstants.HEX_EVEN_ROW;
+      if(originY % 2 == 1)
+         stepArr = WSConstants.HEX_ODD_ROW;
+      for(int i = 0; i < 6; i++)
+         cellArr[i] = new Coord(originX + stepArr[i][0], originY + stepArr[i][1]);
+      return cellArr;
+   }
+   public static Coord[] getAdjacentHexes(Coord origin){return getAdjacentHexes(origin.x, origin.y);}
    
    // returns the angle from 0, 0 to the passed point
    public static double getAngle(double x, double y)

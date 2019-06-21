@@ -11,6 +11,7 @@ package WidlerSuite;
 
 public interface WSConstants
 {
+   public static final String VERSION = "v1.0.0";
    // mode settings
    public static final int RECT_MODE = 0;
    public static final int HEX_MODE = 1;

@@ -71,6 +71,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // constructor
    public RoguePanel()
    {
+      this(15, 15);
+   }
+   
+   // size-based constructor
+   public RoguePanel(int w, int h)
+   {
       super();
       animationManager = new AnimationManager(this);
       mouseListenerList = new Vector<MouseListener>();
@@ -78,7 +84,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       addMouseListener(this);
       addMouseMotionListener(this);
       addComponentListener(this);
-      setColumnsAndRows(15, 15);
+      setColumnsAndRows(w, h);
       setFont();
       setBackground(Color.BLACK);
    }
@@ -117,7 +123,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // public setters
    
    // sets the number of columns and rows
-   public void setColumnsAndRows(Coord loc){setColumnsAndRows(loc.x, loc.y);}
+   public void setColumnsAndRows(Coord size){setColumnsAndRows(size.x, size.y);}
    public void setColumnsAndRows(int x, int y)
    {
       fgColor = new Color[x][y];
@@ -396,7 +402,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // font can only be set internally; externally, use setFontName(String)
    protected void setFont()
    {
-      int ptHeight = rowHeight * 5 / 4;
+      int ptHeight = (rowHeight * 6) / 5;
       font = new Font(fontName, Font.PLAIN, ptHeight);
       fontMetrics = this.getFontMetrics(font);    // can't just make a FontMetrics object because it's abstract
       for(int x = 0; x < columns(); x++)
@@ -411,7 +417,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    {
       // no error checking as this can only be called internally
       strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
-      strYInset[x][y] = (rowHeight * 9) / 10;    // because strings are drawn from the bottom
+      strYInset[x][y] = (rowHeight * 8) / 10;    // because strings are drawn from the bottom
    }
    
    // adjust display based on screen shake

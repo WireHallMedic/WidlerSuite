@@ -14,7 +14,7 @@ Shadows:
 A shadow is two angles; anything entirely occluded by shadows cannot be seen. Some tiles
 are occluded by multiple shadows (that is, no shadow covers all six points, but all
 six points are in shadow)
-As tiles are searched in an outward spiralling pattern, it is not necessary to note a
+As tiles are searched in an outward spiraling pattern, it is not necessary to note a
 shadow's starting point.
 
 Copyright 2019 Michael Widler

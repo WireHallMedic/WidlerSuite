@@ -39,6 +39,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private ShadowFoVHex hexFoV;
    private DijkstraMap dijkstraMap;
    private boolean[][] caMap;
+   private boolean[][] caHexMap;
    private Coord searchLoc;
    private Vector<Room> roomList;
    private Vector<Color> roomColorList;
@@ -63,7 +64,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setLayout(null);
       addComponentListener(this); // for resizing
-      setTitle("Widler Suite Demo");
+      setTitle("Widler Suite Demo " + WSConstants.VERSION);
       
       strMap = new String[COLUMNS][ROWS];
       passMap = new boolean[COLUMNS][ROWS];
@@ -477,10 +478,20 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          }
          else if(showCA)
          {
-            if(caMap[x][y])
-               roguePanel.setBGColor(x, y, Color.BLUE);
-            else
-               roguePanel.setBGColor(x, y, Color.ORANGE);
+            if(displayMode == RECT_MODE)
+            {
+               if(caMap[x][y])
+                  roguePanel.setBGColor(x, y, Color.BLUE);
+               else
+                  roguePanel.setBGColor(x, y, Color.ORANGE);
+            }
+            else // hex mode
+            {
+               if(caHexMap[x][y])
+                  roguePanel.setBGColor(x, y, Color.BLUE);
+               else
+                  roguePanel.setBGColor(x, y, Color.ORANGE);
+            }
          }
          else
          {
@@ -683,12 +694,16 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private void setCA()
    {
       caMap = new boolean[COLUMNS][ROWS - 1];
+      caHexMap = new boolean[COLUMNS][ROWS - 1];
+      
       for(int x = 0; x < COLUMNS; x++)
       for(int y = 0; y < ROWS - 1; y++)
       {
          caMap[x][y] = WSTools.random() < .55;
+         caHexMap[x][y] = WSTools.random() < .55;
       }
-      caMap = SmoothCA.smooth(caMap, 4);
+      caMap = SmoothCA.smooth(caMap, 5);
+      caHexMap = SmoothCA.smooth(caHexMap, 5, HEX_MODE);
    }
    
    private void calcFoV()

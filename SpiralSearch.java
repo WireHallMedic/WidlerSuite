@@ -2,16 +2,15 @@
 //
 //  After calling the constructor, each call to getNext() returns the next Coord in an
 //  increasing spiral. Part of calling the constructor is defining what tiles can be searched;
-//  these tiles also block the search (that is, this is a step-by-step flood fill).
+//  unsearchable tiles also block the search (that is, this is a step-by-step flood fill).
 //
 //  getNext() returns null if no tiles remain to be searched.
 //
 //  The intended use is to find something that may or may not exist, when a location isn't
 //  known, or when you want to find the closest instance of a particular thing.
 //
-//  If you search a stunningly huge area, you might eventually run out of heap memory. Maybe
-//  don't do that. However, as the algorithm only processes a couple tiles ahead of where
-//  getNext() is, an external loop counter or somesuch is trivial to implement.
+//  The algorithm only processes a couple tiles ahead of where getNext() is to maintain
+//  performance and limit unnecessary memory usage.
 //
 //  Copyright 2019 Michael Widler
 //  Free for private or public use. No warranty is implied or expressed.

@@ -37,13 +37,14 @@ public abstract class ShadowFoV implements WSConstants
    }
    
    // checks if a location is in the map bounds
+   public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
    public boolean isInBounds(int x, int y)
    {
       return x >= 0 && y >= 0 && x < width && y < height;
    }
-   public boolean isInBounds(Coord c){return isInBounds(c.x, c.y);}
    
    // checks if a square blocks LoS
+   public boolean blocksLoS(Coord loc){return blocksLoS(loc.x, loc.y);}
    public boolean blocksLoS(int x, int y)
    {
       if(isInBounds(x, y))
@@ -52,6 +53,7 @@ public abstract class ShadowFoV implements WSConstants
    }
    
    // checks if a square is visible
+   public boolean isVisible(Coord loc){return isVisible(loc.x, loc.y);}
    public boolean isVisible(int x, int y)
    {
       return isInBounds(x, y) && visibilityMap[x][y] == flag;
@@ -68,4 +70,7 @@ public abstract class ShadowFoV implements WSConstants
       }
       return visArr;
    }
+   
+   // main function in child classes
+   public abstract void calcFoV(int xLoc, int yLoc, int radius);
 }

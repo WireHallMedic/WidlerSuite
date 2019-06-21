@@ -13,7 +13,7 @@ Free for private or public use. No warranty is implied or expressed.
 package WidlerSuite;
 
 public class Room
-   {
+{
    public Coord origin;        // xy coordinate of the upper left corner of the room
    public Coord size;          // width (x) and height (y) of the room
    public int iteration;       // how many split iterations it took to create this room
