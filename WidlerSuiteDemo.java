@@ -27,12 +27,14 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean showBSP = false;
    private boolean showVoronoi = false;
    private boolean showCA = false;
+   private boolean showNoise = false;
    public static final int COLUMNS = 40;
    public static final int ROWS = 40;
    private String[][] strMap;
    private boolean[][] passMap;
    private Color[][] bgMap;
    private Color[][] fgMap;
+   private Color[][] noiseMap;
    private AStar aStar;
    private Coord atLoc;
    private ShadowFoVRect rectFoV;
@@ -46,7 +48,9 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean traceType = true;   // true is A*, false is StraightLine
    private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode"};
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
-   private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", "Show Binary Serch Partitioning", "Show Voronoi Map", "Show CA Map"};
+   private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
+                                             "Show Binary Serch Partitioning", "Show Voronoi Map", "Show CA Map", 
+                                             "Show Noise"};
    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
    private static final Color[] voronoiColors = getVoronoiColors();
    private static final String BULLET_STR = "" + (char)8226;
@@ -76,6 +80,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       
       setTestMap();
       setCA();
+      setNoiseMap();
       
       // roguePanel
       roguePanel = new RoguePanel();
@@ -301,6 +306,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          showBSP = false;
          showVoronoi = false;
          showCA = false;
+         showNoise = false;
          switch(areaDD.getSelectedIndex())
          {
             case 1 :    showFoV = true;
@@ -313,6 +319,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
             case 4 :    showVoronoi = true;
                         break;
             case 5 :    showCA = true;
+                        break;
+            case 6 :    showNoise = true;
                         break;
             default :   break;
          }
@@ -344,7 +352,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          }
       }
       
-      // blinks and pulses
+      // blinks, pulses, etc
       if(ae.getSource() instanceof javax.swing.Timer)
       {
          int row = ROWS - 1;
@@ -543,6 +551,32 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
             roguePanel.setFGColor(searchLoc.x, searchLoc.y, fg);
          }
       }
+      
+      // noise
+      if(showNoise)
+      {
+         for(int x = 0; x < COLUMNS; x++)
+         for(int y = 0; y < ROWS - 1; y++)
+         {
+            roguePanel.setBGColor(x, y, noiseMap[x][y]);
+         }
+      }
+   }
+   
+   private void setNoiseMap()
+   {
+      noiseMap = new Color[COLUMNS][ROWS];
+      NoiseChoir noise = new NoiseChoir();
+      for(int x = 0; x < COLUMNS; x++)
+      for(int y = 0; y < ROWS - 1; y++)
+      {
+         double subX = .1 * (double)x;
+         double subY = .1 * (double)y;
+         int intensity = (int)(noise.getValue(subX, subY) * 256);
+         noiseMap[x][y] = new Color(intensity, intensity, intensity);
+      }
+      for(int x = 0; x < COLUMNS; x++)
+         noiseMap[x][ROWS - 1] = Color.BLACK;
    }
    
    private void drawPath()

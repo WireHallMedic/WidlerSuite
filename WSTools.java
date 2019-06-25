@@ -161,7 +161,7 @@ public class WSTools implements WSConstants
    
    // returns the value of a point between two values.  For example, if the passed values are 2 and 4, and the xOffset
    // is .5 (halfway between the two), this will return 3.
-   public static double interpolateLinear(float p1, float p2, float xOff)
+   public static double interpolateLinear(double p1, double p2, double xOff)
    {
       return (double)(p1 + ((p2 - p1) * xOff));
    }
@@ -169,7 +169,7 @@ public class WSTools implements WSConstants
    
    // returns a value similar to interpolateLinear(), but on an s-curve so that results are more heavily weighted towards
    // the closer of the two points.
-   public static double interpolateCosine(float p1, float p2, float xOff)
+   public static double interpolateCosine(double p1, double p2, double xOff)
    {
       xOff = ((-1.0f * (float)Math.cos(Math.PI * xOff)) *.5f) + .5f;
       return interpolateLinear(p1, p2, xOff);
