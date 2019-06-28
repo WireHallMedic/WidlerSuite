@@ -462,6 +462,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       for(int x = 0; x < COLUMNS; x++)
       for(int y = 0; y < ROWS - 1; y++)
       {
+            roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
          if(showFoV && displayMode == RECT_MODE)
          {
             if(rectFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
@@ -500,10 +501,6 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
                else
                   roguePanel.setBGColor(x, y, Color.ORANGE);
             }
-         }
-         else
-         {
-            roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
          }
       }
       roguePanel.setString(atLoc.x, atLoc.y, "@");

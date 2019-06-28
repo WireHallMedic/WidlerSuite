@@ -48,6 +48,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected int screenShakeDuration = 0;     // in ticks
    protected int screenShakeOffsetX = 0;      // in pixels
    protected int screenShakeOffsetY = 0;      // in pixels
+   protected boolean clearShake = false;      // clean up after done shaking
    
    public Font getFont(){return font;}
    public String getFontName(){return fontName;}
@@ -428,6 +429,14 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       int screenShakePixelsY = (int)(sizeMultiplier * screenShakeTilesY);
       screenShakeOffsetX = WSTools.random(screenShakePixelsX + screenShakePixelsX + 1) - screenShakePixelsX;
       screenShakeOffsetY = WSTools.random(screenShakePixelsY + screenShakePixelsY + 1) - screenShakePixelsY;
+      clearShake = true;
+   }
+   
+   protected void clearShakeVariables()
+   {
+      screenShakeOffsetX = 0;
+      screenShakeOffsetY = 0;
+      clearShake = false;
    }
    
    ///////////////////////////////////////////////////////////////////////
@@ -509,6 +518,10 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          {
             shake();
             screenShakeDuration--;
+         }
+         else if(clearShake)
+         {
+            clearShakeVariables();
          }
          
          // repaint screen
