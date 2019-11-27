@@ -18,7 +18,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 
-public class RoguePanel extends JPanel implements ComponentListener, ActionListener, MouseListener, MouseMotionListener, WSConstants
+public class RoguePanel extends JPanel implements ComponentListener, ActionListener, MouseListener, 
+                                                  MouseMotionListener, WSConstants
 {
    protected Color[][] fgColor = new Color[1][1];
    protected Color[][] bgColor = new Color[1][1];
@@ -53,6 +54,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected boolean clearShake = false;      // clean up after done shaking
    protected double xScroll = 0.0;
    protected double yScroll = 0.0;
+   protected boolean tightFontBorders = false;
    
    public Font getFont(){return font;}
    public String getFontName(){return fontName;}
@@ -62,6 +64,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public String getOOBString(){return oobString;}
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
+   public boolean hasTightFontBorders(){return tightFontBorders;}
    
    public int columns(){return str.length;}
    public int rows(){return str[0].length;}
@@ -75,6 +78,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void setOOBFGColor(Color c){oobFGColor = c;}
    public void setOOBString(String s){oobString = s;}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
+   public void setTightFontBorders(boolean tfb){tightFontBorders = tfb;}
    
    // constructor
    public RoguePanel()
@@ -409,13 +413,19 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // font can only be set internally; externally, use setFontName(String)
    protected void setFont()
    {
-   /*   int newPointSize = 1;
-      while(FontLoader.getCharHeight(fontName, newPointSize) < colWidth &&
-            FontLoader.getCharWidth(fontName, newPointSize) < rowHeight)
-         newPointSize++;
-      font = new Font(fontName, Font.PLAIN, newPointSize);*/
-      font = new Font(fontName, Font.PLAIN, (int)(rowHeight * textProportion));
-      fontMetrics = this.getFontMetrics(font);    // can't just make a FontMetrics object because it's abstract
+      if(tightFontBorders)
+      {
+         int newPointSize = 1;
+         while(FontLoader.getCharHeight(fontName, newPointSize) < colWidth &&
+               FontLoader.getCharWidth(fontName, newPointSize) < rowHeight)
+            newPointSize++;
+         font = new Font(fontName, Font.PLAIN, newPointSize);
+      }
+      else
+      {
+         font = new Font(fontName, Font.PLAIN, (int)(rowHeight * textProportion));
+         fontMetrics = this.getFontMetrics(font);    // can't just make a FontMetrics object because it's abstract
+      }
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
       {

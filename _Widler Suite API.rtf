@@ -888,7 +888,7 @@ Internally, RoguePanel keeps three two-dimensional arrays; one for background co
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
-RoguePanel is not designed to be a map structure, which is to say that it does not hold data it does not intend to display (with a few exceptions). So it does not scroll through a large area, only displaying part of it; if that's how your map operates, the map only passes down the part that is being used.}
+RoguePanel is not designed to be a map structure, which is to say that it does not hold data it does not intend to display (with a few exceptions). So it does not scroll through a large area, only displaying part of it; if that's how your map operates, the map should only pass down the part that is being used.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
@@ -920,19 +920,37 @@ Returns the border color of each tile when showBorder is set to true.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 Color getOOBBGColor()}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
-Sets the color for the out-of-bounds tile background.}
+Gets the color for the out-of-bounds tile background.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 Color getOOBFGColor()}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
-Sets the color for the out-of-bounds tile foreground.}
+Gets the color for the out-of-bounds tile foreground.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
-String getOOBString()}
+String getOOBBGString()}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
-Sets the string for the out-of-bounds tile foreground.}
+Gets the string for the out-of-bounds tile.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+double getXScroll()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the current horizontal display displacement in tiles.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+double getYScroll()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the current vertical display displacement in tiles.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean hasTightFontBorders()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns whether the tile sizing is optimized for monosized fonts.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
@@ -993,6 +1011,18 @@ Set the out-of-bounds tile's foreground color.}
 void setOOBString(String s)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Set the out-of-bounds tile's foreground string.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setScroll(double x, double y)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set display displacement (ignoring screen shake, padding, etc) in tiles.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setTightFontBorders(boolean tfb)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Sets if tile size is optimized for monosized (note: not just monospaced, but monosized) fonts.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
