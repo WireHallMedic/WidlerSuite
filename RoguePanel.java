@@ -575,7 +575,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    }
    
    // add an movement script
-   public void addScript(MovementScript scr)
+   public void add(MovementScript scr)
    {
       animationManager.addScript(scr);
    }

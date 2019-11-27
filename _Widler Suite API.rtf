@@ -541,6 +541,134 @@ static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget, int arguments)
 Returns the line between two points, subject to arguments.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i0\ul\ulc0\b\afs28\ai0\ab\rtlch \ltrch\loch\fs28
+MovementScript (class)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Implements: ActionListener}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Contains a list of steps (changes in position) and impulses (changes in speed) to be applied to an UnboundString target (or child class). Passed to a RoguePanel with RoguePanel.add(), which then passes it off to the appropriate manager. Steps are executed once per tick.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Instances of MovementScript are kicked before their targets are, and do not kick their targets; targets should still be on either the locking or nonlocking list.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+MovementScript(UnboundString us)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Constructor. Takes the target UnboundString as an argument.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+UnboundString getTarget()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the target UnboundString.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Vector<MovementScriptStep> getStepList()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns a list of the MovementScriptSteps to be executed (full list, regardless of where it is in that execution).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean loops()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns whether this script loops upon completion.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean expiresTargetOnEnd()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns whether or not this script manually expires its target upon completion.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+int length()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns the number of steps/ticks in the script.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setTarget(UnboundString t)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set the target.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setStepList(Vector<MovementScriptStep> s)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set the steps.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setLoops(boolean l)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set whether or not the script loops.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setExpiresTargetOnEnd(boolean e)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set whether or not the script manually expires its target.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setExpired(boolean e)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Manually sets whether this script is expired.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean isExpired()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Checks if the script is expired.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setLength(int newLength)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set the length of the script, in ticks.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch{\*\bkmkstart __DdeLink__9_1044958560}
+void setImpulse(int tickIndex, double newXImpulse, double newYImpulse)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch{\*\bkmkend __DdeLink__9_1044958560}
+Set the impulse at a particular time. Will extend the script if passed tick does not exist.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setOffset(int tickIndex, double newXOffsetAdj, double newYOffsetAdj)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set the impulse at a particular time. Will extend the script if passed tick does not exist.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setStep(int tickIndex, double newXImpulse, double newYImpulse, double newXOffsetAdj, double newYOffsetAdj)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set both the impulse and step at a particular time. Will extend the script if passed tick does not exist.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setStep(int tickIndex, MovementScriptStep newStep)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Copy a step into the script.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void clearStep(int tickIndex)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Clear a particular step.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void actionPerformed(ActionEvent ae)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Interface for ActionEvents. You shouldn't need to mess with this one.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\ul\ulc0\b\afs28\ab\rtlch \ltrch\loch\fs28
 NoiseChoir (class)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch

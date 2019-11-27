@@ -14,7 +14,7 @@ s#j0
 s#l0
 !158;u
 a0	b68	c255	f%\011WidlerSuiteDemo.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo	iWidlerSuite.WidlerSuiteDemo!29;a
-a%\011WidlerSuite_doc	b	c0	d0!619;g
+a%\011WidlerSuite_doc	b	c0	d0!660;g
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -39,12 +39,14 @@ a%\011WidlerSuite_doc	b	c0	d0!619;g
 %\011SmoothCA.java
 %\011RoguePanel.java
 %\011Room.java
+%\011CP437.java
 %\011AStarNode.java
 %\011StraightLine.java
 %\011AStarOpenList.java
 %\011WSConstants.java
+%\011MovementScript.java
 %\011ShadowFoV.java
-!619;f
+!660;f
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -69,10 +71,12 @@ a%\011WidlerSuite_doc	b	c0	d0!619;g
 %\011SmoothCA.java
 %\011RoguePanel.java
 %\011Room.java
+%\011CP437.java
 %\011AStarNode.java
 %\011StraightLine.java
 %\011AStarOpenList.java
 %\011WSConstants.java
+%\011MovementScript.java
 %\011ShadowFoV.java
 !50;m
 RunSelect	APPLICATION:WidlerSuite.WidlerSuiteDemo
