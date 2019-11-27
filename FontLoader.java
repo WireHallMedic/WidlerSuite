@@ -16,22 +16,35 @@ import java.awt.font.LineMetrics;
 
 public class FontLoader
 {  
-   // Loads the named font file, which must be a truetype font, and returns the system name, or
-   // null if unsuccessful
+   // Loads the named font file, which must be a truetype font, and returns whether or not 
+   // the attempt was successful.
    public static String load(String fontFileName)
    {
       String fontName = null;
+      InputStream inStream;
+      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+      // Try and load from file location
       try
       {
-         InputStream inStream = new BufferedInputStream(new FileInputStream(fontFileName + ".ttf"));
+         inStream = new BufferedInputStream(new FileInputStream(fontFileName + ".ttf"));
          Font font = Font.createFont(Font.TRUETYPE_FONT, inStream);
-         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
          ge.registerFont(font);
          fontName = font.getName();
       }
-      catch(Exception ex)
+      catch(Exception ex){}
+      
+      // try and load from .jar
+      if(fontName == null)
       {
-         System.out.println("Could not load " + fontFileName + ". " + ex.toString()); 
+         try
+         {
+            Class cls = Class.forName("RoguePanel");
+            inStream = cls.getResourceAsStream("/" + fontFileName + ".ttf");
+            Font font = Font.createFont(Font.TRUETYPE_FONT, inStream);
+            ge.registerFont(font);
+            fontName = font.getName();
+         }
+         catch(Exception ex){}
       }
       return fontName;
    }

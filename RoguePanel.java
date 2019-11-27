@@ -437,7 +437,10 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected void setStrInset(int x, int y)
    {
       // no error checking as this can only be called internally
-      strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
+      if(tightFontBorders)
+         strXInset[x][y] = 0;
+      else
+         strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
    }
    
    // set the vertical inset for tile strings

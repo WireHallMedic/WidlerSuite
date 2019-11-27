@@ -201,10 +201,15 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       loadTestMap();
       
       String fontName = FontLoader.load("WidlerSuite/Px437 Wyse700b");
+      if(fontName == null)
+         fontName = FontLoader.load("Px437 Wyse700b");
       if(fontName != null)
+      {
          roguePanel.setFontName(fontName);
-      //roguePanel.setFontName("Lucinda Console");
-    //  roguePanel.setFontName("Sans Serif");
+         roguePanel.setTightFontBorders(true);
+      }
+      
+   //   roguePanel.setFontName("Sans Serif");
       javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, null);
       timer.addActionListener(this);
       timer.addActionListener(roguePanel);
