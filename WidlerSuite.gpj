@@ -14,7 +14,7 @@ s#j0
 s#l0
 !158;u
 a0	b68	c255	f%\011WidlerSuiteDemo.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo	iWidlerSuite.WidlerSuiteDemo!29;a
-a%\011WidlerSuite_doc	b	c0	d0!547;g
+a%\011WidlerSuite_doc	b	c0	d0!619;g
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -23,14 +23,17 @@ a%\011WidlerSuite_doc	b	c0	d0!547;g
 %\011HexLine.java
 %\011WSTools.java
 %\011AnimationManager.java
+%\011UnboundTile.java
 %\011Voronoi.java
 %\011RectLine.java
+%\011MovementScriptStep.java
 %\011ShadowFoVHex.java
 %\011DijkstraMap.java
 %\011BinarySpacePartitioning.java
 %\011Vect.java
 %\011FloodFill.java
 %\011NoiseChoir.java
+%\011FontLoader.java
 %\011NoiseObj.java
 %\011ShadowFoVRect.java
 %\011SmoothCA.java
@@ -41,7 +44,7 @@ a%\011WidlerSuite_doc	b	c0	d0!547;g
 %\011AStarOpenList.java
 %\011WSConstants.java
 %\011ShadowFoV.java
-!547;f
+!619;f
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -50,14 +53,17 @@ a%\011WidlerSuite_doc	b	c0	d0!547;g
 %\011HexLine.java
 %\011WSTools.java
 %\011AnimationManager.java
+%\011UnboundTile.java
 %\011Voronoi.java
 %\011RectLine.java
+%\011MovementScriptStep.java
 %\011ShadowFoVHex.java
 %\011DijkstraMap.java
 %\011BinarySpacePartitioning.java
 %\011Vect.java
 %\011FloodFill.java
 %\011NoiseChoir.java
+%\011FontLoader.java
 %\011NoiseObj.java
 %\011ShadowFoVRect.java
 %\011SmoothCA.java

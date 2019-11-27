@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 
 public class RoguePanel extends JPanel implements ComponentListener, ActionListener, MouseListener, MouseMotionListener, WSConstants
 {
@@ -23,10 +24,11 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected Color[][] bgColor = new Color[1][1];
    protected String[][] str = new String[1][1];
    protected int[][] strXInset = new int[1][1];
-   protected int[][] strYInset = new int[1][1];
+   protected int strYInset = 0;
    protected Font font = null;
    protected FontMetrics fontMetrics = null;
    protected String fontName = "Monospaced";
+   protected double textProportion = .9;  // how much of a tile strings fill
    protected int colWidth = 0;       // in pixels
    protected int rowHeight = 0;      // in pixels
    protected int arrayXInset = 0;
@@ -49,6 +51,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected int screenShakeOffsetX = 0;      // in pixels
    protected int screenShakeOffsetY = 0;      // in pixels
    protected boolean clearShake = false;      // clean up after done shaking
+   protected double xScroll = 0.0;
+   protected double yScroll = 0.0;
    
    public Font getFont(){return font;}
    public String getFontName(){return fontName;}
@@ -56,6 +60,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public Color getOOBBGColor(){return oobBGColor;}
    public Color getOOBFGColor(){return oobFGColor;}
    public String getOOBString(){return oobString;}
+   public double getXScroll(){return xScroll;}
+   public double getYScroll(){return yScroll;}
    
    public int columns(){return str.length;}
    public int rows(){return str[0].length;}
@@ -68,6 +74,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void setOOBBGColor(Color c){oobBGColor = c;}
    public void setOOBFGColor(Color c){oobFGColor = c;}
    public void setOOBString(String s){oobString = s;}
+   public void setScroll(double x, double y){xScroll = x; yScroll = y;}
    
    // constructor
    public RoguePanel()
@@ -131,7 +138,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       bgColor = new Color[x][y];
       str = new String[x][y];
       strXInset = new int[x][y];
-      strYInset = new int[x][y];
       
       setSizes();
       
@@ -373,7 +379,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    //////////////////////////////////////////////////////////
    
    // determines if a row should be indented while in hex mode
-   protected boolean isOddRow(int rowIndex)
+   protected boolean isInsetRow(int rowIndex)
    {
       return displayMode == HEX_MODE && (rowIndex + cornerCell[1]) % 2 == 1;
    }
@@ -403,8 +409,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // font can only be set internally; externally, use setFontName(String)
    protected void setFont()
    {
-      int ptHeight = (rowHeight * 6) / 5;
-      font = new Font(fontName, Font.PLAIN, ptHeight);
+   /*   int newPointSize = 1;
+      while(FontLoader.getCharHeight(fontName, newPointSize) < colWidth &&
+            FontLoader.getCharWidth(fontName, newPointSize) < rowHeight)
+         newPointSize++;
+      font = new Font(fontName, Font.PLAIN, newPointSize);*/
+      font = new Font(fontName, Font.PLAIN, (int)(rowHeight * textProportion));
       fontMetrics = this.getFontMetrics(font);    // can't just make a FontMetrics object because it's abstract
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
@@ -413,12 +423,20 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       }
    }
    
-   // set the insets (in pixels) of a specific string
+   // set the inset (in pixels) of a specific string
    protected void setStrInset(int x, int y)
    {
       // no error checking as this can only be called internally
       strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
-      strYInset[x][y] = (rowHeight * 8) / 10;    // because strings are drawn from the bottom
+   }
+   
+   // set the vertical inset for tile strings
+   protected void setStrYInset(Graphics2D g)
+   {
+     // int stringHeight = WSTools.roundToInt(fontMetrics.getAscent());
+     // strYInset = ((rowHeight - stringHeight) / 2) + stringHeight;
+      int stringHeight = WSTools.roundToInt(fontMetrics.getAscent() + fontMetrics.getDescent());
+      strYInset = rowHeight - stringHeight;
    }
    
    // adjust display based on screen shake
@@ -432,6 +450,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       clearShake = true;
    }
    
+   // clears all the shaking variables
    protected void clearShakeVariables()
    {
       screenShakeOffsetX = 0;
@@ -471,12 +490,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          mouseLoc[1] = -1;
       }
       
-      int xLoc = me.getX() - arrayXInset;
-      int yLoc = me.getY() - arrayYInset;
+      // ignore screen shake, but account for scrolling
+      int xLoc = me.getX() - arrayXInset - (int)(colWidth * xScroll);
+      int yLoc = me.getY() - arrayYInset - (int)(rowHeight * yScroll);
       boolean oob = false;
       
       // adjust odd rows if in hex mode
-      if(isOddRow(yLoc / rowHeight))
+      if(isInsetRow(yLoc / rowHeight))
       {
          xLoc -= colWidth / 2;
       }
@@ -542,6 +562,24 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       animationManager.addNonlocking(us);
    }
    
+   // remove an unbound string
+   public void remove(UnboundString us)
+   {
+      animationManager.remove(us);
+   }
+   
+   // remove a movement script
+   public void remove(MovementScript ms)
+   {
+      animationManager.remove(ms);
+   }
+   
+   // add an movement script
+   public void addScript(MovementScript scr)
+   {
+      animationManager.addScript(scr);
+   }
+   
    // check if external processes should be delayed while waiting for animation to complete
    public boolean isAnimationLocked()
    {
@@ -581,14 +619,18 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       g2d.setFont(font);
       int xLoc;
       int yLoc;
+      int baseXInset = screenShakeOffsetX + (int)(xScroll * colWidth);
+      int baseYInset = screenShakeOffsetY + (int)(yScroll * rowHeight);
+      
+      setStrYInset(g2d);
       
       // draw each tile
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
       {
-         xLoc = arrayXInset + (x * colWidth) + screenShakeOffsetX;
-         yLoc = arrayYInset + (y * rowHeight) + screenShakeOffsetY;
-         if(isOddRow(y))
+         xLoc = arrayXInset + (x * colWidth) + baseXInset;
+         yLoc = arrayYInset + (y * rowHeight) + baseYInset;
+         if(isInsetRow(y))
             xLoc += oddRowInset;
          // background
          g2d.setColor(bgColor[x][y]);
@@ -596,7 +638,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          
          // foreground
          g2d.setColor(fgColor[x][y]);
-         g2d.drawString(str[x][y], xLoc + strXInset[x][y], yLoc + strYInset[x][y]);
+         g2d.drawString(str[x][y], xLoc + strXInset[x][y], yLoc + strYInset);
          
          // tile borders
          if(showBorders)
@@ -607,12 +649,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       }
       
       // unbound strings
-      drawUnboundStrings(g2d, animationManager.getLockList());
-      drawUnboundStrings(g2d, animationManager.getNonlockList());
+      drawUnboundStrings(g2d, animationManager.getLockList(), baseXInset, baseYInset);
+      drawUnboundStrings(g2d, animationManager.getNonlockList(), baseXInset, baseYInset);
    }
    
    // draw unbound strings. These will be in front of the background and foreground.
-   protected void drawUnboundStrings(Graphics2D g2d, Vector<UnboundString> usList)
+   protected void drawUnboundStrings(Graphics2D g2d, Vector<UnboundString> usList, int baseXInset, int baseYInset)
    {
       int xTile;
       int yTile;
@@ -622,6 +664,17 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       
       for(UnboundString us : usList)
       {
+         // skip invisible unboundStrings
+         if(us.isVisible() == false)
+            continue;
+            
+         // unbound tiles drawn by different function
+         if(us instanceof UnboundTile)
+         {
+            drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
+            continue;
+         }
+         
          xTile = us.getXLoc() - cornerCell[0];
          yTile = us.getYLoc() - cornerCell[1];
          // only draw stuff that's on screen
@@ -630,11 +683,11 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             xLoc = (xTile * colWidth) + arrayXInset + (colWidth / 2) - (fontMetrics.stringWidth(us.getString()) / 2) + (int)(us.getXOffset() * colWidth);
             yLoc = (yTile * rowHeight) + arrayYInset + (rowHeight / 2) + (int)(us.getYOffset() * rowHeight);
             
-            xLoc += screenShakeOffsetX;
-            yLoc += screenShakeOffsetY;
+            xLoc += baseXInset;
+            yLoc += baseYInset;
             
             // note that as unbound strings do not rectify their position, this stays static over the life of the US
-            if(isOddRow(yTile))
+            if(isInsetRow(yTile))
                xLoc += colWidth / 2;
             
             // draw the box, if any
@@ -648,13 +701,37 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
                int cir = Math.max(bgBoxW, bgBoxH);
                switch(us.getBackgroundBoxType())
                {
-                  case UnboundString.RECT    :  g2d.fillRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
-                  break;
-                  case UnboundString.OVAL    :  g2d.fillOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
-                  break;
-                  case UnboundString.CIRCLE  :  g2d.fillOval(bgBoxX, bgBoxY, cir, cir);
-                  break;
-                  default    :                  g2d.fillRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                  case UnboundString.RECT          :  g2d.fillRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                      break;
+                  case UnboundString.OVAL          :  g2d.fillOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                      break;
+                  case UnboundString.CIRCLE        :  g2d.fillOval(bgBoxX, bgBoxY, cir, cir);
+                                                      break;
+                  case UnboundString.HEXAGON       :  g2d.fillPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
+                                                      break;
+                  case UnboundString.ROUNDED_RECT  :  g2d.fillRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                                                      break;
+                  default                          :  break;
+               }
+               
+               // draw the border, if it has one
+               if(us.getBorder() != null)
+               {
+                  g2d.setColor(us.getBorder());
+                  switch(us.getBackgroundBoxType())
+                  {
+                     case UnboundString.RECT          :  g2d.drawRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                         break;
+                     case UnboundString.OVAL          :  g2d.drawOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                         break;
+                     case UnboundString.CIRCLE        :  g2d.drawOval(bgBoxX, bgBoxY, cir, cir);
+                                                         break;
+                     case UnboundString.HEXAGON       :  g2d.drawPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
+                                                         break;
+                     case UnboundString.ROUNDED_RECT  :  g2d.drawRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                                                         break;
+                     default                          :  break;
+                  }
                }
             }
             
@@ -663,5 +740,97 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             g2d.drawString(us.getString(), xLoc, yLoc);
          }
       }
+   }
+   
+   
+   // draw unbound tile. These will be in front of the background and foreground.
+   protected void drawUnboundTile(Graphics2D g2d, UnboundTile ut, int baseXOffset, int baseYOffset)
+   {
+      int xTile;
+      int yTile;
+      int xOrigin;
+      int yOrigin;
+      int round = rowHeight / 4;
+      
+      xTile = ut.getXLoc() - cornerCell[0];
+      yTile = ut.getYLoc() - cornerCell[1];
+      // only draw stuff that's on screen
+      if(isInBounds(xTile, yTile))
+      {
+         xOrigin = (xTile * colWidth) + arrayXInset + (int)(ut.getXOffset() * colWidth) + 1;
+         yOrigin = (yTile * rowHeight) + arrayYInset + (int)(ut.getYOffset() * rowHeight) + 1;
+         
+         xOrigin += baseXOffset;
+         yOrigin += baseYOffset;
+         
+         // note that as unbound strings do not rectify their position, this stays static over the life of the US
+         if(isInsetRow(yTile))
+            xOrigin += colWidth / 2;
+      
+         g2d.setColor(ut.getBGColor());
+         int bgBoxX = xOrigin;
+         int bgBoxY = yOrigin;
+         int bgBoxW = colWidth - 2;
+         int bgBoxH = rowHeight - 2;
+         int cir = Math.min(bgBoxW, bgBoxH);
+         switch(ut.getBackgroundBoxType())
+         {
+            case UnboundString.RECT          :  g2d.fillRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                break;
+            case UnboundString.OVAL          :  g2d.fillOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                break;
+            case UnboundString.CIRCLE        :  g2d.fillOval(bgBoxX, bgBoxY, cir, cir);
+                                                break;
+            case UnboundString.HEXAGON       :  g2d.fillPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
+                                                break;
+            case UnboundString.ROUNDED_RECT  :  g2d.fillRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                                                break;
+            default                          :  break;
+         }
+               
+         // draw the border, if it has one
+         if(ut.getBorder() != null)
+         {
+            g2d.setColor(ut.getBorder());
+            switch(ut.getBackgroundBoxType())
+            {
+               case UnboundString.RECT          :  g2d.drawRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                   break;
+               case UnboundString.OVAL          :  g2d.drawOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                   break;
+               case UnboundString.CIRCLE        :  g2d.drawOval(bgBoxX, bgBoxY, cir, cir);
+                                                   break;
+               case UnboundString.HEXAGON       :  g2d.drawPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
+                                                   break;
+               case UnboundString.ROUNDED_RECT  :  g2d.drawRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                                                   break;
+               default                          :  break;
+            }
+         }
+         
+         // draw the string
+         g2d.setColor(ut.getFGColor());
+         g2d.drawString(ut.getString(), xOrigin, yOrigin + strYInset);
+      }
+   }
+   
+   // returns a list of the x locations for graphics.fillPolygon()
+   protected int[] hexPointsX(int xOrigin, int xSize)
+   {
+      int quarterWidth = xSize / 4;
+      int farSide = xOrigin + xSize;
+      int[] returnArr = {xOrigin + quarterWidth, farSide - quarterWidth, farSide,
+                         farSide - quarterWidth, xOrigin + quarterWidth, xOrigin};
+      return returnArr;
+   }
+   
+   // returns a list of the y locations for graphics.fillPolygon()
+   protected int[] hexPointsY(int yOrigin, int ySize)
+   {
+      int halfHeight = ySize / 2;
+      int bottom = yOrigin + ySize;
+      int[] returnArr = {yOrigin, yOrigin, yOrigin + halfHeight,
+                         bottom, bottom, yOrigin + halfHeight};
+      return returnArr;
    }
 }

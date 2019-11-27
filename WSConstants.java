@@ -32,9 +32,10 @@ public interface WSConstants
    public static final int W  = 4;
    public static final int NW = 5;
    
-   // display settings. Intentionally not final.
+   // display settings. Non-final variables intentionally not final.
    public static double GRAVITY = .04;           // tiles per tick
    public static int FRAMES_PER_SECOND = 30;
+   public static final double PIXELS_TO_POINTS = .75;
    
    //	angles
    public final static double FULL_CIRCLE = 2 * Math.PI;                // 360 degrees

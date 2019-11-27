@@ -3,7 +3,10 @@ package WidlerSuite;
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
+import java.awt.image.*;
 import java.awt.event.*;
+import javax.imageio.*;
+import java.io.*;
 
 public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener, KeyListener, ComponentListener, WSConstants
 {
@@ -12,10 +15,12 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private JPanel controlPanel;
    private JPanel shakePanel;
    private JButton shakeButton;
+   private JButton scrollButton;
    private JComboBox<String> vertShakeDD;
    private JComboBox<String> horizShakeDD;
    private JComboBox<String> shakeDurDD;
    private JCheckBox borderButton;
+   private JCheckBox utButton;
    private JCheckBox spiralSearchButton;
    private JComboBox<String> modeDD;
    private JComboBox<String> traceDD;
@@ -28,6 +33,10 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean showVoronoi = false;
    private boolean showCA = false;
    private boolean showNoise = false;
+   private boolean showBlit = false;
+   private boolean demoScrollingUp = false;
+   private boolean demoScrollingDown = false;
+   private double scrollSpeed = 0.05;
    public static final int COLUMNS = 40;
    public static final int ROWS = 40;
    private String[][] strMap;
@@ -35,6 +44,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private Color[][] bgMap;
    private Color[][] fgMap;
    private Color[][] noiseMap;
+   private Color[][] blitMap;
    private AStar aStar;
    private Coord atLoc;
    private ShadowFoVRect rectFoV;
@@ -43,6 +53,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean[][] caMap;
    private boolean[][] caHexMap;
    private Coord searchLoc;
+   private UnboundTile ut;
    private Vector<Room> roomList;
    private Vector<Color> roomColorList;
    private boolean traceType = true;   // true is A*, false is StraightLine
@@ -50,13 +61,14 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
                                              "Show Binary Serch Partitioning", "Show Voronoi Map", "Show CA Map", 
-                                             "Show Noise"};
+                                             "Show Noise", "Show Blit"};
    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
    private static final Color[] voronoiColors = getVoronoiColors();
    private static final String BULLET_STR = "" + (char)8226;
+   private static final String BLIT_IMAGE = "Ricci.png";
    private boolean upKeyHeld = false;    // for movement on hex grid with arrow keys
    private boolean downKeyHeld = false;  // for movement on hex grid with arrow keys
-   private String[] shakeList = {"0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0"};
+   private String[] shakeList = {"0.0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0"};
    private String[] shakeDurList = {"3", "5", "8", "10", "15", "20", "25", "30"};
    private Color[] gradient = WSTools.getGradient(Color.BLUE, Color.BLACK, 21);
    
@@ -64,7 +76,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    public WidlerSuiteDemo()
    {
       super();
-      setSize(1400, 1000);
+      setSize(1400, 1050);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setLayout(null);
       addComponentListener(this); // for resizing
@@ -81,6 +93,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       setTestMap();
       setCA();
       setNoiseMap();
+      setBlitMap();
       
       // roguePanel
       roguePanel = new RoguePanel();
@@ -92,7 +105,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       
       // controlPanel
       controlPanel = new JPanel();
-      controlPanel.setLayout(new GridLayout(8, 1));
+      controlPanel.setLayout(new GridLayout(10, 1));
       this.add(controlPanel);
       
       // instructions
@@ -115,6 +128,17 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       // set the screen shake panel
       setShakePanel(controlPanel);
       
+      // scroll demo button
+      scrollButton = new JButton("Demo Scrolling");
+      scrollButton.addActionListener(this);
+      scrollButton.setFocusable(false);
+      JPanel scrollSubpanel = new JPanel();
+      scrollSubpanel.setLayout(new GridLayout(3, 1));
+      controlPanel.add(scrollSubpanel);
+      scrollSubpanel.add(new JLabel());
+      scrollSubpanel.add(scrollButton);
+      scrollSubpanel.add(new JLabel());
+      
       // border toggle button
       borderButton = new JCheckBox("Show Tile Borders");
       borderButton.addActionListener(this);
@@ -126,6 +150,30 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       spiralSearchButton.addActionListener(this);
       spiralSearchButton.setFocusable(false);
       controlPanel.add(spiralSearchButton);
+      
+      // unboundTile button
+      utButton = new JCheckBox("Show UnboundTile");
+      utButton.addActionListener(this);
+      utButton.setFocusable(false);
+      controlPanel.add(utButton);
+      ut = new UnboundTile("!", Color.WHITE, 20, 20);
+      ut.setBGColor(Color.BLUE);
+      ut.setBackgroundBoxType(UnboundTile.HEXAGON);
+      ut.setAffectedByAge(false);
+      ut.setSpeed(-.3, 0.0);
+      ut.setBorder(Color.WHITE);
+      ut.setVisible(false);
+      MovementScript script = new MovementScript(ut);
+      for(int i = 0; i < 30; i++)
+      {
+         script.setImpulse(i, .01, -.01);
+         script.setImpulse(i + 30, .01, .01);
+         script.setImpulse(i + 60, -.01, .01);
+         script.setImpulse(i + 90, -.01, -.01);
+      }
+      script.setLoops(true);
+      roguePanel.addScript(script);
+      roguePanel.addNonlocking(ut);
       
       // display mode drop down (rect diagonal & orthogonal, rect orthogonal, hex)
       modeDD = new JComboBox<>(displayModeList);
@@ -152,6 +200,11 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       
       loadTestMap();
       
+      String fontName = FontLoader.load("WidlerSuite/Px437 Wyse700b");
+      if(fontName != null)
+         roguePanel.setFontName(fontName);
+      //roguePanel.setFontName("Lucinda Console");
+    //  roguePanel.setFontName("Sans Serif");
       javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, null);
       timer.addActionListener(this);
       timer.addActionListener(roguePanel);
@@ -185,8 +238,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       vertShakeDD.setFocusable(false);
       horizShakeDD.setFocusable(false);
       shakeDurDD.setFocusable(false);
-      vertShakeDD.setSelectedIndex(1);
-      horizShakeDD.setSelectedIndex(1);
+      vertShakeDD.setSelectedIndex(2);
+      horizShakeDD.setSelectedIndex(2);
       shakeDurDD.setSelectedIndex(2);
       parent.add(shakePanel);
    }
@@ -307,6 +360,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          showVoronoi = false;
          showCA = false;
          showNoise = false;
+         showBlit = false;
          switch(areaDD.getSelectedIndex())
          {
             case 1 :    showFoV = true;
@@ -322,14 +376,30 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
                         break;
             case 6 :    showNoise = true;
                         break;
+            case 7 :    showBlit = true;
+                        break;
             default :   break;
          }
          loadTestMap();
       }
       
+      if(ae.getSource() == scrollButton)
+      {
+         if(demoScrollingUp == false && demoScrollingDown == false)
+         {
+            demoScrollingUp = true;
+            roguePanel.setScroll(scrollSpeed, scrollSpeed);
+         }
+      }
+      
       if(ae.getSource() == borderButton)
       {
          roguePanel.showTileBorders(borderButton.isSelected());
+      }
+      
+      if(ae.getSource() == utButton)
+      {
+         ut.setVisible(utButton.isSelected());
       }
       
       if(ae.getSource() == spiralSearchButton)
@@ -356,7 +426,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       if(ae.getSource() instanceof javax.swing.Timer)
       {
          int row = ROWS - 1;
-         roguePanel.write(0, row, "Blink::", Color.WHITE);
+         roguePanel.write(0, row, "Blink:", Color.WHITE);
          
          if(AnimationManager.slowBlink())
             roguePanel.setBGColor(7, row, Color.BLACK);
@@ -373,10 +443,48 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          else
             roguePanel.setBGColor(11, row, Color.BLUE);
          
+         // scrolling
+         if(demoScrollingUp)
+         {
+            roguePanel.setScroll(roguePanel.getXScroll() + scrollSpeed, roguePanel.getYScroll() + scrollSpeed);
+            if(roguePanel.getXScroll() >= 1.0)
+            {
+               demoScrollingUp = false;
+               demoScrollingDown = true;
+            }
+         }
+         else if(demoScrollingDown)
+         {
+            roguePanel.setScroll(roguePanel.getXScroll() - scrollSpeed, roguePanel.getYScroll() - scrollSpeed);
+            if(roguePanel.getXScroll() <= 0.0)
+            {
+               demoScrollingDown = false;
+               roguePanel.setScroll(0.0, 0.0);
+            }
+         }
+         
          roguePanel.write(13, row, "Pulse:", Color.WHITE);
          roguePanel.setBGColor(20, row, gradient[AnimationManager.slowPulse()]);
          roguePanel.setBGColor(22, row, gradient[AnimationManager.mediumPulse()]);
          roguePanel.setBGColor(24, row, gradient[AnimationManager.fastPulse()]);
+      }
+   }
+   
+   private void setBlitMap()
+   {
+      blitMap = new Color[COLUMNS][ROWS];
+      try
+      {
+         BufferedImage img = null;
+         img = ImageIO.read(new FileInputStream("./WidlerSuite/" + BLIT_IMAGE));
+         blitMap = WSTools.getBlit(COLUMNS, ROWS, img);
+      }
+      catch(Exception ex)
+      {
+         System.out.println("Error loading " + BLIT_IMAGE + ": " + ex.toString());
+         for(int x = 0; x < COLUMNS; x++)
+         for(int y = 0; y < ROWS; y++)
+            blitMap[x][y] = Color.BLACK;
       }
    }
    
@@ -556,6 +664,16 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          for(int y = 0; y < ROWS - 1; y++)
          {
             roguePanel.setBGColor(x, y, noiseMap[x][y]);
+         }
+      }
+      
+      // blit
+      if(showBlit)
+      {
+         for(int x = 0; x < COLUMNS; x++)
+         for(int y = 0; y < ROWS - 1; y++)
+         {
+            roguePanel.setBGColor(x, y, blitMap[x][y]);
          }
       }
    }

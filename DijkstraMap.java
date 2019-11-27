@@ -34,6 +34,7 @@ public class DijkstraMap implements WSConstants
    public boolean[][] getPassMap(){return passMap;}
    public int[][] getMap(){return map;}
    public Vector<Coord> getGoalList(){return goalList;}
+   public boolean getSearchDiagonal(){return searchDiagonal;}
    
    public void setPassMap(boolean[][] p){passMap = p;}
    public void setGoalList(Vector<Coord> g){goalList = g;}

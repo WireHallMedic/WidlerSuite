@@ -16,8 +16,9 @@ import java.awt.event.*;
 
 public class AnimationManager implements ActionListener
 {
-   protected Vector<UnboundString> lockList = new Vector<UnboundString>();
-   protected Vector<UnboundString> nonlockList = new Vector<UnboundString>();
+   protected Vector<UnboundString> lockList;
+   protected Vector<UnboundString> nonlockList;
+   protected Vector<MovementScript> scriptList;
    protected RoguePanel parentPanel;
    protected static boolean unpaused = true;
    
@@ -61,6 +62,7 @@ public class AnimationManager implements ActionListener
    {
       parentPanel = pp;
       setMaxTickIndex();
+      clear();
    }
    
    // ticks and pulses only increment every n ticks, where n = tickThrottle
@@ -72,10 +74,12 @@ public class AnimationManager implements ActionListener
    // adding unbound strings
    public void addLocking(UnboundString str){lockList.add(str);}
    public void addNonlocking(UnboundString str){nonlockList.add(str);}
+   public void addScript(MovementScript scr){scriptList.add(scr);}
    
    // getting lists
    public Vector<UnboundString> getLockList(){return lockList;}
    public Vector<UnboundString> getNonlockList(){return nonlockList;}
+   public Vector<MovementScript> getScriptList(){return scriptList;}
    
    // check if should wait until animation is completed to proceed
    public boolean isLocked()
@@ -88,6 +92,20 @@ public class AnimationManager implements ActionListener
    {
       lockList = new Vector<UnboundString>();
       nonlockList = new Vector<UnboundString>();
+      scriptList = new Vector<MovementScript>();
+   }
+   
+   // remove an unbound string
+   public void remove(UnboundString element)
+   {
+      lockList.remove(element);
+      nonlockList.remove(element);
+   }
+   
+   // remove an movement script 
+   public void remove(MovementScript element)
+   {
+      scriptList.remove(element);
    }
    
    // set where the tick index resets
@@ -110,13 +128,28 @@ public class AnimationManager implements ActionListener
       // only process lists if ununpaused
       if(unpaused)
       {
-         processList(lockList, ae);
-         processList(nonlockList, ae);
+         processScriptList(ae);
+         processUSList(lockList, ae);
+         processUSList(nonlockList, ae);
+      }
+   }
+   
+   // update each script in the list
+   protected void processScriptList(ActionEvent ae)
+   {
+      for(int i = 0; i < scriptList.size(); i++)
+      {
+         scriptList.elementAt(i).actionPerformed(ae);
+         if(scriptList.elementAt(i).isExpired())
+         {
+            scriptList.removeElementAt(i);
+            i--;
+         }
       }
    }
    
    // update each unbound string in a list
-   protected void processList(Vector<UnboundString> list, ActionEvent ae)
+   protected void processUSList(Vector<UnboundString> list, ActionEvent ae)
    {
       for(int i = 0; i < list.size(); i++)
       {

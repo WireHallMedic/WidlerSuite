@@ -16,6 +16,7 @@ public class UnboundString implements ActionListener, WSConstants
 {
    protected Color bgColor;
    protected Color fgColor;
+   protected Color border;
    protected String string;
    protected Coord loc;          // in tiles
    protected double xOffset;     // in tiles
@@ -28,6 +29,7 @@ public class UnboundString implements ActionListener, WSConstants
    protected int age;
    protected boolean affectedByGravity;
    protected boolean affectedByAge;
+   protected boolean visible;
    
    protected static int defaultLifespan = 15;
    public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 128);
@@ -36,10 +38,12 @@ public class UnboundString implements ActionListener, WSConstants
    public static final int RECT = 1;
    public static final int OVAL = 2;
    public static final int CIRCLE = 3;
+   public static final int HEXAGON = 4;
    
    
    public Color getBGColor(){return bgColor;}
    public Color getFGColor(){return fgColor;}
+   public Color getBorder(){return border;}
    public String getString(){return string;}
    public Coord getLoc(){return new Coord(loc);}
    public int getXLoc(){return loc.x;}
@@ -52,10 +56,12 @@ public class UnboundString implements ActionListener, WSConstants
    public static void setDefaultLifespan(int dl){defaultLifespan = dl;}
    public boolean isAffectedByGravity(){return affectedByGravity;}
    public boolean isAffectedByAge(){return affectedByAge;}
+   public boolean isVisible(){return visible;}
    
    
    public void setBGColor(Color b){bgColor = b;}
    public void setFGColor(Color f){fgColor = f;}
+   public void setBorder(Color b){border = b;}
    public void setString(String s){string = s;}
    public void setLoc(int x, int y){loc = new Coord(x, y);}
    public void setLoc(Coord l){loc = new Coord(l);}
@@ -69,6 +75,7 @@ public class UnboundString implements ActionListener, WSConstants
    public void setAge(int a){age = a;}
    public void setAffectedByGravity(boolean abg){affectedByGravity = abg;}
    public void setAffectedByAge(boolean aba){affectedByAge = aba;}
+   public void setVisible(boolean v){visible = v;}
    
    // minimal constructor
    public UnboundString(String s)
@@ -83,6 +90,7 @@ public class UnboundString implements ActionListener, WSConstants
       string = s;
       bgColor = TRANSPARENT_BLACK;
       fgColor = fg;
+      border = null;
       loc = new Coord(x, y);
       xOffset = 0.0;
       yOffset = 0.0;
@@ -94,6 +102,7 @@ public class UnboundString implements ActionListener, WSConstants
       ySpeed = 0.0;
       affectedByGravity = GRAVITY_DEFAULT;
       affectedByAge = true;
+      visible = true;
    }
    
    // copy constructor
@@ -101,6 +110,7 @@ public class UnboundString implements ActionListener, WSConstants
    {
       this.string = that.string;
       this.bgColor = that.bgColor;
+      this.border = that.border;
       this.fgColor = that.fgColor;
       this.loc = new Coord(that.loc);
       this.xOffset = that.xOffset;
@@ -112,6 +122,7 @@ public class UnboundString implements ActionListener, WSConstants
       this.xSpeed = that.xSpeed;
       this.ySpeed = that.ySpeed;
       this.affectedByGravity = that.affectedByGravity;
+      this.visible = that.visible;
    }
    
    // if an unbound string should be removed by the manager
@@ -132,6 +143,12 @@ public class UnboundString implements ActionListener, WSConstants
    {
       age = lifespan;
    }
+   
+   // alter existing speeds and positions
+   public void adjustXSpeed(double s){xSpeed += s;}
+   public void adjustYSpeed(double s){ySpeed += s;}
+   public void adjustXOffset(double p){xOffset += p;}
+   public void adjustYOffset(double p){yOffset += p;}
    
    // timer kick
    public void actionPerformed(ActionEvent ae)

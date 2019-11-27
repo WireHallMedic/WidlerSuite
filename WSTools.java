@@ -11,6 +11,7 @@ package WidlerSuite;
 
 import java.util.*;
 import java.awt.*;
+import java.awt.image.*;
 
 public class WSTools implements WSConstants
 {
@@ -271,5 +272,42 @@ public class WSTools implements WSConstants
          gradient[i] = new Color(midColorArr[0], midColorArr[1], midColorArr[2], midColorArr[3]);
       }
       return gradient;
+   }
+   
+   // takes a larger image, and reduces it to a (smaller) color map
+   public static Color[][] getBlit(int width, int height, BufferedImage src)
+   {
+      Color[][] map = new Color[width][height];
+      int srcWidth = src.getWidth();
+      int srcHeight = src.getHeight();
+      
+      int tileWidth = srcWidth / width;      // original pixels per blitted pixel
+      int tileHeight = srcHeight / height;   // original pixels per blitted pixel
+      int srcPixelsPerBlitPixel = tileWidth * tileHeight;
+      int r;
+      int g;
+      int b;
+      Color curColor;
+      for(int xTile = 0; xTile < width; xTile++)
+      for(int yTile = 0; yTile < height; yTile++)
+      {
+         r = 0;
+         g = 0;
+         b = 0;
+         for(int x2 = 0; x2 < tileWidth; x2++)
+         for(int y2 = 0; y2 < tileHeight; y2++)
+         {
+            curColor = new Color(src.getRGB((xTile * tileWidth) + x2, (yTile * tileHeight) + y2));
+            r += curColor.getRed();
+            g += curColor.getGreen();
+            b += curColor.getBlue();
+         }
+         r /= srcPixelsPerBlitPixel;
+         g /= srcPixelsPerBlitPixel;
+         b /= srcPixelsPerBlitPixel;
+         map[xTile][yTile] = new Color(r, g, b);
+      }
+      
+      return map;
    }
 }
