@@ -478,19 +478,28 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private void setBlitMap()
    {
       blitMap = new Color[COLUMNS][ROWS];
+      BufferedImage img = null;
       try
       {
-         BufferedImage img = null;
          img = ImageIO.read(new FileInputStream("./WidlerSuite/" + BLIT_IMAGE));
-         blitMap = WSTools.getBlit(COLUMNS, ROWS, img);
       }
-      catch(Exception ex)
+      catch(Exception ex){}
+      if(img == null)
       {
-         System.out.println("Error loading " + BLIT_IMAGE + ": " + ex.toString());
+         try
+         {
+            img = ImageIO.read(this.getClass().getResourceAsStream("/" + BLIT_IMAGE));
+         }
+         catch(Exception ex){}
+      }
+      if(img == null)
+      {
          for(int x = 0; x < COLUMNS; x++)
          for(int y = 0; y < ROWS; y++)
             blitMap[x][y] = Color.BLACK;
       }
+      else
+         blitMap = WSTools.getBlit(COLUMNS, ROWS, img);
    }
    
    private void setTestMap()
