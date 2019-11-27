@@ -8,9 +8,10 @@ import java.awt.font.LineMetrics;
 
 public class FontLoader
 {  
+   // Loads the named font file, which must be a truetype font, and returns the system name, or
+   // null if unsuccessful
    public static String load(String fontFileName)
    {
-      // Loads the named font file, which must be a truetype font, and returns whether or not the attempt was successful.
       String fontName = null;
       try
       {
@@ -44,6 +45,5 @@ public class FontLoader
       FontMetrics fm = c.getFontMetrics(font);
       LineMetrics lm = fm.getLineMetrics((char)9580 + "", c.getGraphics());
       return (int)lm.getHeight();
-     // return (int)(fm.getAscent());
    }
 }

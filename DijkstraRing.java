@@ -18,7 +18,7 @@ public class DijkstraRing
    private static final int MAX_RADIUS = 25;
    private static boolean hasBeenCalculated = false;
    
-   // the only public method. Returns a list of Coords in a set radius around [0,0]
+   // Returns a list of Coords in a set radius around [0,0]
    public static Vector<Coord> getRing(int radius)
    {
       if(!hasBeenCalculated)
