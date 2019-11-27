@@ -553,6 +553,8 @@ Contains a list of steps (changes in position) and impulses (changes in speed) t
 Instances of MovementScript are kicked before their targets are, and do not kick their targets; targets should still be on either the locking or nonlocking list.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Note: MovementScript uses MovementScriptStep, which should not be directly called by the application programmer during normal use. As such, it is not documented here.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
@@ -633,9 +635,9 @@ void setLength(int newLength)}
 Set the length of the script, in ticks.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
-\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch{\*\bkmkstart __DdeLink__9_1044958560}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 void setImpulse(int tickIndex, double newXImpulse, double newYImpulse)}
-\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch{\*\bkmkend __DdeLink__9_1044958560}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Set the impulse at a particular time. Will extend the script if passed tick does not exist.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
@@ -1174,6 +1176,12 @@ Removes the passed unbound string, if it is currently on the locking or non-lock
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void add(MovementScript ms)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Adds the passed MovementScript to the animation manager.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 void remove(MovementScript ms)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Removes the passed movement script, if it is currently on the script list of the animation manager.}
@@ -1683,6 +1691,12 @@ Returns whether or not this particular UnboundString is affected by age, and thu
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+boolean isVisible()}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Returns whether or not this particular UnboundString should be drawn.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 void setBGColor(Color b)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Sets the background box color.}
@@ -1766,6 +1780,14 @@ Set whether or not this UnboundString is affected by gravity.}
 void setAffectedByAge(boolean aba)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Set whether or not this UnboundString is affected by age.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+void setVisible(boolean v)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Set whether or not this UnboundString should be displayed. Non-visible objects will still be kicked by the animation manager.}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
 }
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
@@ -2218,4 +2240,10 @@ Returns the angle from 0, 0 to the passed point.}
 static Color[] getGradient(Color startColor, Color endColor, int steps)}
 \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
 Returns an array that smoothly transitions from startColor to endColor in a specific number of steps.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i0\ai0\rtlch \ltrch\loch
+static Color[][] getBlit(int width, int height, BufferedImage src)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af5\langfe2052\dbch\af2\afs24\lang1081\loch\f0\fs24\lang1033{\i\ai\rtlch \ltrch\loch
+Copies a passed image into a color map of that is [width][height] in size.}
 \par }

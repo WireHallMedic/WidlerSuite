@@ -1,7 +1,7 @@
 /**********************************************************************************
 Contains a list of steps (changes in position) and impulses (changes in speed) to be 
-applied to an UnboundString target (or child class). Passed to a RoguePanel, which then passes 
-it off to the appropriate manager.
+applied to an UnboundString target (or child class). Passed to a RoguePanel with add(), 
+which then passes it off to the appropriate manager.
 
 Instances of MovementScript are kicked before their targets are, and do not kick their
 targets; targets should still be on either the locking or nonlocking list.

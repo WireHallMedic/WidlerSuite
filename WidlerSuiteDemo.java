@@ -172,7 +172,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          script.setImpulse(i + 90, -.01, -.01);
       }
       script.setLoops(true);
-      roguePanel.addScript(script);
+      roguePanel.add(script);
       roguePanel.addNonlocking(ut);
       
       // display mode drop down (rect diagonal & orthogonal, rect orthogonal, hex)
