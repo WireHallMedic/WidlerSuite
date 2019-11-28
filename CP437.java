@@ -69,7 +69,7 @@ public interface CP437
    public static final char DOUBLE_VERTICAL_ARROW_CHAR = CP437_TABLE[0x2][0x1];
    public static final char DOUBLE_EXCLAMATION_CHAR = CP437_TABLE[0x3][0x1];
    public static final char PARAGRAPH_CHAR = CP437_TABLE[0x4][0x1];
- //  public static final char DOUBLE_S_CHAR = CP437_TABLE[0x5][0x1];
+   public static final char DOUBLE_S_CHAR = CP437_TABLE[0x5][0x1];
    public static final char SMALL_BOX_CHAR = CP437_TABLE[0x6][0x1];
  //  public static final char UNDERLINE_DOUBLE_VERTICAL_ARROW_CHAR = CP437_TABLE[0x7][0x1];
    public static final char UP_ARROW_CHAR = CP437_TABLE[0x8][0x1];
@@ -293,7 +293,7 @@ public interface CP437
    public static final char SMALL_SIGMA_CHAR = CP437_TABLE[0x5][0xE];
    public static final char MU_CHAR = CP437_TABLE[0x6][0xE];
    public static final char TAU_CHAR = CP437_TABLE[0x7][0xE];
-   public static final char PHI_CHAR = CP437_TABLE[0x8][0xE];
+   public static final char CAPITAL_PHI_CHAR = CP437_TABLE[0x8][0xE];
    public static final char THETA_CHAR = CP437_TABLE[0x9][0xE];
    public static final char OMEGA_CHAR = CP437_TABLE[0xA][0xE];
    public static final char DELTA_CHAR = CP437_TABLE[0xB][0xE];
@@ -302,7 +302,7 @@ public interface CP437
    public static final char EPSILON_CHAR = CP437_TABLE[0xE][0xE];
    public static final char INTERSECTION_CHAR = CP437_TABLE[0xF][0xE];
    
-   public static final char IDENTIAL_CHAR = CP437_TABLE[0x0][0xF];
+   public static final char TRIPLE_BAR_CHAR = CP437_TABLE[0x0][0xF];
    public static final char PLUS_MINUS_CHAR = CP437_TABLE[0x1][0xF];
    public static final char GTE_CHAR = CP437_TABLE[0x2][0xF];
    public static final char LTE_CHAR = CP437_TABLE[0x3][0xF];
