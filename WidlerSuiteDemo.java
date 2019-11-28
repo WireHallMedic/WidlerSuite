@@ -60,7 +60,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode"};
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
-                                             "Show Binary Serch Partitioning", "Show Voronoi Map", "Show CA Map", 
+                                             "Show Binary Space Partitioning", "Show Voronoi Map", "Show CA Map", 
                                              "Show Noise", "Show Blit"};
    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
    private static final Color[] voronoiColors = getVoronoiColors();
