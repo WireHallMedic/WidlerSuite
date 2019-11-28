@@ -822,8 +822,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          }
          
          // draw the string
+         int tileStrX = (colWidth - g2d.getFontMetrics().stringWidth(ut.getString())) / 2;
+         int tileStrY = 0;
+         if(!tightFontBorders)
+            tileStrY = g2d.getFontMetrics().getAscent();
          g2d.setColor(ut.getFGColor());
-         g2d.drawString(ut.getString(), xOrigin, yOrigin + strYInset);
+         g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset + tileStrY);
       }
    }
    
