@@ -202,7 +202,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       
       String fontName = FontLoader.load("WidlerSuite/Px437_Wyse700b");
       if(fontName == null)
-         fontName = FontLoader.load("Px437 Wyse700b");
+         fontName = FontLoader.load("Px437_Wyse700b");
       if(fontName != null)
       {
          roguePanel.setFontName(fontName);
