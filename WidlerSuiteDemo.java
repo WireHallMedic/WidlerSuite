@@ -200,7 +200,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       
       loadTestMap();
       
-      String fontName = FontLoader.load("WidlerSuite/Px437 Wyse700b");
+      String fontName = FontLoader.load("WidlerSuite/Px437_Wyse700b");
       if(fontName == null)
          fontName = FontLoader.load("Px437 Wyse700b");
       if(fontName != null)
