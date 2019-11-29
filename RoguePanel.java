@@ -424,8 +424,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       else
       {
          font = new Font(fontName, Font.PLAIN, (int)(rowHeight * textProportion));
-         fontMetrics = this.getFontMetrics(font);    // can't just make a FontMetrics object because it's abstract
       }
+      fontMetrics = this.getFontMetrics(font); // so that we don't need a Graphics object later
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
       {
@@ -446,16 +446,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // set the vertical inset for tile strings
    protected void setStrYInset(Graphics2D g)
    {
+      int stringHeight = (int)(rowHeight * textProportion * 3 / 4.0);
       if(tightFontBorders)
       {
-         int stringHeight = WSTools.roundToInt(fontMetrics.getAscent() + fontMetrics.getDescent());
-         strYInset = rowHeight - stringHeight;
+         stringHeight = WSTools.roundToInt(g.getFontMetrics().getHeight());
       }
-      else
-      {
-         int stringHeight = (int)(rowHeight * textProportion);
-         strYInset = ((rowHeight - stringHeight) / 2) + stringHeight;
-      }
+      strYInset = rowHeight - ((rowHeight - stringHeight) / 2);
    }
    
    // adjust display based on screen shake
@@ -829,11 +825,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          
          // draw the string
          int tileStrX = (colWidth - g2d.getFontMetrics().stringWidth(ut.getString())) / 2;
-         int tileStrY = 0;
-         if(!tightFontBorders)
-            tileStrY = g2d.getFontMetrics().getAscent();
          g2d.setColor(ut.getFGColor());
-         g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset + tileStrY);
+         g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset);
       }
    }
    
