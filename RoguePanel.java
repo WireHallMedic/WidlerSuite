@@ -503,6 +503,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       {
          mouseLoc[0] = -1;
          mouseLoc[1] = -1;
+         return;
       }
       
       // ignore screen shake, but account for scrolling
