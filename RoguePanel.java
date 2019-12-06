@@ -568,15 +568,15 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    @Override
    public void paint(Graphics g)
    {
-      super.paint(g);/*
+      super.paint(g);
       Graphics2D g2d = (Graphics2D)g;
-      g2d.setFont(font);
+     // g2d.setFont(font);
       int xLoc;
       int yLoc;
       int baseXInset = screenShakeOffsetX + (int)(xScroll * colWidth);
       int baseYInset = screenShakeOffsetY + (int)(yScroll * rowHeight);
       
-      setStrYInset(g2d);
+    //  setStrYInset(g2d);
       
       // draw each tile
       for(int x = 0; x < columns(); x++)
@@ -589,11 +589,11 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          // background
          g2d.setColor(bgColor[x][y]);
          g2d.fillRect(xLoc, yLoc, colWidth, rowHeight);
-         
+         /*
          // foreground
          g2d.setColor(fgColor[x][y]);
          g2d.drawString(str[x][y], xLoc + strXInset[x][y], yLoc + strYInset);
-         
+         */
          // tile borders
          if(showBorders)
          {
@@ -603,10 +603,10 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       }
       
       // unbound strings
-      drawUnboundStrings(g2d, animationManager.getLockList(), baseXInset, baseYInset);
-      drawUnboundStrings(g2d, animationManager.getNonlockList(), baseXInset, baseYInset);
+  //    drawUnboundStrings(g2d, animationManager.getLockList(), baseXInset, baseYInset);
+  //    drawUnboundStrings(g2d, animationManager.getNonlockList(), baseXInset, baseYInset);
    }
-   
+   /*
    // draw unbound strings. These will be in front of the background and foreground.
    protected void drawUnboundStrings(Graphics2D g2d, Vector<UnboundString> usList, int baseXInset, int baseYInset)
    {
@@ -766,8 +766,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          int tileStrX = (colWidth - g2d.getFontMetrics().stringWidth(ut.getString())) / 2;
          g2d.setColor(ut.getFGColor());
          g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset);
-      }*/
-   }
+      }
+   }*/
    
    // returns a list of the x locations for graphics.fillPolygon()
    protected int[] hexPointsX(int xOrigin, int xSize)
