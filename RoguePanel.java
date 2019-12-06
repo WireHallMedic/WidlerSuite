@@ -17,6 +17,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.image.*;
 
 public class RoguePanel extends JPanel implements ComponentListener, ActionListener, MouseListener, 
                                                   MouseMotionListener, WSConstants
@@ -24,6 +25,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected Color[][] fgColor = new Color[1][1];
    protected Color[][] bgColor = new Color[1][1];
    protected char[][] ch = new char[1][1];
+   protected BufferedImage imageArr[][] = new BufferedImage[1][1];
+   protected boolean[][] isClean = new boolean[1][1];
    protected TileSet tileSet = new TileSet("curses_16x16.png");
    protected int colWidth = 0;       // in pixels
    protected int rowHeight = 0;      // in pixels
@@ -132,6 +135,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       fgColor = new Color[x][y];
       bgColor = new Color[x][y];
       ch = new char[x][y];
+      imageArr = new BufferedImage[x][y];
+      isClean = new boolean[x][y];
       
       setSizes();
       
@@ -141,6 +146,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          fgColor[c][r] = Color.WHITE;
          bgColor[c][r] = Color.BLACK;
          ch[c][r] = ' ';
+         isClean[c][r] = false;
       }
    }
    
@@ -149,7 +155,10 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void setFGColor(int x, int y, Color c)
    {
       if(isInBounds(x, y))
+      {
          fgColor[x][y] = c;
+         isClean[x][y] = false;
+      }
    }
    
    // set background color of a specific tile
@@ -157,7 +166,10 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void setBGColor(int x, int y, Color c)
    {
       if(isInBounds(x, y))
+      {
          bgColor[x][y] = c;
+         isClean[x][y] = false;
+      }
    }
    
    // set the char of a specific tile
@@ -167,6 +179,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       if(isInBounds(x, y))
       {
          ch[x][y] = c;
+         isClean[x][y] = false;
       }
    }
    
@@ -179,6 +192,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          fgColor[x][y] = fg;
          bgColor[x][y] = bg;
          ch[x][y] = c;
+         isClean[x][y] = false;
       }
    }
    
@@ -190,6 +204,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       {
          fgColor[x][y] = fg;
          ch[x][y] = c;
+         isClean[x][y] = false;
       }
    }
    
@@ -357,8 +372,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    }
    
    // returns the string of the passed location
-   public char getString(Coord loc){return getString(loc.x, loc.y);}
-   public char getString(int x, int y)
+   public char getChar(Coord loc){return getChar(loc.x, loc.y);}
+   public char getChar(int x, int y)
    {
       if(isInBounds(x, y))
          return ch[x][y];
@@ -574,6 +589,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    {
       super.paint(g);
       Graphics2D g2d = (Graphics2D)g;
+      updateImages();
      // g2d.setFont(font);
       int xLoc;
       int yLoc;
@@ -596,7 +612,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          g2d.fillRect(xLoc, yLoc, colWidth, rowHeight);
          
          //foreground
-         g2d.drawImage(tileSet.get((int)ch[x][y]), xLoc, yLoc, null);
+         g2d.drawImage(imageArr[x][y], xLoc, yLoc, null);
          /*
          // foreground
          g2d.setColor(fgColor[x][y]);
@@ -795,5 +811,25 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       int[] returnArr = {yOrigin, yOrigin, yOrigin + halfHeight,
                          bottom, bottom, yOrigin + halfHeight};
       return returnArr;
+   }
+   
+   // set the underlying tile
+   protected void setImage(int x, int y)
+   {
+      imageArr[x][y] = tileSet.get((int)ch[x][y], fgColor[x][y]);
+   }
+   
+   // update images flagged as dirty
+   protected void updateImages()
+   {
+      for(int x = 0; x < columns(); x++)
+      for(int y = 0; y < rows(); y++)
+      {
+         if(!isClean[x][y])
+         {
+            setImage(x, y);
+            isClean[x][y] = true;
+         }
+      }
    }
 }
