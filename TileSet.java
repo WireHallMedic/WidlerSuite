@@ -32,11 +32,15 @@ public class TileSet
    {
       return sizedMap[x][y];
    }
+   public BufferedImage get(int i){return get(i % 16, i / 16);}
    
-   public BufferedImage get(int i)
+   // Return a colored copy. No array bounds protection.
+   public BufferedImage get(int x, int y, Color c)
    {
-      return get(i % 16, i / 16);
+      return getColorCopy(sizedMap[x][y], c);
    }
+   public BufferedImage get(int i, Color c){return get(i % 16, i / 16, c);}
+   
    
    // sets the size of the tiles
    public void setSize(int w, int h)
@@ -111,6 +115,7 @@ public class TileSet
       return newImage;
    }
    
+   // returns a copy of the base (white and transparent) image in the specified color
    private BufferedImage getColorCopy(BufferedImage baseImg, Color c)
    {
       int w = baseImg.getWidth();
