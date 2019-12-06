@@ -58,6 +58,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public char getOOBChar(){return oobChar;}
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
+   public TileSet getTileSet(){return tileSet;}
    
    public int columns(){return ch.length;}
    public int rows(){return ch[0].length;}
@@ -651,7 +652,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
             continue;
          }*/
-         BufferedImage[] imageArr = tileSet.get(us.getString(), us.getFGColor());
+         BufferedImage[] imageArr = us.getImageArray();
          int imgWidth = imageArr.length * tileSet.getCharWidth();
          xTile = us.getXLoc() - cornerCell[0];
          yTile = us.getYLoc() - cornerCell[1];
