@@ -25,17 +25,26 @@ public class TileSet implements CP437
    private static final int WHITE_RGB = Color.WHITE.getRGB();
    
    
-   public boolean load(File imgFile, boolean invertColors)
+   public boolean load(String fileName, boolean invertColors)
    {
+      // load from external file or .jar resource
       BufferedImage img = null;
       try
       {
-         img = ImageIO.read(new FileInputStream(imgFile));
+         img = ImageIO.read(new FileInputStream(fileName));
       }
-      catch(Exception ex)
+      catch(Exception ex){}
+      if(img == null)
       {
-         return false;
+         try
+         {
+            img = ImageIO.read(this.getClass().getResourceAsStream("/" + fileName));
+         }
+         catch(Exception ex){}
       }
+      if(img == null)
+         return false;
+         
       baseWidth = img.getWidth() / 16;
       baseHeight = img.getHeight() / 16;
       
@@ -60,6 +69,7 @@ public class TileSet implements CP437
       }
       return true;
    }
+
    
    // scales an image up
    private BufferedImage getScaledImage(int newW, int newH, BufferedImage oldImg)
