@@ -53,7 +53,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean[][] caMap;
    private boolean[][] caHexMap;
    private Coord searchLoc;
-   private UnboundTile ut;
+   private UnboundString ut;
    private Vector<Room> roomList;
    private Vector<Color> roomColorList;
    private boolean traceType = true;   // true is A*, false is StraightLine
@@ -151,18 +151,19 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       spiralSearchButton.setFocusable(false);
       controlPanel.add(spiralSearchButton);
       
-      // unboundTile button
-      utButton = new JCheckBox("Show UnboundTile");
+      // script button
+      utButton = new JCheckBox("Show Scripted Movement");
       utButton.addActionListener(this);
       utButton.setFocusable(false);
       controlPanel.add(utButton);
-      ut = new UnboundTile("!", Color.WHITE, 20, 20);
+      ut = new UnboundString("!", Color.WHITE, 20, 20);
       ut.setBGColor(Color.BLUE);
-      ut.setBackgroundBoxType(UnboundTile.HEXAGON);
+      ut.setBackgroundBoxType(UnboundString.HEXAGON);
       ut.setAffectedByAge(false);
       ut.setSpeed(-.3, 0.0);
       ut.setBorder(Color.WHITE);
       ut.setVisible(false);
+      ut.setBackgroundBox(true);
       MovementScript script = new MovementScript(ut);
       for(int i = 0; i < 30; i++)
       {
