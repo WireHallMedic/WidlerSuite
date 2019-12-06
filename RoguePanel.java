@@ -23,13 +23,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
 {
    protected Color[][] fgColor = new Color[1][1];
    protected Color[][] bgColor = new Color[1][1];
-   protected String[][] str = new String[1][1];
-   protected int[][] strXInset = new int[1][1];
-   protected int strYInset = 0;
-   protected Font font = null;
-   protected FontMetrics fontMetrics = null;
-   protected String fontName = "Monospaced";
-   protected double textProportion = .9;  // how much of a tile strings fill
+   protected char[][] ch = new char[1][1];
+   protected TileSet tileSet = new TileSet("curses_16x16.png");
    protected int colWidth = 0;       // in pixels
    protected int rowHeight = 0;      // in pixels
    protected int arrayXInset = 0;
@@ -45,7 +40,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected Color borderColor = Color.WHITE;
    protected Color oobBGColor = Color.BLACK;
    protected Color oobFGColor = Color.WHITE;
-   protected String oobString = " ";
+   protected String oobChar = ' ';
    protected double screenShakeTilesX = 0.0;  // in tiles
    protected double screenShakeTilesY = 0.0;  // in tiles
    protected int screenShakeDuration = 0;     // in ticks
@@ -54,31 +49,25 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected boolean clearShake = false;      // clean up after done shaking
    protected double xScroll = 0.0;
    protected double yScroll = 0.0;
-   protected boolean tightFontBorders = false;
    
-   public Font getFont(){return font;}
-   public String getFontName(){return fontName;}
    public Color getTileBorderColor(){return borderColor;}
    public Color getOOBBGColor(){return oobBGColor;}
    public Color getOOBFGColor(){return oobFGColor;}
-   public String getOOBString(){return oobString;}
+   public String getOOBChar(){return oobChar;}
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
-   public boolean hasTightFontBorders(){return tightFontBorders;}
    
    public int columns(){return str.length;}
    public int rows(){return str[0].length;}
    public int mouseColumn(){return mouseLoc[0];}
    public int mouseRow(){return mouseLoc[1];}
    
-   public void setFontName(String f){fontName = f; setFont();}
    public void showTileBorders(boolean sb){showBorders = sb;}
    public void setTileBorderColor(Color bc){borderColor = bc;}
    public void setOOBBGColor(Color c){oobBGColor = c;}
    public void setOOBFGColor(Color c){oobFGColor = c;}
-   public void setOOBString(String s){oobString = s;}
+   public void setOOBChar(Char c){oobChar = c;}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
-   public void setTightFontBorders(boolean tfb){tightFontBorders = tfb;}
    
    // constructor
    public RoguePanel()
@@ -97,7 +86,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       addMouseMotionListener(this);
       addComponentListener(this);
       setColumnsAndRows(w, h);
-      setFont();
       setBackground(Color.BLACK);
    }
    
@@ -127,7 +115,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          if(WSTools.random() > .5)
             charVal = (int)'A';
          charVal += (int)(WSTools.random() * 26);
-         setString(x, y, (char)charVal + "");
+         setString(x, y, (char)charVal);
       }
    }
    
@@ -140,8 +128,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    {
       fgColor = new Color[x][y];
       bgColor = new Color[x][y];
-      str = new String[x][y];
-      strXInset = new int[x][y];
+      ch = new char[x][y];
       
       setSizes();
       
@@ -150,7 +137,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       {
          fgColor[c][r] = Color.WHITE;
          bgColor[c][r] = Color.BLACK;
-         str[c][r] = " ";
+         ch[c][r] = ' ';
       }
    }
    

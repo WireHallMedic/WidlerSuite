@@ -27,6 +27,8 @@ public class TileSet
    public int getCharWidth(){return charWidth;}
    public int getCharHeight(){return charHeight;}
    
+   
+   
    // basic getters. No array bounds protection.
    public BufferedImage get(int x, int y)
    {
