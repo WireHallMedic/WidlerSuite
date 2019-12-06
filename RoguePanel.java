@@ -66,7 +66,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void setTileBorderColor(Color bc){borderColor = bc;}
    public void setOOBBGColor(Color c){oobBGColor = c;}
    public void setOOBFGColor(Color c){oobFGColor = c;}
-   public void setOOBChar(Char c){oobChar = c;}
+   public void setOOBChar(char c){oobChar = c;}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
    
    // constructor
