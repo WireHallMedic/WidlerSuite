@@ -79,6 +79,9 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public RoguePanel(int w, int h)
    {
       super();
+      boolean hasTileSet = tileSet.load("WidlerSuite/curses_16x16.png", false);
+      if(!hasTileSet)
+         tileSet.load("curses_16x16.png", false);
       animationManager = new AnimationManager(this);
       mouseListenerList = new Vector<MouseListener>();
       mouseMotionListenerList = new Vector<MouseMotionListener>();
@@ -391,6 +394,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       {
          oddRowInset = 0;
       }
+      tileSet.setSize(colWidth, rowHeight);
    }
    
    // adjust display based on screen shake
@@ -586,9 +590,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          yLoc = arrayYInset + (y * rowHeight) + baseYInset;
          if(isInsetRow(y))
             xLoc += oddRowInset;
+            
          // background
          g2d.setColor(bgColor[x][y]);
          g2d.fillRect(xLoc, yLoc, colWidth, rowHeight);
+         
+         //foreground
+         g2d.drawImage(tileSet.get((int)ch[x][y]), xLoc, yLoc, null);
          /*
          // foreground
          g2d.setColor(fgColor[x][y]);
