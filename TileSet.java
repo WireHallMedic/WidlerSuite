@@ -47,6 +47,15 @@ public class TileSet
    }
    public BufferedImage get(int i, Color c){return get(i % 16, i / 16, c);}
    
+   // Return an array representing a string
+   public BufferedImage[] get(String s, Color c)
+   {
+      BufferedImage[] arr = new BufferedImage[s.length()];
+      for(int i = 0; i < s.length(); i++)
+         arr[i] = get((int)s.charAt(i), c);
+      return arr;
+   }
+   
    
    // sets the size of the tiles
    public void setSize(int w, int h)
