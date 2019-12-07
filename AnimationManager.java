@@ -72,8 +72,8 @@ public class AnimationManager implements ActionListener
    }
    
    // adding unbound strings
-   public void addLocking(UnboundString str){setUS(str); lockList.add(str);}
-   public void addNonlocking(UnboundString str){setUS(str); nonlockList.add(str);}
+   public void addLocking(UnboundString str){lockList.add(str);}
+   public void addNonlocking(UnboundString str){nonlockList.add(str);}
    public void addScript(MovementScript scr){scriptList.add(scr);}
    
    // getting lists
@@ -106,12 +106,6 @@ public class AnimationManager implements ActionListener
    public void remove(MovementScript element)
    {
       scriptList.remove(element);
-   }
-   
-   // set the buffered image array in unbound strings
-   protected void setUS(UnboundString us)
-   {
-      us.setImageArray(parentPanel.getTileSet());
    }
    
    // set where the tick index resets

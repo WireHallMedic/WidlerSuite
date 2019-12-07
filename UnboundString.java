@@ -19,7 +19,6 @@ public class UnboundString implements ActionListener, WSConstants
    protected Color fgColor;
    protected Color border;
    protected String string;
-   protected BufferedImage[] imageArr;
    protected Coord loc;          // in tiles
    protected double xOffset;     // in tiles
    protected double yOffset;     // in tiles
@@ -47,7 +46,6 @@ public class UnboundString implements ActionListener, WSConstants
    public Color getFGColor(){return fgColor;}
    public Color getBorder(){return border;}
    public String getString(){return string;}
-   public BufferedImage[] getImageArray(){return imageArr;}
    public Coord getLoc(){return new Coord(loc);}
    public int getXLoc(){return loc.x;}
    public int getYLoc(){return loc.y;}
@@ -106,7 +104,6 @@ public class UnboundString implements ActionListener, WSConstants
       affectedByGravity = GRAVITY_DEFAULT;
       affectedByAge = true;
       visible = true;
-      imageArr = null;
    }
    
    // copy constructor
@@ -127,12 +124,6 @@ public class UnboundString implements ActionListener, WSConstants
       this.ySpeed = that.ySpeed;
       this.affectedByGravity = that.affectedByGravity;
       this.visible = that.visible;
-      this.imageArr = that.imageArr;
-   }
-   
-   public void setImageArray(TileSet tileSet)
-   {
-      imageArr = tileSet.get(string, fgColor);
    }
    
    // if an unbound string should be removed by the manager
