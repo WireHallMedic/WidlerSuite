@@ -11,7 +11,6 @@ package WidlerSuite;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
 
 public class UnboundString implements ActionListener, WSConstants
 {

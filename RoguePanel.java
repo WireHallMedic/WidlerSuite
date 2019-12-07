@@ -627,10 +627,10 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       }
       
       // unbound strings
-      drawUnboundStrings(g2d, animationManager.getLockList(), baseXInset, baseYInset);
-      drawUnboundStrings(g2d, animationManager.getNonlockList(), baseXInset, baseYInset);
+  //    drawUnboundStrings(g2d, animationManager.getLockList(), baseXInset, baseYInset);
+  //    drawUnboundStrings(g2d, animationManager.getNonlockList(), baseXInset, baseYInset);
    }
-   
+   /*
    // draw unbound strings. These will be in front of the background and foreground.
    protected void drawUnboundStrings(Graphics2D g2d, Vector<UnboundString> usList, int baseXInset, int baseYInset)
    {
@@ -638,20 +638,20 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       int yTile;
       int xLoc;
       int yLoc;
-      int round = tileSet.getCharHeight() / 4;
+      int round = fontMetrics.getHeight() / 4;
       
       for(UnboundString us : usList)
       {
          // skip invisible unboundStrings
          if(us.isVisible() == false)
             continue;
-            /*
+            
          // unbound tiles drawn by different function
          if(us instanceof UnboundTile)
          {
             drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
             continue;
-         }*/
+         }
          
          xTile = us.getXLoc() - cornerCell[0];
          yTile = us.getYLoc() - cornerCell[1];
@@ -720,7 +720,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       }
    }
    
-   /*
+   
    // draw unbound tile. These will be in front of the background and foreground.
    protected void drawUnboundTile(Graphics2D g2d, UnboundTile ut, int baseXOffset, int baseYOffset)
    {
