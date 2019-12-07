@@ -136,14 +136,16 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       ch = new char[x][y];
       imageArr = new BufferedImage[x][y];
       
+      setSizes();
+      
       for(int c = 0; c < x; c++)
       for(int r = 0; r < y; r++)
       {
          fgColor[c][r] = Color.WHITE;
          bgColor[c][r] = Color.BLACK;
          ch[c][r] = ' ';
+         setImage(c, r);
       }
-      setSizes();
    }
    
    // set foreground color of a specific tile
