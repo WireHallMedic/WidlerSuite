@@ -603,11 +603,11 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          yLoc = arrayYInset + (y * rowHeight) + baseYInset;
          if(isInsetRow(y))
             xLoc += oddRowInset;
-            
+            /*
          // background
          g2d.setColor(bgColor[x][y]);
          g2d.fillRect(xLoc, yLoc, colWidth, rowHeight);
-         
+         */
          //foreground
          g2d.drawImage(imageArr[x][y], xLoc, yLoc, null);
          
@@ -731,6 +731,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // set the underlying tile
    protected void setImage(int x, int y)
    {
-      imageArr[x][y] = tileSet.get((int)ch[x][y], fgColor[x][y]);
+      imageArr[x][y] = tileSet.get((int)ch[x][y], fgColor[x][y], bgColor[x][y]);
    }
 }
