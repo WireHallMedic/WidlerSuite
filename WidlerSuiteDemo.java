@@ -199,7 +199,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       controlPanel.setFocusable(false);
       
       loadTestMap();
-      
+      /*
       String fontName = FontLoader.load("WidlerSuite/Px437_Wyse700b");
       if(fontName == null)
          fontName = FontLoader.load("Px437_Wyse700b");
@@ -207,7 +207,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       {
          roguePanel.setFontName(fontName);
          roguePanel.setTightFontBorders(true);
-      }
+      }*/
+      roguePanel.setFontName("Lucida Sans Regular");
       
       javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, null);
       timer.addActionListener(this);
