@@ -19,19 +19,11 @@ public class TileSet implements CP437
 {
    private BufferedImage[][] baseMap = new BufferedImage[16][16];
    private BufferedImage[][] sizedMap = new BufferedImage[16][16];
+   private int baseWidth = 1;
+   private int baseHeight = 1;
    private static final int BLACK_RGB = Color.BLACK.getRGB();
    private static final int WHITE_RGB = Color.WHITE.getRGB();
-   private int charWidth = 0;
-   private int charHeight = 0;
    
-   public void setSize(int w, int h)
-   {
-      charWidth = w;
-      charHeight = h;
-      for(int x = 0; x < 16; x++)
-      for(int y = 0; y < 16; y++)
-         sizedMap[x][y] = getScaledImage(w, h, baseMap[x][y]);
-   }
    
    public boolean load(String fileName, boolean invertColors)
    {
@@ -53,8 +45,8 @@ public class TileSet implements CP437
       if(img == null)
          return false;
          
-      int baseWidth = img.getWidth() / 16;
-      int baseHeight = img.getHeight() / 16;
+      baseWidth = img.getWidth() / 16;
+      baseHeight = img.getHeight() / 16;
       
       for(int x = 0; x < 16; x++)
       for(int y = 0; y < 16; y++)
@@ -74,10 +66,7 @@ public class TileSet implements CP437
             }
          }
          baseMap[x][y] = newImg;
-         sizedMap[x][y] = newImg;
       }
-      charWidth = baseWidth;
-      charHeight = baseHeight;
       return true;
    }
 
