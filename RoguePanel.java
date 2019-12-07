@@ -676,8 +676,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       int yTile;
       int xLoc;
       int yLoc;
-      int fontHeight = fontMetrics.getHeight();
-      int round = fontHeight / 4;
+      int round = rowHeight / 4;
       
       for(UnboundString us : usList)
       {
@@ -687,28 +686,31 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          
          xTile = us.getXLoc() - cornerCell[0];
          yTile = us.getYLoc() - cornerCell[1];
+         
          // only draw stuff that's on screen
          if(isInBounds(xTile, yTile))
          {
-            xLoc = (xTile * colWidth) + arrayXInset + (colWidth / 2) - (fontMetrics.stringWidth(us.getString()) / 2) + (int)(us.getXOffset() * colWidth);
-            yLoc = (yTile * rowHeight) + arrayYInset + (rowHeight / 2) + (int)(us.getYOffset() * rowHeight);
+            int strWidth = fontMetrics.stringWidth(us.getString());
             
-            xLoc += baseXInset;
-            yLoc += baseYInset;
+            xLoc = arrayXInset + (xTile * colWidth) + baseXInset + ((colWidth - strWidth) / 2);
+            yLoc = arrayYInset + (yTile * rowHeight) + baseYInset + strYInset;
+            
+            // adjust for movement
+            xLoc += (int)(us.getXOffset() * colWidth);
+            yLoc += (int)(us.getYOffset() * rowHeight);
             
             // note that as unbound strings do not rectify their position, this stays static over the life of the US
             if(isInsetRow(yTile))
-               xLoc += colWidth / 2;
+               xLoc += oddRowInset;
             
             // draw the box, if any
             if(us.hasBackgroundBox())
             {
                g2d.setColor(us.getBGColor());
-               int bgBoxX = xLoc - (colWidth / 4);
-               int bgBoxY = yLoc - rowHeight;
-               int bgBoxW = Math.max(colWidth, fontMetrics.stringWidth(us.getString()) + (colWidth / 2));
-             //  int bgBoxH = (rowHeight * 5) / 4;
+               int bgBoxW = Math.max(colWidth, strWidth + (colWidth / 2));
                int bgBoxH = rowHeight;
+               int bgBoxX = xLoc - ((bgBoxW - strWidth) / 2);
+               int bgBoxY = yLoc - rowHeight + fontMetrics.getDescent();
                int cir = Math.max(bgBoxW, bgBoxH);
                switch(us.getBackgroundBoxType())
                {
@@ -752,80 +754,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          }
       }
    }
-   /*
-   
-   // draw unbound tile. These will be in front of the background and foreground.
-   protected void drawUnboundTile(Graphics2D g2d, UnboundTile ut, int baseXOffset, int baseYOffset)
-   {
-      int xTile;
-      int yTile;
-      int xOrigin;
-      int yOrigin;
-      int round = rowHeight / 4;
-      
-      xTile = ut.getXLoc() - cornerCell[0];
-      yTile = ut.getYLoc() - cornerCell[1];
-      // only draw stuff that's on screen
-      if(isInBounds(xTile, yTile))
-      {
-         xOrigin = (xTile * colWidth) + arrayXInset + (int)(ut.getXOffset() * colWidth) + 1;
-         yOrigin = (yTile * rowHeight) + arrayYInset + (int)(ut.getYOffset() * rowHeight) + 1;
-         
-         xOrigin += baseXOffset;
-         yOrigin += baseYOffset;
-         
-         // note that as unbound strings do not rectify their position, this stays static over the life of the US
-         if(isInsetRow(yTile))
-            xOrigin += colWidth / 2;
-      
-         g2d.setColor(ut.getBGColor());
-         int bgBoxX = xOrigin;
-         int bgBoxY = yOrigin;
-         int bgBoxW = colWidth - 2;
-         int bgBoxH = rowHeight - 2;
-         int cir = Math.min(bgBoxW, bgBoxH);
-         switch(ut.getBackgroundBoxType())
-         {
-            case UnboundString.RECT          :  g2d.fillRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
-                                                break;
-            case UnboundString.OVAL          :  g2d.fillOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
-                                                break;
-            case UnboundString.CIRCLE        :  g2d.fillOval(bgBoxX, bgBoxY, cir, cir);
-                                                break;
-            case UnboundString.HEXAGON       :  g2d.fillPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
-                                                break;
-            case UnboundString.ROUNDED_RECT  :  g2d.fillRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
-                                                break;
-            default                          :  break;
-         }
-               
-         // draw the border, if it has one
-         if(ut.getBorder() != null)
-         {
-            g2d.setColor(ut.getBorder());
-            switch(ut.getBackgroundBoxType())
-            {
-               case UnboundString.RECT          :  g2d.drawRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
-                                                   break;
-               case UnboundString.OVAL          :  g2d.drawOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
-                                                   break;
-               case UnboundString.CIRCLE        :  g2d.drawOval(bgBoxX, bgBoxY, cir, cir);
-                                                   break;
-               case UnboundString.HEXAGON       :  g2d.drawPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
-                                                   break;
-               case UnboundString.ROUNDED_RECT  :  g2d.drawRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
-                                                   break;
-               default                          :  break;
-            }
-         }
-         
-         // draw the string
-         int tileStrX = (colWidth - g2d.getFontMetrics().stringWidth(ut.getString())) / 2;
-         g2d.setColor(ut.getFGColor());
-         g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset);
-      }
-   }
-   */
+
    // returns a list of the x locations for graphics.fillPolygon()
    protected int[] hexPointsX(int xOrigin, int xSize)
    {

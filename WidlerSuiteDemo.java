@@ -753,15 +753,6 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       if(ke.getKeyCode() == KeyEvent.VK_DOWN)
          downKeyHeld = true;
       
-      // test code
-      if(ke.getKeyCode() == KeyEvent.VK_SPAE)
-      {
-UnboundString star = new UnboundString("*", WSTools.randomColor(), 3, 3);
-            star.setLifespan(15);
-            star.setAffectedByGravity(false);
-            roguePanel.add(star);
-      }
-      
       if(displayMode == RECT_MODE)
       {
          switch(ke.getKeyCode())
