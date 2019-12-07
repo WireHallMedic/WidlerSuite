@@ -26,6 +26,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected Color[][] bgColor = new Color[1][1];
    protected char[][] ch = new char[1][1];
    protected BufferedImage imageArr[][] = new BufferedImage[1][1];
+   protected boolean[][] isClean = new boolean[1][1];
    protected TileSet tileSet = new TileSet("curses_16x16.png");
    protected int colWidth = 0;       // in pixels
    protected int rowHeight = 0;      // in pixels
@@ -135,6 +136,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       bgColor = new Color[x][y];
       ch = new char[x][y];
       imageArr = new BufferedImage[x][y];
+      isClean = new boolean[x][y];
       
       setSizes();
       
@@ -144,7 +146,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          fgColor[c][r] = Color.WHITE;
          bgColor[c][r] = Color.BLACK;
          ch[c][r] = ' ';
-         setImage(c, r);
+         isClean[c][r] = false;
       }
    }
    
@@ -155,7 +157,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       if(isInBounds(x, y))
       {
          fgColor[x][y] = c;
-         setImage(x, y);
+         isClean[x][y] = false;
       }
    }
    
@@ -166,7 +168,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       if(isInBounds(x, y))
       {
          bgColor[x][y] = c;
-         setImage(x, y);
+         isClean[x][y] = false;
       }
    }
    
@@ -177,7 +179,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       if(isInBounds(x, y))
       {
          ch[x][y] = c;
-         setImage(x, y);
+         isClean[x][y] = false;
       }
    }
    
@@ -190,7 +192,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          fgColor[x][y] = fg;
          bgColor[x][y] = bg;
          ch[x][y] = c;
-         setImage(x, y);
+         isClean[x][y] = false;
       }
    }
    
@@ -202,7 +204,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       {
          fgColor[x][y] = fg;
          ch[x][y] = c;
-         setImage(x, y);
+         isClean[x][y] = false;
       }
    }
    
@@ -408,9 +410,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          oddRowInset = 0;
       }
       tileSet.setSize(colWidth, rowHeight);
-      for(int x = 0; x < columns(); x++)
-      for(int y = 0; y < rows(); y++)
-         setImage(x, y);
    }
    
    // adjust display based on screen shake
@@ -590,7 +589,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    {
       super.paint(g);
       Graphics2D g2d = (Graphics2D)g;
-      
+      updateImages();
      // g2d.setFont(font);
       int xLoc;
       int yLoc;
@@ -821,5 +820,19 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected void setImage(int x, int y)
    {
       imageArr[x][y] = tileSet.get((int)ch[x][y], fgColor[x][y]);
+   }
+   
+   // update images flagged as dirty
+   protected void updateImages()
+   {
+      for(int x = 0; x < columns(); x++)
+      for(int y = 0; y < rows(); y++)
+      {
+         if(!isClean[x][y])
+         {
+            setImage(x, y);
+            isClean[x][y] = true;
+         }
+      }
    }
 }
