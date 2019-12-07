@@ -51,8 +51,6 @@ public class TileSet
    // sets the size of the tiles
    public void setSize(int w, int h)
    {
-      if(w < 1 || h < 1)
-         return;
       charWidth = w;
       charHeight = h;
       for(int x = 0; x < 16; x++)

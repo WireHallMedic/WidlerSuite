@@ -39,7 +39,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private double scrollSpeed = 0.05;
    public static final int COLUMNS = 40;
    public static final int ROWS = 40;
-   private char[][] charMap;
+   private String[][] strMap;
    private boolean[][] passMap;
    private Color[][] bgMap;
    private Color[][] fgMap;
@@ -64,7 +64,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
                                              "Show Noise", "Show Blit"};
    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
    private static final Color[] voronoiColors = getVoronoiColors();
-   private static final char BULLET_CHAR = (char)7;
+   private static final String BULLET_STR = "" + (char)8226;
    private static final String BLIT_IMAGE = "Ricci.png";
    private boolean upKeyHeld = false;    // for movement on hex grid with arrow keys
    private boolean downKeyHeld = false;  // for movement on hex grid with arrow keys
@@ -82,7 +82,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       addComponentListener(this); // for resizing
       setTitle("Widler Suite Demo " + WSConstants.VERSION);
       
-      charMap = new char[COLUMNS][ROWS];
+      strMap = new String[COLUMNS][ROWS];
       passMap = new boolean[COLUMNS][ROWS];
       bgMap = new Color[COLUMNS][ROWS];
       fgMap = new Color[COLUMNS][ROWS];
@@ -98,7 +98,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       // roguePanel
       roguePanel = new RoguePanel();
       roguePanel.setColumnsAndRows(COLUMNS, ROWS);
-      roguePanel.setChar(5, 10, '@');
+      roguePanel.setString(5, 10, "@");
       roguePanel.setTileBorderColor(Color.ORANGE);
       
       add(roguePanel);
@@ -199,7 +199,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       controlPanel.setFocusable(false);
       
       loadTestMap();
-      /*
+      
       String fontName = FontLoader.load("WidlerSuite/Px437_Wyse700b");
       if(fontName == null)
          fontName = FontLoader.load("Px437_Wyse700b");
@@ -207,7 +207,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       {
          roguePanel.setFontName(fontName);
          roguePanel.setTightFontBorders(true);
-      }*/
+      }
       
       javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, null);
       timer.addActionListener(this);
@@ -301,7 +301,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       Coord target = sSearch.getNext();
       while(target != null)
       {
-         if(charMap[target.x][target.y] == '>')
+         if(strMap[target.x][target.y].equals(">"))
             break;
          target = sSearch.getNext();
       }
@@ -503,7 +503,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    
    private void setTestMap()
    {
-      charMap = new char[COLUMNS][ROWS];
+      strMap = new String[COLUMNS][ROWS];
       passMap = new boolean[COLUMNS][ROWS];
       bgMap = new Color[COLUMNS][ROWS];
       fgMap = new Color[COLUMNS][ROWS];
@@ -553,16 +553,16 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       for(int y = 0; y < ROWS; y++)
       {
          if(passMap[x][y])
-            charMap[x][y] = '.';
+            strMap[x][y] = ".";
          else
-            charMap[x][y] = '#';
+            strMap[x][y] = "#";
       }
       
       // '>' for searching
-      charMap[4][4] = '>';
-      charMap[4][ROWS - 5] = '>';
-      charMap[COLUMNS - 5][4] = '>';
-      charMap[COLUMNS - 5][ROWS - 5] = '>';
+      strMap[4][4] = ">";
+      strMap[4][ROWS - 5] = ">";
+      strMap[COLUMNS - 5][4] = ">";
+      strMap[COLUMNS - 5][ROWS - 5] = ">";
       passMap[4][4] = true;
       passMap[4][ROWS - 5] = true;
       passMap[COLUMNS - 5][4] = true;
@@ -583,28 +583,28 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       for(int x = 0; x < COLUMNS; x++)
       for(int y = 0; y < ROWS - 1; y++)
       {
-         roguePanel.setTile(x, y, charMap[x][y], fgMap[x][y], bgMap[x][y]);
+            roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
          if(showFoV && displayMode == RECT_MODE)
          {
             if(rectFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
-               roguePanel.setTile(x, y, charMap[x][y], fgMap[x][y], Color.DARK_GRAY);
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
             else
-               roguePanel.setTile(x, y, charMap[x][y], fgMap[x][y], bgMap[x][y]);
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
          }
          else if(showFoV && displayMode == HEX_MODE)
          {
             if(hexFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
-               roguePanel.setTile(x, y, charMap[x][y], fgMap[x][y], Color.DARK_GRAY);
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
             else
-               roguePanel.setTile(x, y, charMap[x][y], fgMap[x][y], bgMap[x][y]);
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
          }
          else if(showDijkstra)
          {
             int val = dijkstraMap.getValue(x, y);
             if(val < 128 && bgMap[x][y] == Color.BLACK)
-               roguePanel.setTile(x, y, charMap[x][y], fgMap[x][y], new Color(0, 255 - (val * 2), 0));
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], new Color(0, 255 - (val * 2), 0));
             else
-               roguePanel.setTile(x, y, charMap[x][y], fgMap[x][y], bgMap[x][y]);
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
          }
          else if(showCA)
          {
@@ -624,7 +624,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
             }
          }
       }
-      roguePanel.setChar(atLoc.x, atLoc.y, '@');
+      roguePanel.setString(atLoc.x, atLoc.y, "@");
       
       // BSP
       if(showBSP)
@@ -653,7 +653,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          }
          for(int i = 0; i < voronoiPoints.size(); i++)
          {
-            roguePanel.setChar(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, BULLET_CHAR);
+            roguePanel.setString(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, BULLET_STR);
             roguePanel.setFGColor(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, Color.CYAN);
          }
       }
