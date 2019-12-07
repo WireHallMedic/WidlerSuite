@@ -51,27 +51,13 @@ public class TileSet implements CP437
             int yLoc = (y * baseHeight) + h;
             {
                if(img.getRGB(xLoc, yLoc) == WHITE_RGB && !invertColors)
-                  newImg.setRGB(w, h, WHITE_RGB);
+                  newImg.setRGB(w, h, BLACK_RGB);
                if(img.getRGB(xLoc, yLoc) != WHITE_RGB && invertColors)
-                  newImg.setRGB(w, h, WHITE_RGB);
+                  newImg.setRGB(w, h, BLACK_RGB);
             }
          }
          baseMap[x][y] = newImg;
       }
       return true;
-   }
-   
-   // scales an image up
-   private BufferedImage getScaledImage(int newW, int newH, BufferedImage oldImg)
-   {
-      BufferedImage newImage = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-      double horizRatio = (double)newW / (double)oldImg.getWidth();
-      double vertRatio = (double)newH / (double)oldImg.getHeight();
-      for(int x = 0; x < newW; x++)
-      for(int y = 0; y < newH; y++)
-      {
-         newImage.setRGB(x, y, oldImg.getRGB((int)(x / horizRatio),(int)(y / vertRatio)));
-      }
-      return newImage;
    }
 }
