@@ -147,4 +147,23 @@ public class TileSet
       }
       return newImg;
    }
+   
+   // returns a copy of the base image in the specified colors
+   private BufferedImage getColorCopy(BufferedImage baseImg, Color fgc, Color bgc)
+   {
+      int w = baseImg.getWidth();
+      int h = baseImg.getHeight();
+      int newFGColor = fgc.getRGB();
+      int newBGColor = bgc.getRGB();
+      BufferedImage newImg = new BufferedImage(baseImg.getWidth(), baseImg.getHeight(), BufferedImage.TYPE_INT_ARGB);
+      for(int x = 0; x < w; x++)
+      for(int y = 0; y < h; y++)
+      {
+         if(baseImg.getRGB(x, y) == WHITE_RGB)
+            newImg.setRGB(x, y, newFGColor);
+         else
+            newImg.setRGB(x, y, newBGColor);
+      }
+      return newImg;
+   }
 }
