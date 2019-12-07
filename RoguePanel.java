@@ -40,7 +40,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected Color borderColor = Color.WHITE;
    protected Color oobBGColor = Color.BLACK;
    protected Color oobFGColor = Color.WHITE;
-   protected char oobChar = ' ';
+   protected String oobChar = ' ';
    protected double screenShakeTilesX = 0.0;  // in tiles
    protected double screenShakeTilesY = 0.0;  // in tiles
    protected int screenShakeDuration = 0;     // in ticks
@@ -53,12 +53,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public Color getTileBorderColor(){return borderColor;}
    public Color getOOBBGColor(){return oobBGColor;}
    public Color getOOBFGColor(){return oobFGColor;}
-   public char getOOBChar(){return oobChar;}
+   public String getOOBChar(){return oobChar;}
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
    
-   public int columns(){return ch.length;}
-   public int rows(){return ch[0].length;}
+   public int columns(){return str.length;}
+   public int rows(){return str[0].length;}
    public int mouseColumn(){return mouseLoc[0];}
    public int mouseRow(){return mouseLoc[1];}
    
@@ -115,7 +115,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          if(WSTools.random() > .5)
             charVal = (int)'A';
          charVal += (int)(WSTools.random() * 26);
-         setChar(x, y, (char)charVal);
+         setString(x, y, (char)charVal);
       }
    }
    
@@ -157,36 +157,39 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          bgColor[x][y] = c;
    }
    
-   // set the char of a specific tile
-   public void setChar(Coord loc, char c){setChar(loc.x, loc.y, c);}
-   public void setChar(int x, int y, char c)
+   // set the string (generally one character) of a specific tile
+   public void setString(Coord loc, String s){setString(loc.x, loc.y, s);}
+   public void setString(int x, int y, String s)
    {
       if(isInBounds(x, y))
       {
-         ch[x][y] = c;
+         str[x][y] = s;
+         setStrInset(x, y);
       }
    }
    
    // set a tile all at once
-   public void setTile(Coord loc, char c, Color fg, Color bg){setTile(loc.x, loc.y, c, fg, bg);}
-   public void setTile(int x, int y, char c, Color fg, Color bg)
+   public void setTile(Coord loc, String s, Color fg, Color bg){setTile(loc.x, loc.y, s, fg, bg);}
+   public void setTile(int x, int y, String s, Color fg, Color bg)
    {
       if(isInBounds(x, y))
       {
          fgColor[x][y] = fg;
          bgColor[x][y] = bg;
-         ch[x][y] = c;
+         str[x][y] = s;
+         setStrInset(x, y);
       }
    }
    
    // set a tile, excluding the background color, all at once
-   public void setTile(Coord loc, char c, Color fg){setTile(loc.x, loc.y, c, fg);}
-   public void setTile(int x, int y, char c, Color fg)
+   public void setTile(Coord loc, String s, Color fg){setTile(loc.x, loc.y, s, fg);}
+   public void setTile(int x, int y, String s, Color fg)
    {
       if(isInBounds(x, y))
       {
          fgColor[x][y] = fg;
-         ch[x][y] = c;
+         str[x][y] = s;
+         setStrInset(x, y);
       }
    }
    
@@ -204,6 +207,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             displayMode = RECT_MODE;
          }
          setSizes();
+         setFont();
       }
    }
    
@@ -247,8 +251,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    }
    
    // set a rectangular area of the foreground to a single string and color
-   public void setFGBox(Coord loc, Coord size, char ch, Color c){setFGBox(loc.x, loc.y, size.x, size.y, ch, c);}
-   public void setFGBox(int x, int y, int w, int h, char ch, Color c)
+   public void setFGBox(Coord loc, Coord size, String s, Color c){setFGBox(loc.x, loc.y, size.x, size.y, s, c);}
+   public void setFGBox(int x, int y, int w, int h, String s, Color c)
    {
       x = WSTools.minMax(0, x, columns() - 1);
       y = WSTools.minMax(0, y, rows() - 1);
@@ -257,7 +261,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       for(int xPos = x; xPos < x + w; xPos++)
       for(int yPos = y; yPos < y + h; yPos++)
       {
-         setTile(xPos, yPos, ch, c);
+         setTile(xPos, yPos, s, c);
       }
    }
       
@@ -266,7 +270,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void write(int x, int y, String str, Color c)
    {
       for(int i = 0; i < str.length(); i++)
-         setTile(x + i, y, str.charAt(i), c);
+         setTile(x + i, y, str.substring(i, i + 1), c);
    }
    
    // write a string inside an area, with word wrapping
@@ -286,7 +290,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       int y = yStart;
       
       // clear the box
-      setFGBox(xStart, yStart, w, h, ' ', c);
+      setFGBox(xStart, yStart, w, h, " ", c);
       
       // individual words that are too long are broken up
       int curIndex = 0;
@@ -354,12 +358,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    }
    
    // returns the string of the passed location
-   public char getString(Coord loc){return getString(loc.x, loc.y);}
-   public char getString(int x, int y)
+   public String getString(Coord loc){return getString(loc.x, loc.y);}
+   public String getString(int x, int y)
    {
       if(isInBounds(x, y))
-         return ch[x][y];
-      return oobChar;
+         return str[x][y];
+      return oobString;
    }   
    
    // protected getters and setters
@@ -393,6 +397,50 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       }
    }
    
+   // font can only be set internally; externally, use setFontName(String)
+   protected void setFont()
+   {
+      if(tightFontBorders)
+      {
+         int newPointSize = 1;
+         while(FontLoader.getCharHeight(fontName, newPointSize) < colWidth &&
+               FontLoader.getCharWidth(fontName, newPointSize) < rowHeight)
+            newPointSize++;
+         font = new Font(fontName, Font.PLAIN, newPointSize);
+      }
+      else
+      {
+         font = new Font(fontName, Font.PLAIN, (int)(rowHeight * textProportion));
+      }
+      fontMetrics = this.getFontMetrics(font); // so that we don't need a Graphics object later
+      for(int x = 0; x < columns(); x++)
+      for(int y = 0; y < rows(); y++)
+      {
+         setStrInset(x, y);
+      }
+   }
+   
+   // set the inset (in pixels) of a specific string
+   protected void setStrInset(int x, int y)
+   {
+      // no error checking as this can only be called internally
+      if(tightFontBorders)
+         strXInset[x][y] = 0;
+      else
+         strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
+   }
+   
+   // set the vertical inset for tile strings
+   protected void setStrYInset(Graphics2D g)
+   {
+      int stringHeight = (int)(rowHeight * textProportion * 3 / 4.0);
+      if(tightFontBorders)
+      {
+         stringHeight = WSTools.roundToInt(g.getFontMetrics().getHeight());
+      }
+      strYInset = rowHeight - ((rowHeight - stringHeight) / 2);
+   }
+   
    // adjust display based on screen shake
    protected void shake()
    {
@@ -422,6 +470,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void componentResized(ComponentEvent ce)
    {
       setSizes();
+      setFont();
    }
    
    // update mouseLoc where needed. External listeners notified in the usual way.
@@ -568,7 +617,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    @Override
    public void paint(Graphics g)
    {
-      super.paint(g);/*
+      super.paint(g);
       Graphics2D g2d = (Graphics2D)g;
       g2d.setFont(font);
       int xLoc;
@@ -766,7 +815,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          int tileStrX = (colWidth - g2d.getFontMetrics().stringWidth(ut.getString())) / 2;
          g2d.setColor(ut.getFGColor());
          g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset);
-      }*/
+      }
    }
    
    // returns a list of the x locations for graphics.fillPolygon()
