@@ -652,14 +652,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
             continue;
          }*/
-         BufferedImage[] imageArr = tileSet.get(us.getString(), us.getFGColor());
-         int imgWidth = imageArr.length * tileSet.getCharWidth();
+         
          xTile = us.getXLoc() - cornerCell[0];
          yTile = us.getYLoc() - cornerCell[1];
          // only draw stuff that's on screen
          if(isInBounds(xTile, yTile))
          {
-            xLoc = (xTile * colWidth) + arrayXInset - (imgWidth / 2) + (int)(us.getXOffset() * colWidth);
+            xLoc = (xTile * colWidth) + arrayXInset + (colWidth / 2) - (fontMetrics.stringWidth(us.getString()) / 2) + (int)(us.getXOffset() * colWidth);
             yLoc = (yTile * rowHeight) + arrayYInset + (rowHeight / 2) + (int)(us.getYOffset() * rowHeight);
             
             xLoc += baseXInset;
@@ -673,10 +672,10 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             if(us.hasBackgroundBox())
             {
                g2d.setColor(us.getBGColor());
-               int bgBoxX = xLoc;
-               int bgBoxY = yLoc;
-               int bgBoxW = imgWidth;
-               int bgBoxH = rowHeight;
+               int bgBoxX = xLoc - (colWidth / 4);
+               int bgBoxY = yLoc - rowHeight;
+               int bgBoxW = fontMetrics.stringWidth(us.getString()) + (colWidth / 2);
+               int bgBoxH = (rowHeight * 5) / 4;
                int cir = Math.max(bgBoxW, bgBoxH);
                switch(us.getBackgroundBoxType())
                {
@@ -715,10 +714,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             }
             
             // draw the string
-            for(int i = 0; i < imageArr.length; i++)
-               g2d.drawImage(imageArr[i], xLoc + (i * colWidth), yLoc, null);
-      //      g2d.setColor(us.getFGColor());
-     //      g2d.drawString(us.getString(), xLoc, yLoc);
+            g2d.setColor(us.getFGColor());
+            g2d.drawString(us.getString(), xLoc, yLoc);
          }
       }
    }
