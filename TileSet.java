@@ -15,7 +15,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 
-public class TileSet
+public class TileSet implements CP437
 {
    private BufferedImage[][] baseMap = new BufferedImage[16][16];
    private BufferedImage[][] sizedMap = new BufferedImage[16][16];
@@ -24,21 +24,6 @@ public class TileSet
    private int charWidth = 0;
    private int charHeight = 0;
    
-   public int getCharWidth(){return charWidth;}
-   public int getCharHeight(){return charHeight;}
-   
-   // basic getters. No array bounds protection.
-   public BufferedImage get(int x, int y)
-   {
-      return sizedMap[x][y];
-   }
-   
-   public BufferedImage get(int i)
-   {
-      return get(i % 16, i / 16);
-   }
-   
-   // sets the size of the tiles
    public void setSize(int w, int h)
    {
       charWidth = w;
