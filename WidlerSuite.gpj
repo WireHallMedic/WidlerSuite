@@ -14,7 +14,7 @@ s#j0
 s#l0
 !201;u
 a0	b68	c255	d%\\011curses_16x16.png\011%\\011Ricci.png	f%\011WidlerSuiteDemo.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo	iWidlerSuite.WidlerSuiteDemo!29;a
-a%\011WidlerSuite_doc	b	c0	d0!662;g
+a%\011WidlerSuite_doc	b	c0	d0!640;g
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -23,7 +23,6 @@ a%\011WidlerSuite_doc	b	c0	d0!662;g
 %\011HexLine.java
 %\011WSTools.java
 %\011AnimationManager.java
-%\011UnboundTile.java
 %\011Voronoi.java
 %\011RectLine.java
 %\011DijkstraRing.java
@@ -46,7 +45,7 @@ a%\011WidlerSuite_doc	b	c0	d0!662;g
 %\011WSConstants.java
 %\011MovementScript.java
 %\011ShadowFoV.java
-!662;f
+!640;f
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -55,7 +54,6 @@ a%\011WidlerSuite_doc	b	c0	d0!662;g
 %\011HexLine.java
 %\011WSTools.java
 %\011AnimationManager.java
-%\011UnboundTile.java
 %\011Voronoi.java
 %\011RectLine.java
 %\011DijkstraRing.java

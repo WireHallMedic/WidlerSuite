@@ -687,8 +687,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          // unbound tiles drawn by different function
          if(us instanceof UnboundTile)
          {
-            drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
-            continue;
+      //      drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
+        //    continue;
          }
          
          xTile = us.getXLoc() - cornerCell[0];
@@ -712,8 +712,9 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
                g2d.setColor(us.getBGColor());
                int bgBoxX = xLoc - (colWidth / 4);
                int bgBoxY = yLoc - rowHeight;
-               int bgBoxW = fontMetrics.stringWidth(us.getString()) + (colWidth / 2);
-               int bgBoxH = (rowHeight * 5) / 4;
+               int bgBoxW = Math.max(colWidth, fontMetrics.stringWidth(us.getString()) + (colWidth / 2));
+             //  int bgBoxH = (rowHeight * 5) / 4;
+               int bgBoxH = rowHeight;
                int cir = Math.max(bgBoxW, bgBoxH);
                switch(us.getBackgroundBoxType())
                {
@@ -757,7 +758,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          }
       }
    }
-   
+   /*
    
    // draw unbound tile. These will be in front of the background and foreground.
    protected void drawUnboundTile(Graphics2D g2d, UnboundTile ut, int baseXOffset, int baseYOffset)
@@ -830,7 +831,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset);
       }
    }
-   
+   */
    // returns a list of the x locations for graphics.fillPolygon()
    protected int[] hexPointsX(int xOrigin, int xSize)
    {

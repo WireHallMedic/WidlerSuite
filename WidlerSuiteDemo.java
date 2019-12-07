@@ -20,7 +20,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private JComboBox<String> horizShakeDD;
    private JComboBox<String> shakeDurDD;
    private JCheckBox borderButton;
-   private JCheckBox utButton;
+   private JCheckBox scriptUSButton;
    private JCheckBox spiralSearchButton;
    private JComboBox<String> modeDD;
    private JComboBox<String> traceDD;
@@ -53,7 +53,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean[][] caMap;
    private boolean[][] caHexMap;
    private Coord searchLoc;
-   private UnboundTile ut;
+   private UnboundString scriptUS;
    private Vector<Room> roomList;
    private Vector<Color> roomColorList;
    private boolean traceType = true;   // true is A*, false is StraightLine
@@ -151,19 +151,19 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       spiralSearchButton.setFocusable(false);
       controlPanel.add(spiralSearchButton);
       
-      // unboundTile button
-      utButton = new JCheckBox("Show UnboundTile");
-      utButton.addActionListener(this);
-      utButton.setFocusable(false);
-      controlPanel.add(utButton);
-      ut = new UnboundTile("!", Color.WHITE, 20, 20);
-      ut.setBGColor(Color.BLUE);
-      ut.setBackgroundBoxType(UnboundTile.HEXAGON);
-      ut.setAffectedByAge(false);
-      ut.setSpeed(-.3, 0.0);
-      ut.setBorder(Color.WHITE);
-      ut.setVisible(false);
-      MovementScript script = new MovementScript(ut);
+      // movement script button
+      scriptUSButton = new JCheckBox("Show Movement Scirpt");
+      scriptUSButton.addActionListener(this);
+      scriptUSButton.setFocusable(false);
+      controlPanel.add(scriptUSButton);
+      scriptUS = new UnboundTile("!", Color.WHITE, 20, 20);
+      scriptUS.setBGColor(Color.BLUE);
+      scriptUS.setBackgroundBoxType(UnboundTile.HEXAGON);
+      scriptUS.setAffectedByAge(false);
+      scriptUS.setSpeed(-.3, 0.0);
+      scriptUS.setBorder(Color.WHITE);
+      scriptUS.setVisible(false);
+      MovementScript script = new MovementScript(scriptUS);
       for(int i = 0; i < 30; i++)
       {
          script.setImpulse(i, .01, -.01);
@@ -173,7 +173,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       }
       script.setLoops(true);
       roguePanel.add(script);
-      roguePanel.addNonlocking(ut);
+      roguePanel.addNonlocking(scriptUS);
       
       // display mode drop down (rect diagonal & orthogonal, rect orthogonal, hex)
       modeDD = new JComboBox<>(displayModeList);
@@ -402,9 +402,9 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          roguePanel.showTileBorders(borderButton.isSelected());
       }
       
-      if(ae.getSource() == utButton)
+      if(ae.getSource() == scriptUSButton)
       {
-         ut.setVisible(utButton.isSelected());
+         scriptUS.setVisible(scriptUSButton.isSelected());
       }
       
       if(ae.getSource() == spiralSearchButton)
