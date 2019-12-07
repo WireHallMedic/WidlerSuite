@@ -590,10 +590,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       super.paint(g);
       Graphics2D g2d = (Graphics2D)g;
       
+     // g2d.setFont(font);
       int xLoc;
       int yLoc;
       int baseXInset = screenShakeOffsetX + (int)(xScroll * colWidth);
       int baseYInset = screenShakeOffsetY + (int)(yScroll * rowHeight);
+      
+    //  setStrYInset(g2d);
       
       // draw each tile
       for(int x = 0; x < columns(); x++)
@@ -610,7 +613,11 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          
          //foreground
          g2d.drawImage(imageArr[x][y], xLoc, yLoc, null);
-         
+         /*
+         // foreground
+         g2d.setColor(fgColor[x][y]);
+         g2d.drawString(str[x][y], xLoc + strXInset[x][y], yLoc + strYInset);
+         */
          // tile borders
          if(showBorders)
          {
@@ -638,7 +645,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          // skip invisible unboundStrings
          if(us.isVisible() == false)
             continue;
-
+            /*
+         // unbound tiles drawn by different function
+         if(us instanceof UnboundTile)
+         {
+            drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
+            continue;
+         }*/
          BufferedImage[] imageArr = us.getImageArray();
          int imgWidth = imageArr.length * tileSet.getCharWidth();
          xTile = us.getXLoc() - cornerCell[0];
@@ -704,10 +717,85 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             // draw the string
             for(int i = 0; i < imageArr.length; i++)
                g2d.drawImage(imageArr[i], xLoc + (i * colWidth), yLoc, null);
+      //      g2d.setColor(us.getFGColor());
+     //      g2d.drawString(us.getString(), xLoc, yLoc);
          }
       }
    }
+   
+   /*
+   // draw unbound tile. These will be in front of the background and foreground.
+   protected void drawUnboundTile(Graphics2D g2d, UnboundTile ut, int baseXOffset, int baseYOffset)
+   {
+      int xTile;
+      int yTile;
+      int xOrigin;
+      int yOrigin;
+      int round = rowHeight / 4;
       
+      xTile = ut.getXLoc() - cornerCell[0];
+      yTile = ut.getYLoc() - cornerCell[1];
+      // only draw stuff that's on screen
+      if(isInBounds(xTile, yTile))
+      {
+         xOrigin = (xTile * colWidth) + arrayXInset + (int)(ut.getXOffset() * colWidth) + 1;
+         yOrigin = (yTile * rowHeight) + arrayYInset + (int)(ut.getYOffset() * rowHeight) + 1;
+         
+         xOrigin += baseXOffset;
+         yOrigin += baseYOffset;
+         
+         // note that as unbound strings do not rectify their position, this stays static over the life of the US
+         if(isInsetRow(yTile))
+            xOrigin += colWidth / 2;
+      
+         g2d.setColor(ut.getBGColor());
+         int bgBoxX = xOrigin;
+         int bgBoxY = yOrigin;
+         int bgBoxW = colWidth - 2;
+         int bgBoxH = rowHeight - 2;
+         int cir = Math.min(bgBoxW, bgBoxH);
+         switch(ut.getBackgroundBoxType())
+         {
+            case UnboundString.RECT          :  g2d.fillRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                break;
+            case UnboundString.OVAL          :  g2d.fillOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                break;
+            case UnboundString.CIRCLE        :  g2d.fillOval(bgBoxX, bgBoxY, cir, cir);
+                                                break;
+            case UnboundString.HEXAGON       :  g2d.fillPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
+                                                break;
+            case UnboundString.ROUNDED_RECT  :  g2d.fillRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                                                break;
+            default                          :  break;
+         }
+               
+         // draw the border, if it has one
+         if(ut.getBorder() != null)
+         {
+            g2d.setColor(ut.getBorder());
+            switch(ut.getBackgroundBoxType())
+            {
+               case UnboundString.RECT          :  g2d.drawRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                   break;
+               case UnboundString.OVAL          :  g2d.drawOval(bgBoxX, bgBoxY, bgBoxW, bgBoxH);
+                                                   break;
+               case UnboundString.CIRCLE        :  g2d.drawOval(bgBoxX, bgBoxY, cir, cir);
+                                                   break;
+               case UnboundString.HEXAGON       :  g2d.drawPolygon(hexPointsX(bgBoxX, bgBoxW), hexPointsY(bgBoxY, bgBoxH), 6);
+                                                   break;
+               case UnboundString.ROUNDED_RECT  :  g2d.drawRoundRect(bgBoxX, bgBoxY, bgBoxW, bgBoxH, round, round);
+                                                   break;
+               default                          :  break;
+            }
+         }
+         
+         // draw the string
+         int tileStrX = (colWidth - g2d.getFontMetrics().stringWidth(ut.getString())) / 2;
+         g2d.setColor(ut.getFGColor());
+         g2d.drawString(ut.getString(), xOrigin + tileStrX, yOrigin + strYInset);
+      }
+   }*/
+   
    // returns a list of the x locations for graphics.fillPolygon()
    protected int[] hexPointsX(int xOrigin, int xSize)
    {
