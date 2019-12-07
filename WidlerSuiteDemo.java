@@ -625,7 +625,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
             }
          }
       }
-      roguePanel.setString(atLoc.x, atLoc.y, "@");
+      roguePanel.setTile(atLoc.x, atLoc.y, "@", Color.CYAN);
       
       // BSP
       if(showBSP)
@@ -752,6 +752,15 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          upKeyHeld = true;
       if(ke.getKeyCode() == KeyEvent.VK_DOWN)
          downKeyHeld = true;
+      
+      // test code
+      if(ke.getKeyCode() == KeyEvent.VK_SPAE)
+      {
+UnboundString star = new UnboundString("*", WSTools.randomColor(), 3, 3);
+            star.setLifespan(15);
+            star.setAffectedByGravity(false);
+            roguePanel.add(star);
+      }
       
       if(displayMode == RECT_MODE)
       {

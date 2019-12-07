@@ -676,20 +676,14 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       int yTile;
       int xLoc;
       int yLoc;
-      int round = fontMetrics.getHeight() / 4;
+      int fontHeight = fontMetrics.getHeight();
+      int round = fontHeight / 4;
       
       for(UnboundString us : usList)
       {
          // skip invisible unboundStrings
          if(us.isVisible() == false)
             continue;
-            
-         // unbound tiles drawn by different function
-         if(us instanceof UnboundTile)
-         {
-      //      drawUnboundTile(g2d, (UnboundTile)us, baseXInset, baseYInset);
-        //    continue;
-         }
          
          xTile = us.getXLoc() - cornerCell[0];
          yTile = us.getYLoc() - cornerCell[1];
