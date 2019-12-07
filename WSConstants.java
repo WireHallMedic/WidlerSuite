@@ -34,7 +34,7 @@ public interface WSConstants
    
    // display settings. Non-final variables intentionally not final.
    public static double GRAVITY = .04;           // tiles per tick
-   public static int FRAMES_PER_SECOND = 15;
+   public static int FRAMES_PER_SECOND = 30;
    public static final double PIXELS_TO_POINTS = .75;
    
    //	angles

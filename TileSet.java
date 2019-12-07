@@ -47,12 +47,6 @@ public class TileSet
    }
    public BufferedImage get(int i, Color c){return get(i % 16, i / 16, c);}
    
-   public BufferedImage get(int x, int y, Color fgc, Color bgc)
-   {
-      return getColorCopy(sizedMap[x][y], fgc, bgc);
-   }
-   public BufferedImage get(int i, Color fgc, Color bgc){return get(i % 16, i / 16, fgc, bgc);}
-   
    // Return an array representing a string
    public BufferedImage[] get(String s, Color c)
    {
