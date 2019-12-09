@@ -131,16 +131,15 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       }
    }
    
-   // set all tiles to blank strings and a background color (default black)
-   public void clear(Color c)
+   // set all tiles to a particlular set of values
+   public void setAll(String s, Color fg, Color bg)
    {
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
       {
-         setTile(x, y, " ", Color.WHITE, c);
+         setTile(x, y, s, fg, bg);
       }
    }
-   public void clear(){clear(Color.BLACK);}
    
    //////////////////////////////////////////////////////
    // public setters
