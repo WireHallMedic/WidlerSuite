@@ -29,7 +29,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected Font font = null;
    protected FontMetrics fontMetrics = null;
    protected String fontName = "Monospaced";
-   protected double textProportion = .9;  // how much of a tile strings fill
+   protected double textProportion = .85;  // how much of a tile strings fill
    protected int colWidth = 0;       // in pixels
    protected int rowHeight = 0;      // in pixels
    protected int arrayXInset = 0;
