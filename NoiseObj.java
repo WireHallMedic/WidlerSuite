@@ -1,7 +1,7 @@
 /*******************************************************************************************
 
 A class for a Perlin-style noise, which automatically wraps. This generates a single octave 
-of noise; see NoiseChoir  for layering them together.
+of noise; see NoiseChoir for layering them together.
 
 Essentially after creation, call in intervals << 1.0 to get smooth (or linear, your call)
 noise.
