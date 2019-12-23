@@ -52,6 +52,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected int screenShakeOffsetX = 0;      // in pixels
    protected int screenShakeOffsetY = 0;      // in pixels
    protected boolean clearShake = false;      // clean up after done shaking
+   protected boolean trimOddAxis = false;     // don't show the last cell of odd axis in hex mode
    protected double xScroll = 0.0;
    protected double yScroll = 0.0;
    protected boolean tightFontBorders = false;
@@ -65,6 +66,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
    public boolean hasTightFontBorders(){return tightFontBorders;}
+   public boolean getTrimOddAxis(){return trimOddAxis;}
    
    public int columns(){return str.length;}
    public int rows(){return str[0].length;}
@@ -79,6 +81,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void setOOBString(String s){oobString = s;}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
    public void setTightFontBorders(boolean tfb){tightFontBorders = tfb;}
+   public void setTrimOddAxis(boolean toa){trimOddAxis = toa;}
    
    // constructor
    public RoguePanel()
@@ -654,6 +657,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
       {
+         if(trimOddAxis && displayMode == HEX_MODE && x == columns() - 1 && y % 2 == 1)
+            continue;
          xLoc = arrayXInset + (x * colWidth) + baseXInset;
          yLoc = arrayYInset + (y * rowHeight) + baseYInset;
          if(isInsetRow(y))

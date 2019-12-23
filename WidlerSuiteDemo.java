@@ -57,7 +57,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private Vector<Room> roomList;
    private Vector<Color> roomColorList;
    private boolean traceType = true;   // true is A*, false is StraightLine
-   private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode"};
+   private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode (Don't Trim)", "Hex Mode (Trim)"};
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
                                              "Show Binary Space Partitioning", "Show Voronoi Map", "Show CA Map", 
@@ -347,6 +347,10 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
                         searchDiagonal = false;
                         break;
             case 2 :    displayMode = HEX_MODE;
+                        roguePanel.setTrimOddAxis(false);
+                        break;
+            case 3 :    displayMode = HEX_MODE;
+                        roguePanel.setTrimOddAxis(true);
                         break;
          }
          roguePanel.setDisplayMode(displayMode);
