@@ -542,6 +542,9 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       if(xLoc >= columns() || yLoc >= rows())
          oob = true;
       
+      if(isUndrawnHexTile(xLoc, yLoc))
+         oob = true;
+      
       if(oob)
       {
          xLoc = -1;
@@ -657,7 +660,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
       {
-         if(trimOddAxis && displayMode == HEX_MODE && x == columns() - 1 && y % 2 == 1)
+         if(isUndrawnHexTile(x, y))
             continue;
          xLoc = arrayXInset + (x * colWidth) + baseXInset;
          yLoc = arrayYInset + (y * rowHeight) + baseYInset;
@@ -768,6 +771,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
             g2d.drawString(us.getString(), xLoc, yLoc);
          }
       }
+   }
+   
+   // returns true if the passed tile location should not be drawn due to trimOddAxis in hex mode
+   protected boolean isUndrawnHexTile(int x, int y)
+   {
+      return trimOddAxis && displayMode == HEX_MODE && x == columns() - 1 && y % 2 == 1;
    }
 
    // returns a list of the x locations for graphics.fillPolygon()
