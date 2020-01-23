@@ -447,8 +447,8 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // set the vertical inset for tile strings
    protected void setStrYInset(Graphics2D g)
    {
-      int stringHeight = (int)(rowHeight * textProportion * 3 / 4.0);
-      strYInset = rowHeight - ((rowHeight - stringHeight) / 2);
+      Rectangle2D rect = g.getFontMetrics().getStringBounds("@O", g);
+      strYInset = rowHeight - ((rect.OUT_BOTTOM - rect.OUT_TOP) / 2);
    }
    
    // adjust display based on screen shake
