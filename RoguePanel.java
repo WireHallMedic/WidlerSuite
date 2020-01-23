@@ -55,7 +55,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected boolean trimOddAxis = false;     // don't show the last cell of odd axis in hex mode
    protected double xScroll = 0.0;
    protected double yScroll = 0.0;
-   protected boolean tightFontBorders = false;
    
    public Font getFont(){return font;}
    public String getFontName(){return fontName;}
@@ -65,7 +64,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public String getOOBString(){return oobString;}
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
-   public boolean hasTightFontBorders(){return tightFontBorders;}
    public boolean getTrimOddAxis(){return trimOddAxis;}
    
    public int columns(){return str.length;}
@@ -80,7 +78,6 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public void setOOBFGColor(Color c){oobFGColor = c;}
    public void setOOBString(String s){oobString = s;}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
-   public void setTightFontBorders(boolean tfb){tightFontBorders = tfb;}
    public void setTrimOddAxis(boolean toa){trimOddAxis = toa;}
    
    // constructor
@@ -426,18 +423,12 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    // font can only be set internally; externally, use setFontName(String)
    protected void setFont()
    {
-      if(tightFontBorders)
-      {
-         int newPointSize = 1;
-         while(FontLoader.getCharHeight(fontName, newPointSize) < colWidth &&
-               FontLoader.getCharWidth(fontName, newPointSize) < rowHeight)
-            newPointSize++;
-         font = new Font(fontName, Font.PLAIN, newPointSize - 1);
-      }
-      else
-      {
-         font = new Font(fontName, Font.PLAIN, (int)(rowHeight * textProportion));
-      }
+      int newPointSize = 1;
+      while(FontLoader.getCharHeight(fontName, newPointSize) < colWidth &&
+            FontLoader.getCharWidth(fontName, newPointSize) < rowHeight)
+         newPointSize++;
+      font = new Font(fontName, Font.PLAIN, newPointSize);
+
       fontMetrics = this.getFontMetrics(font); // so that we don't need a Graphics object later
       for(int x = 0; x < columns(); x++)
       for(int y = 0; y < rows(); y++)
@@ -450,20 +441,13 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected void setStrInset(int x, int y)
    {
       // no error checking as this can only be called internally
-      if(tightFontBorders)
-         strXInset[x][y] = 0;
-      else
-         strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
+      strXInset[x][y] = (colWidth - fontMetrics.stringWidth(getString(x, y))) / 2;
    }
    
    // set the vertical inset for tile strings
    protected void setStrYInset(Graphics2D g)
    {
       int stringHeight = (int)(rowHeight * textProportion * 3 / 4.0);
-      if(tightFontBorders)
-      {
-         stringHeight = WSTools.roundToInt(g.getFontMetrics().getHeight());
-      }
       strYInset = rowHeight - ((rowHeight - stringHeight) / 2);
    }
    

@@ -209,6 +209,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          roguePanel.setTightFontBorders(true);
       }*/
       roguePanel.setFontName("Lucida Sans Regular");
+      //roguePanel.setFontName("Monospaced");
       
       javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, null);
       timer.addActionListener(this);

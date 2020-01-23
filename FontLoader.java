@@ -49,22 +49,21 @@ public class FontLoader
       return fontName;
    }
    
-   // Returns the pixel width of the widest character in the named font.
+   // Returns the pixel width of the widest standard character in the named font.
    public static int getCharWidth(String fontName, int pointSize)
    {
       Font font = new Font(fontName, Font.PLAIN, pointSize);
       Canvas c = new Canvas();
       FontMetrics fm = c.getFontMetrics(font);
-      return fm.stringWidth((char)9580 + "");
+      return Math.max(Math.max(fm.stringWidth("@"), fm.stringWidth("O")), fm.stringWidth("W"));
    }
    
-   // Returns the pixel height of the tallest character in the named font.
+   // Returns the pixel height of the tallest standard character in the named font.
    public static int getCharHeight(String fontName, int pointSize)
    {
       Font font = new Font(fontName, Font.PLAIN, pointSize);
       Canvas c = new Canvas();
-      FontMetrics fm = c.getFontMetrics(font);
-      LineMetrics lm = fm.getLineMetrics((char)9580 + "", c.getGraphics());
-      return (int)lm.getHeight();
+      LineMetrics lm = c.getFontMetrics(font).getLineMetrics("@O", c.getGraphics());
+      return (int)lm.getAscent();
    }
 }
