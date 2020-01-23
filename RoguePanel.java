@@ -432,7 +432,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
          while(FontLoader.getCharHeight(fontName, newPointSize) < colWidth &&
                FontLoader.getCharWidth(fontName, newPointSize) < rowHeight)
             newPointSize++;
-         font = new Font(fontName, Font.PLAIN, newPointSize);
+         font = new Font(fontName, Font.PLAIN, newPointSize - 1);
       }
       else
       {
