@@ -278,20 +278,20 @@
 \par
 Automatically resizes component when parent frame is resized.\par
 \i0\par
-\kerning0 LayoutPanel(JFrame pc)\par
-\i Main constructor. Requires a parent component (the jFrame in which this sits).\i0\par
+\kerning0 LayoutPanel(JFrame pf)\par
+\i Main constructor. Requires a parent frame (the jFrame in which this sits).\i0\par
 \par
-void add(Component p, double w, double h, double x, double y)\par
+void add(Component c, double w, double h, double x, double y)\par
 \i Adds a new component, which is sized to w width and h height, as a portion of this panel, and position x, y of this panel, also as proportions. Expected ranges for these numbers are [0.0, 1.0].\i0\par
    \par
 void resizeComponents()\par
 resizeComponents(boolean repaint)\par
 \i Recalculates size and placement of components. Automatically called if parent component is resized. Default behavior is repaint = true.\par
 \i0\par
-void setValues(Component p, double w, double h, double x, double y)\par
+void setValues(Component c, double w, double h, double x, double y)\par
 \i Set values of an already added component.\i0\par
    \par
-void remove(Component p)\par
+void remove(Component c)\par
 \i Remove an already added component.\i0\par
 \par
 \kerning1\ul\b\fs28 MovementScript (class)\kerning0\ulnone\b0\fs24\par
