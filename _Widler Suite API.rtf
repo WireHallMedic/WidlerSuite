@@ -270,7 +270,29 @@
 \par
 \kerning1 static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget)\kerning0\par
 \kerning1 static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget, int arguments)\kerning0\par
-\kerning1\i Returns the line between two points, subject to arguments.\kerning0\i0\par
+\kerning1\i Returns the line between two points, subject to arguments.\par
+\par
+\ul\b\i0\fs28 LayoutPanel (class)\par
+\ulnone\b0\fs24 Extends: JPanel\par
+\i A panel which manages the layout (size and location) of child panels passed with that info. Size and locations are kept as proportions of this panel; for example, if a component is added with x = 0.0, y=0.5, h = 0.5, w = 0.5, it would occupy the bottom left quarter of this panel.\par
+\par
+Automatically resizes component when parent frame is resized.\par
+\i0\par
+\kerning0 LayoutPanel(JFrame pc)\par
+\i Main constructor. Requires a parent component (the jFrame in which this sits).\i0\par
+\par
+void add(Component p, double w, double h, double x, double y)\par
+\i Adds a new component, which is sized to w width and h height, as a portion of this panel, and position x, y of this panel, also as proportions. Expected ranges for these numbers are [0.0, 1.0].\i0\par
+   \par
+void resizeComponents()\par
+resizeComponents(boolean repaint)\par
+\i Recalculates size and placement of components. Automatically called if parent component is resized. Default behavior is repaint = true.\par
+\i0\par
+void setValues(Component p, double w, double h, double x, double y)\par
+\i Set values of an already added component.\i0\par
+   \par
+void remove(Component p)\par
+\i Remove an already added component.\i0\par
 \par
 \kerning1\ul\b\fs28 MovementScript (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements: ActionListener\kerning0\par

@@ -1,6 +1,11 @@
 /*******************************************************************************************
   
 A panel which manages the layout (size and location) of child panels passed with that info.
+Size and locations are kept as proportions of this panel; for example, if a component is 
+added with x = 0.0, y=0.5, h = 0.5, w = 0.5, it would occupy the bottom left quarter of this
+panel.
+
+Automatically resizes component when parent frame is resized.
   
 Copyright 2020 Michael Widler
 Free for private or public use. No warranty is implied or expressed.
@@ -48,6 +53,29 @@ public class LayoutPanel extends JPanel implements ComponentListener
       componentList.add(p);
       double[] valArr = {w, h, x, y};
       layoutDataList.add(valArr);
+   }
+   
+   // set existing component
+   public void setValues(Component p, double w, double h, double x, double y)
+   {
+      int index = componentList.indexOf(p);
+      if(index > -1)
+      {
+         double[] valArr = {w, h, x, y};
+         layoutDataList.setElementAt(valArr, index);
+         resizeComponents(false);
+      }
+   }
+   
+   // remove existing component
+   public void remove(Component p)
+   {
+      int index = componentList.indexOf(p);
+      if(index > -1)
+      {
+         componentList.removeElementAt(index);
+         layoutDataList.removeElementAt(index);
+      }
    }
    
    // set the child components
