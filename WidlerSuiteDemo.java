@@ -8,8 +8,9 @@ import java.awt.event.*;
 import javax.imageio.*;
 import java.io.*;
 
-public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener, KeyListener, ComponentListener, WSConstants
+public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener, KeyListener, WSConstants
 {
+   private LayoutPanel layoutPanel;
    private JTextArea testTextArea;
    private RoguePanel roguePanel;
    private JPanel controlPanel;
@@ -78,9 +79,9 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       super();
       setSize(1400, 1050);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      setLayout(null);
-      addComponentListener(this); // for resizing
       setTitle("Widler Suite Demo " + WSConstants.VERSION);
+      layoutPanel = new LayoutPanel(this);
+      add(layoutPanel);
       
       strMap = new String[COLUMNS][ROWS];
       passMap = new boolean[COLUMNS][ROWS];
@@ -100,13 +101,12 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       roguePanel.setColumnsAndRows(COLUMNS, ROWS);
       roguePanel.setString(5, 10, "@");
       roguePanel.setTileBorderColor(Color.ORANGE);
-      
-      add(roguePanel);
+      layoutPanel.add(roguePanel, .75, 1.0, 0.0, 0.0);
       
       // controlPanel
       controlPanel = new JPanel();
       controlPanel.setLayout(new GridLayout(10, 1));
-      this.add(controlPanel);
+      layoutPanel.add(controlPanel, .25, 1.0, .75, 0.0);
       
       // instructions
       JTextArea label = new JTextArea("Click or double-click on RoguePanel for UnboundStrings.\n" +
@@ -115,7 +115,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       label.setEditable(false);
       label.setWrapStyleWord(true);
       label.setLineWrap(true);
-      label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 24));
+      label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 18));
       controlPanel.add(label);
       
       // mouse metrics
@@ -250,18 +250,6 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       parent.add(shakePanel);
    }
    
-   // update the roguePanel and controlPanel sizes and locations when the frame is resized.
-   private void setSizesAndLocs()
-   {
-      Insets insets = this.getInsets();
-      int interiorWidth = this.getWidth() - (insets.left + insets.right);
-      int interiorHeight = this.getHeight() - (insets.top + insets.bottom);
-      int roguePanelSize = Math.min(interiorWidth, interiorHeight);
-      roguePanel.setSize(roguePanelSize, roguePanelSize);
-      controlPanel.setLocation(roguePanelSize, 0);
-      controlPanel.setSize(interiorWidth - roguePanelSize, interiorHeight);
-   }
-   
    // update mouseLoc where needed. External listeners notified in the usual way.
    public void mouseMoved(MouseEvent me){dispLoc(me);}
    public void mouseDragged(MouseEvent me){}
@@ -271,18 +259,6 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    public void mouseReleased(MouseEvent me){}
    public void mouseClicked(MouseEvent me){}
    public void keyTyped(KeyEvent ke){}
-   
-   ///////////////////////////////////////////////////////////////////////
-   // ComponentListener stuff
-   public void componentHidden(ComponentEvent ce){}
-   public void componentMoved(ComponentEvent ce){}
-   public void componentShown(ComponentEvent ce){}
-   
-   // update metrics when resized
-   public void componentResized(ComponentEvent ce)
-   {
-      setSizesAndLocs();
-   }
    
    // update the mouse metrics text area when a mouse event occurs
    private void dispLoc(MouseEvent me)

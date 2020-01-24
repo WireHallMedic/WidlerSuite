@@ -23,42 +23,34 @@ public class LayoutPanel extends JPanel implements ComponentListener
 {
    private Vector<Component> componentList;
    private Vector<double[]> layoutDataList;
-   protected Component parentComponent;
+   protected JFrame parentFrame;
    
    // main constructor
-   public LayoutPanel(JFrame pc)
+   public LayoutPanel(JFrame pf)
    {
       super();
-      super.setLayout(null);
+      setLayout(null);
       componentList = new Vector<Component>();
       layoutDataList = new Vector<double[]>();
-      parentComponent = pc;
-      setSize(pc.getWidth(), pc.getHeight());
-      setVisible(false);
-      pc.addComponentListener(this);
-      pc.add(this);
-   }
-   
-   // overwrite parent method
-   @Override
-   public void setLayout(LayoutManager l)
-   {
-      throw new RuntimeException("LayoutPanel cannot accept a LayoutManager object");
+      parentFrame = pf;
+      setSize(parentFrame.getWidth(), parentFrame.getHeight());
+      parentFrame.addComponentListener(this);
+      parentFrame.add(this);
    }
    
    // add JPanels with layout info
-   public void add(Component p, double w, double h, double x, double y)
+   public void add(Component c, double w, double h, double x, double y)
    {
-      super.add(p);
-      componentList.add(p);
+      super.add(c);
+      componentList.add(c);
       double[] valArr = {w, h, x, y};
       layoutDataList.add(valArr);
    }
    
    // set existing component
-   public void setValues(Component p, double w, double h, double x, double y)
+   public void setValues(Component c, double w, double h, double x, double y)
    {
-      int index = componentList.indexOf(p);
+      int index = componentList.indexOf(c);
       if(index > -1)
       {
          double[] valArr = {w, h, x, y};
@@ -68,9 +60,9 @@ public class LayoutPanel extends JPanel implements ComponentListener
    }
    
    // remove existing component
-   public void remove(Component p)
+   public void remove(Component c)
    {
-      int index = componentList.indexOf(p);
+      int index = componentList.indexOf(c);
       if(index > -1)
       {
          componentList.removeElementAt(index);
