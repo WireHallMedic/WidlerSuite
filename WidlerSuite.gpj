@@ -14,7 +14,7 @@ s#j0
 s#l0
 !201;u
 a0	b68	c255	d%\\011curses_16x16.png\011%\\011Ricci.png	f%\011WidlerSuiteDemo.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo	iWidlerSuite.WidlerSuiteDemo!29;a
-a%\011WidlerSuite_doc	b	c0	d0!661;g
+a%\011WidlerSuite_doc	b	c0	d0!683;g
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -44,9 +44,10 @@ a%\011WidlerSuite_doc	b	c0	d0!661;g
 %\011StraightLine.java
 %\011AStarOpenList.java
 %\011WSConstants.java
+%\011LayoutPanel.java
 %\011MovementScript.java
 %\011ShadowFoV.java
-!661;f
+!683;f
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011AStar.java
@@ -76,6 +77,7 @@ a%\011WidlerSuite_doc	b	c0	d0!661;g
 %\011StraightLine.java
 %\011AStarOpenList.java
 %\011WSConstants.java
+%\011LayoutPanel.java
 %\011MovementScript.java
 %\011ShadowFoV.java
 !50;m
