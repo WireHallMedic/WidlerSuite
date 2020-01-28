@@ -65,7 +65,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
    public boolean getTrimOddAxis(){return trimOddAxis;}
-   public int getTileHieght(){return rowHeight;}
+   public int getTileHeight(){return rowHeight;}
    public int getTileWidth(){return colWidth;}
    
    public int columns(){return str.length;}
