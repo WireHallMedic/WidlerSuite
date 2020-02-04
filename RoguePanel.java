@@ -450,7 +450,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
    protected void setStrYInset(Graphics2D g)
    {
       Rectangle2D rect = g.getFontMetrics().getStringBounds("@O", g);
-      strYInset = rowHeight - ((rect.OUT_BOTTOM - rect.OUT_TOP) / 2);
+      strYInset = (rowHeight / 2) + ((rect.OUT_BOTTOM - rect.OUT_TOP));
    }
    
    // adjust display based on screen shake
