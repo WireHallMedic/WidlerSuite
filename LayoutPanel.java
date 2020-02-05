@@ -32,9 +32,7 @@ public class LayoutPanel extends JPanel implements ComponentListener
       componentList = new Vector<Component>();
       layoutDataList = new Vector<double[]>();
       parentFrame = pf;
-      Insets insets = pf.getInsets();
-      setSize(parentFrame.getWidth() - (insets.left + insets.right), 
-              parentFrame.getHeight() - (insets.top + insets.bottom));
+      resizeSelf();
       parentFrame.addComponentListener(this);
       parentFrame.add(this);
    }
@@ -71,6 +69,14 @@ public class LayoutPanel extends JPanel implements ComponentListener
       }
    }
    
+   // set self to maximum size within parent frame
+   private void resizeSelf()
+   {
+      Insets insets = parentFrame.getInsets();
+      setSize(parentFrame.getWidth() - (insets.left + insets.right), 
+              parentFrame.getHeight() - (insets.top + insets.bottom));
+   }
+   
    // set the child components
    public void resizeComponents(){resizeComponents(true);}
    public void resizeComponents(boolean repaint)
@@ -81,21 +87,21 @@ public class LayoutPanel extends JPanel implements ComponentListener
       for(int i = 0; i < componentList.size(); i++)
       {
          double[] vals = layoutDataList.elementAt(i);
-         arrange(componentList.elementAt(i), vals[0], vals[1], vals[2], vals[3], frameWidth, frameHeight);
+         arrange(componentList.elementAt(i), vals[0], vals[1], vals[2], vals[3]);
       }
       if(repaint)
          repaint();
    }
    
    // set a component to a location and size as relative to parent size
-   private void arrange(Component child, double w, double h, double x, double y, int frameWidth, int frameHeight)
+   private void arrange(Component child, double w, double h, double x, double y)
    {
-      child.setSize((int)(frameWidth * w), (int)(frameHeight * h));
-      child.setLocation((int)(frameWidth * x), (int)(frameHeight * y));
+      child.setSize((int)(getWidth() * w), (int)(getHeight() * h));
+      child.setLocation((int)(getWidth() * x), (int)(getHeight() * y));
    }
    
    // update metrics when resized
-   public void componentResized(ComponentEvent ce){resizeComponents();}
+   public void componentResized(ComponentEvent ce){resizeSelf(); resizeComponents();}
    public void componentMoved(ComponentEvent ce){}
    public void componentHidden(ComponentEvent ce){}
    public void componentShown(ComponentEvent ce){repaint();}
