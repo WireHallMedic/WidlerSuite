@@ -32,7 +32,9 @@ public class LayoutPanel extends JPanel implements ComponentListener
       componentList = new Vector<Component>();
       layoutDataList = new Vector<double[]>();
       parentFrame = pf;
-      setSize(parentFrame.getWidth(), parentFrame.getHeight());
+      Insets insets = pf.getInsets();
+      setSize(parentFrame.getWidth() - (insets.left + insets.right), 
+              parentFrame.getHeight() - (insets.top + insets.bottom));
       parentFrame.addComponentListener(this);
       parentFrame.add(this);
    }
@@ -73,20 +75,23 @@ public class LayoutPanel extends JPanel implements ComponentListener
    public void resizeComponents(){resizeComponents(true);}
    public void resizeComponents(boolean repaint)
    {
+      Insets insets = parentFrame.getInsets();
+      int frameWidth = parentFrame.getWidth() - (insets.left + insets.right); 
+      int frameHeight = parentFrame.getHeight() - (insets.top + insets.bottom);
       for(int i = 0; i < componentList.size(); i++)
       {
          double[] vals = layoutDataList.elementAt(i);
-         arrange(componentList.elementAt(i), vals[0], vals[1], vals[2], vals[3]);
+         arrange(componentList.elementAt(i), vals[0], vals[1], vals[2], vals[3], frameWidth, frameHeight);
       }
       if(repaint)
          repaint();
    }
    
    // set a component to a location and size as relative to parent size
-   private void arrange(Component child, double w, double h, double x, double y)
+   private void arrange(Component child, double w, double h, double x, double y, int frameWidth, int frameHeight)
    {
-      child.setSize((int)(getWidth() * w), (int)(getHeight() * h));
-      child.setLocation((int)(getWidth() * x), (int)(getHeight() * y));
+      child.setSize((int)(frameWidth * w), (int)(frameHeight * h));
+      child.setLocation((int)(frameWidth * x), (int)(frameHeight * y));
    }
    
    // update metrics when resized
