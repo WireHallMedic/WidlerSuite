@@ -4,7 +4,6 @@ A panel which manages the layout (size and location) of child panels passed with
 Size and locations are kept as proportions of this panel; for example, if a component is 
 added with x = 0.0, y=0.5, h = 0.5, w = 0.5, it would occupy the bottom left quarter of this
 panel.
-
 Automatically resizes component when parent frame is resized.
   
 Copyright 2020 Michael Widler
