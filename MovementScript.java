@@ -23,6 +23,7 @@ public class MovementScript implements ActionListener
 	private boolean loops;
 	private boolean expiresTargetOnEnd;
 	private boolean expired;
+   private boolean nonlockTargetOnEnd;     // move target to nonlocking list
    private int age;
 
 
@@ -31,6 +32,7 @@ public class MovementScript implements ActionListener
 	public boolean loops(){return loops;}
 	public boolean expiresTargetOnEnd(){return expiresTargetOnEnd;}
    public int length(){return stepList.size();}
+   public boolean nonlocksTargetOnEnd(){return nonlockTargetOnEnd;}
 
 
 	public void setTarget(UnboundString t){target = t;}
@@ -38,6 +40,7 @@ public class MovementScript implements ActionListener
 	public void setLoops(boolean l){loops = l;}
 	public void setExpiresTargetOnEnd(boolean e){expiresTargetOnEnd = e;}
 	public void setExpired(boolean e){expired = e;}
+   public void setNonlocksTargetOnEnd(boolean n){nonlockTargetOnEnd = n;}
 
    
    // constructor
@@ -48,6 +51,7 @@ public class MovementScript implements ActionListener
       loops = false;
       expiresTargetOnEnd = false;
       expired = false;
+      nonlockTargetOnEnd = false;
       age = 0;
    }
    

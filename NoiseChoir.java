@@ -19,7 +19,7 @@ public class NoiseChoir
 {
 	protected NoiseObj[] noise;
 	protected int octaves;
-	protected double persistence;               // must be 0 - 1, non-inclusive
+	protected double persistence;               // must be in range of (0, 1)
 	protected double frequencyMultiplier;           
    protected double[] weight;
    
@@ -104,5 +104,25 @@ public class NoiseChoir
          frequency *= frequencyMultiplier;
       }
       return val;
+   }   
+   
+   // makes a rolling-hills sort of effect. amt must be in range of (0, 1)
+   public void applyBillow(double amt)
+   {
+      for(int i = 0; i < octaves; i++)
+      {
+         noise[i].applyBillow(amt);
+      }
    }
+   public void applyBillow(){applyBillow(0.5);}
+   
+   // makes sharp alpine ridges. amt must be in range of (0, 1)
+   public void applyRidged(double amt)
+   {
+      for(int i = 0; i < octaves; i++)
+      {
+         noise[i].applyRidged(amt);
+      }
+   }
+   public void applyRidged(){applyRidged(0.5);}
 }

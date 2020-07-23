@@ -34,6 +34,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean showVoronoi = false;
    private boolean showCA = false;
    private boolean showNoise = false;
+   private boolean showBillowingNoise = false;
+   private boolean showRidgedNoise = false;
    private boolean showBlit = false;
    private boolean demoScrollingUp = false;
    private boolean demoScrollingDown = false;
@@ -45,6 +47,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private Color[][] bgMap;
    private Color[][] fgMap;
    private Color[][] noiseMap;
+   private Color[][] billowingNoiseMap;
+   private Color[][] ridgedNoiseMap;
    private Color[][] blitMap;
    private AStar aStar;
    private Coord atLoc;
@@ -62,7 +66,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
                                              "Show Binary Space Partitioning", "Show Voronoi Map", "Show CA Map", 
-                                             "Show Noise", "Show Blit"};
+                                             "Show Noise", "Show Billowing Noise", "Show Ridged Noise", "Show Blit"};
    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
    private static final Color[] voronoiColors = getVoronoiColors();
    private static final String BULLET_STR = "" + (char)8226;
@@ -93,7 +97,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       
       setTestMap();
       setCA();
-      setNoiseMap();
+      setNoiseMaps();
       setBlitMap();
       
       // roguePanel
@@ -346,6 +350,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          showVoronoi = false;
          showCA = false;
          showNoise = false;
+         showBillowingNoise = false;
+         showRidgedNoise = false;
          showBlit = false;
          switch(areaDD.getSelectedIndex())
          {
@@ -362,7 +368,11 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
                         break;
             case 6 :    showNoise = true;
                         break;
-            case 7 :    showBlit = true;
+            case 7 :    showBillowingNoise = true;
+                        break;
+            case 8 :    showRidgedNoise = true;
+                        break;
+            case 9 :    showBlit = true;
                         break;
             default :   break;
          }
@@ -662,6 +672,26 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          }
       }
       
+      // billowing noise
+      if(showBillowingNoise)
+      {
+         for(int x = 0; x < COLUMNS; x++)
+         for(int y = 0; y < ROWS - 1; y++)
+         {
+            roguePanel.setBGColor(x, y, billowingNoiseMap[x][y]);
+         }
+      }
+      
+      // ridged noise
+      if(showRidgedNoise)
+      {
+         for(int x = 0; x < COLUMNS; x++)
+         for(int y = 0; y < ROWS - 1; y++)
+         {
+            roguePanel.setBGColor(x, y, ridgedNoiseMap[x][y]);
+         }
+      }
+      
       // blit
       if(showBlit)
       {
@@ -673,20 +703,32 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       }
    }
    
-   private void setNoiseMap()
+   private void setNoiseMaps()
    {
-      noiseMap = new Color[COLUMNS][ROWS];
+      noiseMap = setNoiseMap(false, false);
+      billowingNoiseMap = setNoiseMap(true, false);
+      ridgedNoiseMap = setNoiseMap(false, true);
+   }
+   
+   private Color[][] setNoiseMap(boolean billow, boolean ridged)
+   {
+      Color[][] nm = new Color[COLUMNS][ROWS];
       NoiseChoir noise = new NoiseChoir();
+      if(billow)
+         noise.applyBillow();
+      if(ridged)
+         noise.applyRidged();
       for(int x = 0; x < COLUMNS; x++)
       for(int y = 0; y < ROWS - 1; y++)
       {
          double subX = .1 * (double)x;
          double subY = .1 * (double)y;
          int intensity = (int)(noise.getValue(subX, subY) * 256);
-         noiseMap[x][y] = new Color(intensity, intensity, intensity);
+         nm[x][y] = new Color(intensity, intensity, intensity);
       }
       for(int x = 0; x < COLUMNS; x++)
-         noiseMap[x][ROWS - 1] = Color.BLACK;
+         nm[x][ROWS - 1] = Color.BLACK;
+      return nm;
    }
    
    private void drawPath()

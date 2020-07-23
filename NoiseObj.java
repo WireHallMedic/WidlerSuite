@@ -95,4 +95,28 @@ public class NoiseObj
          return WSTools.interpolateLinear(px1, px2, yInset);
       }
    }
+   
+   // makes a rolling-hills sort of effect. amt must be in range of (0, 1)
+   public void applyBillow(double amt)
+   {
+      double resultantMax = 1.0 - amt;
+      double reshift = 1.0 / resultantMax;
+      for(int x = 0; x < getWidth(); x++)
+      for(int y = 0; y < getHeight(); y++)
+      {
+         vertex[x][y] = Math.max(0.0, Math.min(1.0, (Math.abs(vertex[x][y] - amt)) * reshift));
+      }
+   }
+   public void applyBillow(){applyBillow(0.5);}
+   
+   // makes sharp alpine ridges.
+   public void applyRidged(double expo)
+   {
+      for(int x = 0; x < getWidth(); x++)
+      for(int y = 0; y < getHeight(); y++)
+      {
+         vertex[x][y] = Math.pow(vertex[x][y], expo);
+      }
+   }
+   public void applyRidged(){applyRidged(2.0);}
 }

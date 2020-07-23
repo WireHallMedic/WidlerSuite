@@ -137,11 +137,19 @@ public class AnimationManager implements ActionListener
    // update each script in the list
    protected void processScriptList(ActionEvent ae)
    {
+      MovementScript curScript;
       for(int i = 0; i < scriptList.size(); i++)
       {
-         scriptList.elementAt(i).actionPerformed(ae);
-         if(scriptList.elementAt(i).isExpired())
+         curScript = scriptList.elementAt(i);
+         curScript.actionPerformed(ae);
+         if(curScript.isExpired())
          {
+            if(curScript.nonlocksTargetOnEnd())
+            {
+               UnboundString target = curScript.getTarget();
+               remove(target);
+               addNonlocking(target);
+            }
             scriptList.removeElementAt(i);
             i--;
          }
