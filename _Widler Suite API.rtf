@@ -270,15 +270,15 @@
 \par
 \kerning1 static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget)\kerning0\par
 \kerning1 static Vector<Coord> findLine(Coord tileOrigin, Coord tileTarget, int arguments)\kerning0\par
-\kerning1\i Returns the line between two points, subject to arguments.\par
+\kerning1\i Returns the line between two points, subject to arguments.\kerning0\i0\par
 \par
-\ul\b\i0\fs28 LayoutPanel (class)\par
-\ulnone\b0\fs24 Extends: JPanel\par
-\i A panel which manages the layout (size and location) of child panels passed with that info. Size and locations are kept as proportions of this panel; for example, if a component is added with x = 0.0, y=0.5, h = 0.5, w = 0.5, it would occupy the bottom left quarter of this panel.\par
+\kerning1\ul\b\fs28 LayoutPanel (class)\kerning0\ulnone\b0\fs24\par
+\kerning1 Extends: JPanel\kerning0\par
+\kerning1\i A panel which manages the layout (size and location) of child panels passed with that info. Size and locations are kept as proportions of this panel; for example, if a component is added with x = 0.0, y=0.5, h = 0.5, w = 0.5, it would occupy the bottom left quarter of this panel.\kerning0\i0\par
 \par
-Automatically resizes component when parent frame is resized.\par
-\i0\par
-\kerning0 LayoutPanel(JFrame pf)\par
+\kerning1\i Automatically resizes component when parent frame is resized.\kerning0\i0\par
+\par
+LayoutPanel(JFrame pf)\par
 \i Main constructor. Requires a parent frame (the jFrame in which this sits).\i0\par
 \par
 void add(Component c, double w, double h, double x, double y)\par
@@ -286,8 +286,8 @@ void add(Component c, double w, double h, double x, double y)\par
    \par
 void resizeComponents()\par
 resizeComponents(boolean repaint)\par
-\i Recalculates size and placement of components. Automatically called if parent component is resized. Default behavior is repaint = true.\par
-\i0\par
+\i Recalculates size and placement of components. Automatically called if parent component is resized. Default behavior is repaint = true.\i0\par
+\par
 void setValues(Component c, double w, double h, double x, double y)\par
 \i Set values of an already added component.\i0\par
    \par
@@ -317,6 +317,9 @@ void remove(Component c)\par
 \kerning1 boolean expiresTargetOnEnd()\kerning0\par
 \kerning1\i Returns whether or not this script manually expires its target upon completion.\kerning0\i0\par
 \par
+\kerning1 boolean nonlocksTargetOnEnd()\kerning0\par
+\kerning1\i Returns whether or not this script moves its target from the locking list to the non-locking list upon expiration..\kerning0\i0\par
+\par
 \kerning1 int length()\kerning0\par
 \kerning1\i Returns the number of steps/ticks in the script.\kerning0\i0\par
 \par
@@ -331,6 +334,9 @@ void remove(Component c)\par
 \par
 \kerning1 void setExpiresTargetOnEnd(boolean e)\kerning0\par
 \kerning1\i Set whether or not the script manually expires its target.\kerning0\i0\par
+\par
+\kerning1 void setNonlocksTargetOnEnd(boolean e)\kerning0\par
+\kerning1\i Set whether or not the script moves its target from the locking list to the non-locking list upon expiration.\kerning0\i0\par
 \par
 \kerning1 void setExpired(boolean e)\kerning0\par
 \kerning1\i Manually sets whether this script is expired.\kerning0\i0\par
@@ -411,6 +417,14 @@ void remove(Component c)\par
 \kerning1 double getValue(double xOff, double yOff)\kerning0\par
 \kerning1\i Calculates and returns the value of a point. This is the one you'll call a lot.\kerning0\i0\par
 \par
+\kerning1 double applyBillow(double amt)\kerning0\par
+\kerning1 double applyBillow()\kerning0\par
+\kerning1\i Create a billowing effect by folding the low-valued vertices of each NoiseObj back over themselves.\kerning0\i0\par
+\par
+\kerning1 double applyRidged(double amt)\kerning0\par
+\kerning1 double applyRidged()\kerning0\par
+\kerning1\i Create a sharp ridged effect by raising the vertices of each NoiseObj to the power of amt.\kerning0\i0\par
+\par
 \kerning1\ul\b\fs28 NoiseObj (class)\kerning0\ulnone\b0\fs24\par
 \kerning1\i A class for a Perlin-style noise, which automatically wraps. This generates a single octave \kerning0\i0\par
 \kerning1\i of noise; see NoiseChoir  for layering them together. An octave of noise is a 2D array of doubles, where each element is in the range of (0.0, 1.0). The idea is to call points that lie between the vertices, and the NoiseObj will then calculate the value of that point based on how close they are to the four surrounding vertices. This is either scaled linearly (which yields angles) or by cosine interpolation (which yields smooth curves).\kerning0\i0\par
@@ -451,6 +465,14 @@ void remove(Component c)\par
 \par
 \kerning1 double getValue(double xOff, double yOff)\kerning0\par
 \kerning1\i Calculates and returns the value of a point. This is the one you'll call a lot.\kerning0\i0\par
+\par
+\kerning1 double applyBillow(double amt)\kerning0\par
+\kerning1 double applyBillow()\kerning0\par
+\kerning1\i Create a billowing effect by folding the low-valued vertices back over themselves.\kerning0\i0\par
+\par
+\kerning1 double applyRidged(double amt)\kerning0\par
+\kerning1 double applyRidged()\kerning0\par
+\kerning1\i Create a sharp ridged effect by raising the vertices to the power of amt.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 RectLine (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Extends: StraightLine\kerning0\par
