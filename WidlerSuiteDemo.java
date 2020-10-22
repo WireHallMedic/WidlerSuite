@@ -162,7 +162,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       controlPanel.add(scriptUSButton);
       scriptUS = new UnboundString("!", Color.WHITE, 20, 20);
       scriptUS.setBGColor(Color.BLUE);
-      scriptUS.setBackgroundBoxType(UnboundString.HEXAGON);
+      scriptUS.setBackgroundBoxType(UnboundString.CIRCLE);
+      scriptUS.setBackgroundBox(true);
       scriptUS.setAffectedByAge(false);
       scriptUS.setSpeed(-.3, 0.0);
       scriptUS.setBorder(Color.WHITE);

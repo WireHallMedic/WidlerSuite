@@ -714,7 +714,7 @@ public class RoguePanel extends JPanel implements ComponentListener, ActionListe
                int bgBoxW = Math.max(colWidth, strWidth + (colWidth / 2));
                int bgBoxH = rowHeight;
                int bgBoxX = xLoc - ((bgBoxW - strWidth) / 2);
-               int bgBoxY = yLoc - rowHeight + fontMetrics.getDescent();
+               int bgBoxY = yLoc - rowHeight;// + fontMetrics.getDescent();
                int cir = Math.max(bgBoxW, bgBoxH);
                switch(us.getBackgroundBoxType())
                {
