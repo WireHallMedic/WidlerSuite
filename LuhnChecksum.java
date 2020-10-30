@@ -110,6 +110,11 @@ public class LuhnChecksum
       System.out.println("Input:      " + str3);
       System.out.println("Output:     " + str4);
       System.out.println("Validation: " + validate(str4));
-      System.out.println("Validation with 'X' appended: " + validate(str4 + "X"));
+      
+      int correctCheckSums = 0;
+      for(int i = 0; i < D; i++)
+         if(validate(str1 + Integer.toString(i)))
+            correctCheckSums++;
+      System.out.println(String.format("\nBrute force validation: %d/%d", correctCheckSums, D));
    }
 }
