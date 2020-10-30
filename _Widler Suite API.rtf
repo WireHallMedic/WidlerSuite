@@ -1,6 +1,6 @@
 {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deftab709{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}}
 {\colortbl ;\red0\green0\blue0;\red0\green0\blue255;\red0\green0\blue128;}
-{\*\generator Riched20 10.0.18362}\viewkind4\uc1 
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
 \pard\nowidctlpar\qc\kerning1\b\f0\fs36\lang1033 Widler Suite API\kerning0\b0\fs24\par
 
 \pard\nowidctlpar\par
@@ -285,14 +285,26 @@ void add(Component c, double w, double h, double x, double y)\par
 \i Adds a new component, which is sized to w width and h height, as a portion of this panel, and position x, y of this panel, also as proportions. Expected ranges for these numbers are [0.0, 1.0].\i0\par
    \par
 void resizeComponents()\par
-resizeComponents(boolean repaint)\par
+void resizeComponents(boolean repaint)\par
 \i Recalculates size and placement of components. Automatically called if parent component is resized. Default behavior is repaint = true.\i0\par
 \par
 void setValues(Component c, double w, double h, double x, double y)\par
 \i Set values of an already added component.\i0\par
    \par
 void remove(Component c)\par
-\i Remove an already added component.\i0\par
+\kerning1\i Remove an already added component.\kerning0\i0\par
+\par
+\kerning1\ul\b\fs28 LuhnsChecksum (static class)\kerning0\ulnone\b0\fs24\par
+\kerning1\i A static class that generates and validates checksums for strings. An adaptation of Luhn's Algorithm.\kerning0\i0\par
+\par
+String appendChecksum(String str)\par
+\i Generates the checksum character for the passed string and returns a string with that character appended.\i0\par
+\par
+char genChecksum(String str)\par
+\kerning1\i Generates the checksum character for the passed string.\kerning0\i0\par
+\par
+boolean validate(String str)\par
+\kerning1\i Indicates whether the last character in the passed string is the correct checksum for the rest of that string.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 MovementScript (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements: ActionListener\kerning0\par
