@@ -486,6 +486,17 @@ boolean validate(String str)\par
 \kerning1 double applyRidged()\kerning0\par
 \kerning1\i Create a sharp ridged effect by raising the vertices to the power of amt.\kerning0\i0\par
 \par
+\kerning1\ul\b\fs28 Obfuscator (static class)\kerning0\ulnone\b0\fs24\par
+\kerning1\i Used to obfuscate and deobfuscate a string. Used to make things like save files non-human readable. Only mangles characters in the range of ' ' to '~' (ASCII/Unicode 32 -c 127 inclusive), to stay out of control characters. Static.\par
+\par
+Note that you could use deobfuscate() to mangle and obfuscate() to then demangle, as we're just shifting sideways through the character range. Also if you obfuscate() n times, deobfuscating() n times gets you back the original.\kerning0\i0\par
+\par
+\kerning1 static String obfuscate(String str)\kerning0\par
+\kerning1\i Returns an obfuscated (wrapping right-shifted) copy of the passed string.\kerning0\i0\par
+\par
+\kerning1 static String deobfuscate(String str)\kerning0\par
+\kerning1\i Returns a deobfuscated (wrapping left-shifted) copy of the passed string.\kerning0\i0\par
+\kerning1\i .\kerning0\i0\par
 \kerning1\ul\b\fs28 RectLine (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Extends: StraightLine\kerning0\par
 \kerning1\i Creates a straight line between two points on a rectangular grid. This is an implementation of Bresenham's Line. Can be called directly or through StraightLine when StraightLine is in Rect Mode. Static.\kerning0\i0\par
