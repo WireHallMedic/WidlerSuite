@@ -770,7 +770,7 @@ boolean validate(String str)\par
 \par
 \kerning1\ul\b\fs28 ShadowFoVHex (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Extends: ShadowFoV\kerning0\par
-\kerning1\i An implementation of shadowcasting FoV for hex modes. Checks if the center of a tile has LoS to at least one of six points on the target tile. Does not need to be reset in between runs.\kerning0\i0\par
+\kerning1\i An implementation of shadowcasting FoV for hex modes. Checks if the center of a tile has LoS to at least one of six points on the target tile. Does not need to be reset in between runs. Because ShadowFoVRect (below) calculates field-of-view with octants, it has the capability to quickly determine LoS between two tiles by only calculating one octant. It appears to work for hex layouts too.\kerning0\i0\par
 \par
 \kerning1\i Basic procedure:\kerning0\i0\par
 \kerning1\i    The cell's neighbors are added to the process list (checking if in bounds, in range and\kerning0\i0\par
@@ -811,7 +811,7 @@ boolean validate(String str)\par
 \par
 \kerning1 void calcCone(int originX, int originY, int radius, targetX, targetY)\kerning0\par
 \kerning1 void calcCone(Coord origin, int radius, Coord target)\kerning0\par
-\kerning1\i Calculate visible squares from a given location and radius, only in the octant containing the target cell.\kerning0\i0\par
+\kerning1\i Calculate visible squares from a given location and radius, only in the octant containing the target cell. Note that while ShadowFoVHex doesn't have these functions, using ShadowFoVRect seems to work fine for that, as far as testing shows.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 SmoothCA (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements: WSConstants\kerning0\par

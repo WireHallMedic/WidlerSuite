@@ -67,7 +67,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
                                              "Show Binary Space Partitioning", "Show Voronoi Map", "Show CA Map", 
-                                             "Show Noise", "Show Billowing Noise", "Show Ridged Noise", "Show Blit", "Show Watcher Cone (Rect only)"};
+                                             "Show Noise", "Show Billowing Noise", "Show Ridged Noise", "Show Blit", "Show Watcher Cone"};
    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
    private static final Color[] voronoiColors = getVoronoiColors();
    private static final String BULLET_STR = "" + (char)8226;
@@ -79,7 +79,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private Color[] gradient = WSTools.getGradient(Color.BLUE, Color.BLACK, 21);
    private Coord watcherLoc = new Coord(15, 15);
    private ShadowFoVRect watcherFoV;
-   private int watcherRadius = 10;
+   private int watcherRadius = 20;
    
    // test function
    public WidlerSuiteDemo()

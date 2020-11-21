@@ -197,12 +197,12 @@ public class ShadowFoVHex extends ShadowFoV
          little = Math.min(Math.min(cornerAngle[0], cornerAngle[1]), Math.min(cornerAngle[2], cornerAngle[3]));
          for(int i = 0; i < 4; i++)
          {
-         // if an angle is more than pi radians different from the smallest, make it negative
-         if(Math.abs(cornerAngle[i] - little) > WSTools.HALF_CIRCLE)
-         {
-            cornerAngle[i] -= WSTools.FULL_CIRCLE;
+            // if an angle is more than pi radians different from the smallest, make it negative
+            if(Math.abs(cornerAngle[i] - little) > WSTools.HALF_CIRCLE)
+            {
+               cornerAngle[i] -= WSTools.FULL_CIRCLE;
+            }
          }
-      }
       // set
       this.lower = Math.min(Math.min(cornerAngle[0], cornerAngle[1]), Math.min(cornerAngle[2], cornerAngle[3]));
       this.upper = Math.max(Math.max(cornerAngle[0], cornerAngle[1]), Math.max(cornerAngle[2], cornerAngle[3]));
