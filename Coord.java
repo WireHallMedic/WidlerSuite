@@ -151,6 +151,14 @@ public class Coord
       return v.angle;
    }
    
+   // returns the angle from this Coord to that one
+   public double getAngleTo(Coord that)
+   {
+      Coord c = new Coord(that.x - this.x, that.y - this.y)
+      Vect v = new Vect(c);
+      return v.angle;
+   }
+   
    // represents the data as a string formatted as [x][y]
    public String toString()
    {
