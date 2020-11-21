@@ -44,12 +44,17 @@ public class ShadowFoVRect extends ShadowFoV
       }
       for(int oct = 0; oct < 8; oct += 1)
       {
-         castLight(xLoc, yLoc,         // starting coordinates
-                   1,                  // row number
-                   1.0, 0.0, radius,   // bounding slopes and radius
-                   multipliers[0][oct], multipliers[1][oct], multipliers[2][oct], multipliers[3][oct]); // octant multipliers
+         castLightInOctant(xLoc, yLoc, oct, radius);
       }
       visibilityMap[xLoc][yLoc] = flag;
+   }
+   
+   private void castLightInOctant(int xLoc, int yLoc, int oct, int radius)
+   {
+      castLight(xLoc, yLoc,         // starting coordinates
+                1,                  // row number
+                1.0, 0.0, radius,   // bounding slopes and radius
+                multipliers[0][oct], multipliers[1][oct], multipliers[2][oct], multipliers[3][oct]); // octant multipliers
    }
    
    // sets a square as visible using the current flag
