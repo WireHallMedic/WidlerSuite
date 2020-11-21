@@ -148,6 +148,9 @@
 \kerning1 double getAngle()\kerning0\par
 \kerning1\i Converts the xy coordinates to a mathematical vector, and returns just the angle.\kerning0\i0\par
 \par
+\kerning1 double getAngleTo(Coord)\kerning0\par
+\kerning1\i Returns the angle from this Coord to the passed one.\kerning0\i0\par
+\par
 \kerning1 String toString()\kerning0\par
 \kerning1\i Returns a string representing the Coord, formatted as \ldblquote [x][y]\rdblquote .\kerning0\i0\par
 \par
@@ -487,9 +490,9 @@ boolean validate(String str)\par
 \kerning1\i Create a sharp ridged effect by raising the vertices to the power of amt.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 Obfuscator (static class)\kerning0\ulnone\b0\fs24\par
-\kerning1\i Used to obfuscate and deobfuscate a string. Used to make things like save files non-human readable. Only mangles characters in the range of ' ' to '~' (ASCII/Unicode 32 -c 127 inclusive), to stay out of control characters. Static.\par
+\kerning1\i Used to obfuscate and deobfuscate a string. Used to make things like save files non-human readable. Only mangles characters in the range of ' ' to '~' (ASCII/Unicode 32 -c 127 inclusive), to stay out of control characters. Static.\kerning0\i0\par
 \par
-Note that you could use deobfuscate() to mangle and obfuscate() to then demangle, as we're just shifting sideways through the character range. Also if you obfuscate() n times, deobfuscating() n times gets you back the original.\kerning0\i0\par
+\kerning1\i Note that you could use deobfuscate() to mangle and obfuscate() to then demangle, as we're just shifting sideways through the character range. Also if you obfuscate() n times, deobfuscating() n times gets you back the original.\kerning0\i0\par
 \par
 \kerning1 static String obfuscate(String str)\kerning0\par
 \kerning1\i Returns an obfuscated (wrapping right-shifted) copy of the passed string.\kerning0\i0\par
@@ -805,6 +808,10 @@ Note that you could use deobfuscate() to mangle and obfuscate() to then demangle
 \par
 \kerning1 void calcFoV(int xLoc, int yLoc, int radius)\kerning0\par
 \kerning1\i Calculate visible squares from a given location and radius.\kerning0\i0\par
+\par
+\kerning1 void calcCone(int originX, int originY, int radius, targetX, targetY)\kerning0\par
+\kerning1 void calcCone(Coord origin, int radius, Coord target)\kerning0\par
+\kerning1\i Calculate visible squares from a given location and radius, only in the octant containing the target cell.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 SmoothCA (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements: WSConstants\kerning0\par
