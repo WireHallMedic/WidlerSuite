@@ -23,7 +23,7 @@ package WidlerSuite;
 public class ShadowFoVRect extends ShadowFoV
 {
    // for arc casting
-   private final double EIGHT_CIRCLE = 2.0 * Math.pi / 8.0;
+   private final double EIGHT_CIRCLE = 2.0 * Math.PI / 8.0;
    
    // multipliers for transforming octants
    private static int[][] multipliers = {{1,  0,  0, -1, -1,  0,  0,  1},
