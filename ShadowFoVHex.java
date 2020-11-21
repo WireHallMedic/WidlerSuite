@@ -51,12 +51,7 @@ public class ShadowFoVHex extends ShadowFoV
    // Calculate lit squares from a given location and radius
    public void calcFoV(int xLoc, int yLoc, int radius)
    {
-      flag += 1;
-      if(flag == Integer.MAX_VALUE)
-      {
-         reset(transparencyMap);
-      }
-      
+      incrementFlag();
       shadowList = new Vector<Shadow>();
       processList = new Vector<Coord>();
       listIndex = 0;

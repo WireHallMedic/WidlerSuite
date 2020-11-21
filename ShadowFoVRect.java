@@ -22,6 +22,9 @@ package WidlerSuite;
 
 public class ShadowFoVRect extends ShadowFoV
 {
+   // for arc casting
+   private final double EIGHT_CIRCLE = 2.0 * Math.pi / 8.0;
+   
    // multipliers for transforming octants
    private static int[][] multipliers = {{1,  0,  0, -1, -1,  0,  0,  1},
                                          {0,  1, -1,  0,  0, -1,  1,  0},
@@ -37,11 +40,7 @@ public class ShadowFoVRect extends ShadowFoV
    // Calculate visible squares from a given location and radius
    public void calcFoV(int xLoc, int yLoc, int radius)
    {
-      flag += 1;
-      if(flag == Integer.MAX_VALUE)
-      {
-         reset(transparencyMap);
-      }
+      incrementFlag();
       for(int oct = 0; oct < 8; oct += 1)
       {
          castLightInOctant(xLoc, yLoc, oct, radius);
@@ -134,5 +133,33 @@ public class ShadowFoVRect extends ShadowFoV
             break;
       }
    }  // end castLight()
+   
+   // calculates light only in the octant containing the target
+   public void calcCone(int originX, int originY, int radius, int targetX, int targetY)
+   {
+      calcCone(new Coord(originX, originY), radius, new Coord(targetX, targetY));
+   }
+   public void calcCone(Coord origin, int radius, Coord target)
+   {
+      double angleTo = origin.getAngleTo(target);
+      int octant = 5;
+      if(angleTo <= EIGHTH_CIRCLE)
+         octant = 2;
+      else if(angleTo <= EIGHTH_CIRCLE * 2)
+         octant = 3;
+      else if(angleTo <= EIGHTH_CIRCLE * 3)
+         octant = 0;
+      else if(angleTo <= EIGHTH_CIRCLE * 4)
+         octant = 1;
+      else if(angleTo <= EIGHTH_CIRCLE * 5)
+         octant = 6;
+      else if(angleTo <= EIGHTH_CIRCLE * 6)
+         octant = 7;
+      else if(angleTo <= EIGHTH_CIRCLE * 7)
+         octant = 4;
+      incrementFlag();
+      castLightInOctant(origin.x, origin.y, octant, radius);
+      visibilityMap[origin.x][origin.y] = flag;
+   }
    
 }

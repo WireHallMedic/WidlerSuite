@@ -71,6 +71,15 @@ public abstract class ShadowFoV implements WSConstants
       return visArr;
    }
    
+   protected void incrementFlag()
+   {
+      flag += 1;
+      if(flag == Integer.MAX_VALUE)
+      {
+         reset(transparencyMap);
+      }
+   }
+   
    // main function in child classes
    public abstract void calcFoV(int xLoc, int yLoc, int radius);
 }
