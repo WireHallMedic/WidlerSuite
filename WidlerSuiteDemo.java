@@ -37,6 +37,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private boolean showBillowingNoise = false;
    private boolean showRidgedNoise = false;
    private boolean showBlit = false;
+   private boolean showCone = false;
    private boolean demoScrollingUp = false;
    private boolean demoScrollingDown = false;
    private double scrollSpeed = 0.05;
@@ -66,7 +67,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
                                              "Show Binary Space Partitioning", "Show Voronoi Map", "Show CA Map", 
-                                             "Show Noise", "Show Billowing Noise", "Show Ridged Noise", "Show Blit"};
+                                             "Show Noise", "Show Billowing Noise", "Show Ridged Noise", "Show Blit", "Show Watcher Cone (Rect only)"};
    private static final Vector<Coord> voronoiPoints = getVoronoiPoints();
    private static final Color[] voronoiColors = getVoronoiColors();
    private static final String BULLET_STR = "" + (char)8226;
@@ -76,6 +77,9 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    private String[] shakeList = {"0.0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0"};
    private String[] shakeDurList = {"3", "5", "8", "10", "15", "20", "25", "30"};
    private Color[] gradient = WSTools.getGradient(Color.BLUE, Color.BLACK, 21);
+   private Coord watcherLoc = new Coord(15, 15);
+   private ShadowFoVRect watcherFoV;
+   private int watcherRadius = 10;
    
    // test function
    public WidlerSuiteDemo()
@@ -354,6 +358,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          showBillowingNoise = false;
          showRidgedNoise = false;
          showBlit = false;
+         showCone = false;
          switch(areaDD.getSelectedIndex())
          {
             case 1 :    showFoV = true;
@@ -374,6 +379,8 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
             case 8 :    showRidgedNoise = true;
                         break;
             case 9 :    showBlit = true;
+                        break;
+            case 10:    showCone = true;
                         break;
             default :   break;
          }
@@ -551,11 +558,12 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
             strMap[x][y] = "#";
       }
       
-      // '>' for searching
+      // '>' for searching, '!' for the watcher
       strMap[4][4] = ">";
       strMap[4][ROWS - 5] = ">";
       strMap[COLUMNS - 5][4] = ">";
       strMap[COLUMNS - 5][ROWS - 5] = ">";
+      strMap[watcherLoc.x][watcherLoc.y] = "!";
       passMap[4][4] = true;
       passMap[4][ROWS - 5] = true;
       passMap[COLUMNS - 5][4] = true;
@@ -563,6 +571,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       rectFoV = new ShadowFoVRect(passMap);
       hexFoV = new ShadowFoVHex(passMap);
       dijkstraMap = new DijkstraMap(passMap);
+      watcherFoV = new ShadowFoVRect(passMap);
    }
    
    private void loadTestMap()
@@ -615,6 +624,13 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
                else
                   roguePanel.setBGColor(x, y, Color.ORANGE);
             }
+         }         
+         else if(showCone)
+         {
+            if(watcherFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
+            else
+               roguePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
          }
       }
       roguePanel.setTile(atLoc.x, atLoc.y, "@", Color.CYAN);
@@ -897,6 +913,7 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
    {
       hexFoV.calcFoV(atLoc.x, atLoc.y, 12);
       rectFoV.calcFoV(atLoc.x, atLoc.y, 12);
+      watcherFoV.calcCone(watcherLoc, watcherRadius, atLoc);
    }
    
    
