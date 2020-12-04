@@ -43,6 +43,11 @@ public class LineIntersection
     
       return false; // Doesn't fall in any of the above cases 
    }
+   public static boolean isIntersecting(int[] p1, int[] q1, int[] p2, int[] q2) 
+   {
+      return isIntersecting(new Coord(p1[0], p1[1]), new Coord(q1[0], q1[1]), 
+                            new Coord(p2[0], p2[1]), new Coord(q2[0], q2[1]));
+   }
    
    // Given three colinear points p, q, r, the function checks if 
    // point r lies on line segment 'pq' 
