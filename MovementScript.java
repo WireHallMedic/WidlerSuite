@@ -1,6 +1,6 @@
 /**********************************************************************************
 Contains a list of steps (changes in position) and impulses (changes in speed) to be 
-applied to an UnboundString target (or child class). Passed to a RoguePanel with add(), 
+applied to an UnboundInterface target (or child class). Passed to a RoguePanel with add(), 
 which then passes it off to the appropriate manager.
 
 Instances of MovementScript are kicked before their targets are, and do not kick their
@@ -18,7 +18,7 @@ import java.awt.event.*;
 
 public class MovementScript implements ActionListener
 {
-	private UnboundString target;
+	private UnboundInterface target;
 	private Vector<MovementScriptStep> stepList;
 	private boolean loops;
 	private boolean expiresTargetOnEnd;
@@ -27,7 +27,7 @@ public class MovementScript implements ActionListener
    private int age;
 
 
-	public UnboundString getTarget(){return target;}
+	public UnboundInterface getTarget(){return target;}
 	public Vector<MovementScriptStep> getStepList(){return stepList;}
 	public boolean loops(){return loops;}
 	public boolean expiresTargetOnEnd(){return expiresTargetOnEnd;}
@@ -35,7 +35,7 @@ public class MovementScript implements ActionListener
    public boolean nonlocksTargetOnEnd(){return nonlockTargetOnEnd;}
 
 
-	public void setTarget(UnboundString t){target = t;}
+	public void setTarget(UnboundInterface t){target = t;}
 	public void setStepList(Vector<MovementScriptStep> s){stepList = s;}
 	public void setLoops(boolean l){loops = l;}
 	public void setExpiresTargetOnEnd(boolean e){expiresTargetOnEnd = e;}
@@ -44,7 +44,7 @@ public class MovementScript implements ActionListener
 
    
    // constructor
-   public MovementScript(UnboundString us)
+   public MovementScript(UnboundInterface us)
    {
       target = us;
       stepList = new Vector<MovementScriptStep>();

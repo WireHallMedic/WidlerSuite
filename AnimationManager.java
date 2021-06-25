@@ -146,7 +146,7 @@ public class AnimationManager implements ActionListener
          {
             if(curScript.nonlocksTargetOnEnd())
             {
-               UnboundString target = curScript.getTarget();
+               UnboundString target = (UnboundString)curScript.getTarget();
                remove(target);
                addNonlocking(target);
             }

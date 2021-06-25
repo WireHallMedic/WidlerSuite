@@ -12,7 +12,7 @@ package WidlerSuite;
 import java.awt.*;
 import java.awt.event.*;
 
-public class UnboundString implements ActionListener, WSConstants
+public class UnboundString implements ActionListener, WSConstants, UnboundInterface
 {
    protected Color bgColor;
    protected Color fgColor;
