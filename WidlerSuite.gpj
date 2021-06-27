@@ -13,7 +13,7 @@ s#k0
 s#j0
 s#l0
 !142;u
-a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo!902;g
+a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo!924;g
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011LineIntersection.java
@@ -38,6 +38,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011Vect.java
 %\011NoiseChoir.java
 %\011FontLoader.java
+%\011SquirrelRNG.java
 %\011NoiseObj.java
 %\011UnboundInterface.java
 %\011TilePalette.java
@@ -55,7 +56,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011LuhnChecksum.java
 %\011MovementScript.java
 %\011ShadowFoV.java
-!902;f
+!924;f
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011LineIntersection.java
@@ -80,6 +81,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011Vect.java
 %\011NoiseChoir.java
 %\011FontLoader.java
+%\011SquirrelRNG.java
 %\011NoiseObj.java
 %\011UnboundInterface.java
 %\011TilePalette.java
