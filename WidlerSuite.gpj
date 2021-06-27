@@ -13,11 +13,12 @@ s#k0
 s#j0
 s#l0
 !142;u
-a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo!924;g
+a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo!945;g
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011LineIntersection.java
 %\011AStar.java
+%\011DoubleDeck.java
 %\011Coord.java
 %\011WidlerSuiteDemo.java
 %\011TileAnimationManager.java
@@ -56,11 +57,12 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011LuhnChecksum.java
 %\011MovementScript.java
 %\011ShadowFoV.java
-!924;f
+!945;f
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011LineIntersection.java
 %\011AStar.java
+%\011DoubleDeck.java
 %\011Coord.java
 %\011WidlerSuiteDemo.java
 %\011TileAnimationManager.java
