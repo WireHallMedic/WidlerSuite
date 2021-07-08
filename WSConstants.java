@@ -45,4 +45,15 @@ public interface WSConstants
    public final static double EIGHTH_CIRCLE = Math.PI / 4;              // 45 degrees
    public final static double SIXTH_CIRCLE = Math.PI / 3;               // 30 degrees
    public final static double TWELFTH_CIRCLE = Math.PI / 6;             // 15 degrees
+   
+   // My_Font_16x16 departures from cp437
+   public static final int MY_FONT_BOLT = 0x01;
+   public static final int MY_FONT_BIG_CIRCLE = 0x02;
+   public static final int MY_FONT_NOT_EQUAL = 0xFF;
+   public static final int MY_FONT_DIE_ONE = 0x80;
+   public static final int MY_FONT_DIE_TWO = 0x86;
+   public static final int MY_FONT_DIE_THREE = 0x87;
+   public static final int MY_FONT_DIE_FOUR = 0x8F;
+   public static final int MY_FONT_DIE_FIVE = 0xA6;
+   public static final int MY_FONT_DIE_SIX = 0xA7;
 }

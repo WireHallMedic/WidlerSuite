@@ -524,6 +524,16 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
          }
       }
       
+      rtp.setTile(17, 0, WSConstants.MY_FONT_BOLT, Color.BLACK, Color.RED);
+      rtp.setTile(17, 1, WSConstants.MY_FONT_BIG_CIRCLE, Color.BLACK, Color.RED);
+      rtp.setTile(17, 2, WSConstants.MY_FONT_NOT_EQUAL, Color.BLACK, Color.RED);
+      rtp.setTile(17, 3, WSConstants.MY_FONT_DIE_ONE, Color.BLACK, Color.RED);
+      rtp.setTile(17, 4, WSConstants.MY_FONT_DIE_TWO, Color.BLACK, Color.RED);
+      rtp.setTile(17, 5, WSConstants.MY_FONT_DIE_THREE, Color.BLACK, Color.RED);
+      rtp.setTile(17, 6, WSConstants.MY_FONT_DIE_FOUR, Color.BLACK, Color.RED);
+      rtp.setTile(17, 7, WSConstants.MY_FONT_DIE_FIVE, Color.BLACK, Color.RED);
+      rtp.setTile(17, 8, WSConstants.MY_FONT_DIE_SIX, Color.BLACK, Color.RED);
+      
       ut.setXLoc(3);
       ut.setYLoc(3);
       frame.add(rtp);
