@@ -172,7 +172,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       }
    }
    
-   // writes the string in a box
+   // writes the string in a box. only sets icons (not colors)
+   public void write(Coord loc, String s, Coord box){write(loc.x, loc.y, s, box.x, box.y);}
    public void write(int x, int y, String s, int w, int h)
    {
       int xLoc = x; 
@@ -211,6 +212,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       imageArr[x][y] = img;
    }
    
+   // private internal method to trigger all tiles to generate
    private void generateAll()
    {
       for(int x = 0; x < columns; x++)
@@ -218,16 +220,20 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
          generateTile(x, y);
    }
    
+   // return the current tile width in pixels
    public int getTileWidth()
    {
       return palette.getTileWidth() * sizeMultiplier;
    }
    
+   // return the current tile height in pixels
    public int getTileHeight()
    {
       return palette.getTileHeight() * sizeMultiplier;
    }
    
+   // center the tile board in the Container containing this (later modified by
+   // scrolling and shaking, if applicapable
    public void center()
    {
       xInset = (super.getWidth() - (columns * getTileWidth())) / 2;
@@ -299,6 +305,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       animationManager.clear();
    }
    
+   // overridden paint method
    @Override
    public void paint(Graphics g)
    {
@@ -326,6 +333,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       drawUnboundTiles(g2d, animationManager.getLockList(), w, h);
    }
    
+   // draw a list of unbound tiles
    private void drawUnboundTiles(Graphics2D g2d, Vector<UnboundTile> tileList, int w, int h)
    {
       int totalXInset = xInset + screenShakeOffsetX + (int)(xScroll * w);
@@ -431,6 +439,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       mouseLoc[1] = yLoc;
    }
    
+   // main provided for testing
    public static void main(String[] args)
    {
       JFrame frame = new JFrame();
