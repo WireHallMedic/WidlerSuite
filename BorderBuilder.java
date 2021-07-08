@@ -1,7 +1,8 @@
 /*
 
 An abstract class for building borders, using the boxdrawing characters in the [0xB3, 0xDA] range of cp437
-style character sets.
+style character sets. It is possible to give input for which there is no visually consistent output, due
+to the limits of the box drawing tile subset (for example, three consecutive cells -=-).
 
 Uses bit masking, which is why the constants look so odd.
 
@@ -185,11 +186,13 @@ public abstract class BorderBuilder
       return tile;
    }
    
+   // set a tile based on its neighbors
    private static int getTileIndexFromNeighbors(int x, int y, int[][] arr)
    {
       return getTileIndex(getValueFromNeighbors(x, y, arr));
    }
    
+   // some setups require examining how many lines are expected
    private static int catchCornerCase(int x, int y, int[][] origArr)
    {
       int[][] tempArr = new int[3][3];
@@ -206,7 +209,7 @@ public abstract class BorderBuilder
       return getTileIndexFromNeighbors(1, 1, tempArr);
    }
    
-   
+   // testing/demo method
    public static void main(String[] args)
    {
       JFrame frame = new JFrame();
