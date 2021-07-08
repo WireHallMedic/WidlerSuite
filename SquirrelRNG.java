@@ -2,11 +2,10 @@
 
 Based (heavily) on a GDC talk by Squirrel Eiserloh.
 Essentially a hashing function posing as an RNG. Fast, tiny, good-quality output.
-Is threadsafe if you don't use seeds (just add the seed to the position when
-calling sample(int)).
+A given instance is not threadsafe.
 
-Random indexing, fast reseeding, consistent speed, memory footprint rounds
-to zero.
+Random indexing, sequential indexing, fast reseeding, consistent speed, memory 
+footprint rounds to zero.
 
 */
 
@@ -14,10 +13,10 @@ package WidlerSuite;
 
 public class SquirrelRNG
 {
-   public static final int BIT_NOISE_ONE =   0xB5297A4D;
-   public static final int BIT_NOISE_TWO =   0x68E31DA4;
-   public static final int BIT_NOISE_THREE = 0x1B56C4E9;
-   public static final int BIG_PRIME_NUMBER = 198491317;
+   private static final int BIT_NOISE_ONE =   0xB5297A4D;
+   private static final int BIT_NOISE_TWO =   0x68E31DA4;
+   private static final int BIT_NOISE_THREE = 0x1B56C4E9;
+   private static final int BIG_PRIME_NUMBER = 198491317;
    private int _seed = 0;
    private int lastIndexed = 0;
    

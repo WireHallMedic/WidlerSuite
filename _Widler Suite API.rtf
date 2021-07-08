@@ -10,7 +10,7 @@
 \par
 \kerning1 For a demonstration of many of the following classes and functions, please run WidlerSuiteDemo.jar.\kerning0\par
 \par
-\kerning1 Copyright Michael Widler, 2019. Permission granted for public or private use. No warranty of any kind is expressed or implied. If you use this suite in your project, please give credit.\kerning0\par
+\kerning1 Copyright Michael Widler, 2019. Permission granted for public or private use. No warranty of any kind is expressed or implied. If you use this suite in your project, please give credit. And let me know; I'd love to see this in use.\kerning0\par
 \par
 \par
 \kerning1\ul\b\fs28 AStar (class)\kerning0\ulnone\b0\fs24\par
@@ -78,19 +78,24 @@
 \kerning1 static int fastPulse()\kerning0\par
 \kerning1\i Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 3, at 1 step per tick.\kerning0\i0\par
 \par
-\kerning1\ul\b\fs28 BinarySpacePartitioning (class)\kerning0\ulnone\b0\fs24\par
+\kerning1\ul\b\fs28 BinarySpacePartitioning (static class)\kerning0\ulnone\b0\fs24\par
 \kerning1\i This class is entirely static. Its intended purpose is to execute binary space partitioning on an area defined by partition(). It returns a list of all rooms, not just the final rooms, with the first being representing the total space and each subsequent pair representing sibilings. Which is to say, every pair of rooms n and n+1, with n being odd and greater than zero, are adjacent. See full algorithm at {\lang255{\field{\*\fldinst{HYPERLINK http://roguebasin.roguelikedevelopment.org/index.php?title=Basic_BSP_Dungeon_generation }}{\fldrslt{http://roguebasin.roguelikedevelopment.org/index.php?title=Basic_BSP_Dungeon_generation\ul0\cf0}}}}\kerning0\i0\f0\fs24 . \par
 \par
 \kerning1 void setPartitionChance(double pc)\kerning0\par
-\kerning1\i sets the chance that a room which is equal to or below maximum size will be further split, so long as the child rooms are still equal to or above minimum size.\kerning0\i0\par
+\kerning1\i Sets the chance that a room which is equal to or below maximum size will be further split, so long as the child rooms are still equal to or above minimum size.\kerning0\i0\par
 \par
 \kerning1 static Vector<Room> partition(int x, int y, int minRoomDiameter, int maxRoomDiameter)\kerning0\par
 \kerning1 static Vector<Room> partition(Coord size, int minRoomDiameter, int maxRoomDiameter)\kerning0\par
 \kerning1\i The main function. x and y determine total size. maxRoomDiameter must be at least twice minRoomDiameter, or it will be raised to that value.\kerning0\i0\par
 \par
+\kerning1\ul\b\fs28 BorderBuilder (static class)\kerning0\ulnone\b0\fs24\par
+The purpose of this class is to determine which box-drawing characters to use, given a TilePalette that conforms to cp437 and an array indicating which tiles should be border characters. There's a bunch of public static data members that are used internally, not listed here because there's no need. As this is obviously limited by the character set, it is entirely possible to provide input that generates output with jarring transitions.\par
+\par
+\kerning1 static int[][] getBorderTiles(int[][] origArr)\kerning0\par
+\kerning1\i Returns an array of the same dimensions as the passed array, where each index contains either 0, or the index value of the appropriate box-drawing character. The input array must be formatted where 1 represents a single-thickness border tile, and 2 represents a double-thickness border tile. All other values are ignored, and will translate to 0 in the output array.\kerning0\i0\par
+\par
 \kerning1\ul\b\fs28 Coord (class)\kerning0\ulnone\b0\fs24\par
 \kerning1\i Coord is essentially a struct, with a bit more functionality. It is used to represent x-y pairs, such as Cartesian coordinates, height and width, etc. It has two public data members, x and y, and no other data. It is used fairly extensively throughout the Widler Suite.\kerning0\i0\par
-\par
 \kerning1 int x, int y\kerning0\par
 \kerning1\i The two data members. Both are public.\kerning0\i0\par
 \par
@@ -239,6 +244,24 @@
 \kerning1 static Vector<Coord> getRing(int radius)\kerning0\par
 \kerning1\i Returns a list of Coords in a set radius around [0,0]\kerning0\i0\par
 \par
+\kerning1\ul\b\fs28 DoubleDeck (class)\kerning0\ulnone\b0\fs24\par
+\kerning1\i An implementation for bagging; give it a range of doubles, tell it how many copies of each you want, and it makes a shuffled deck of them to be popped one at a time. The internal RNG is initially seeded with a pseudo-random number.\kerning0\i0\par
+\par
+\kerning1 DoubleDeck(double[] values, int copies)\kerning0\par
+\kerning1\i Constructor for a shuffled deck of doubles, with a number of copies of each value equal to the passed argument.\kerning0\i0\par
+\kerning1  \kerning0\par
+\kerning1 DoubleDeck(double[] values)\kerning0\par
+\kerning1\i Constructor for a shuffled deck of doubles, with one copy of each passed value. Note that there is no duplicate checking; if you have n copies of a given value in the passed array, you will have n copies in the deck.\kerning0\i0\par
+\par
+\kerning1 void shuffle(int seed)\kerning0\par
+\kerning1\i Set the RNG seed and shuffle the deck. Shuffling returns all popped values to the deck.\kerning0\i0\par
+\par
+\kerning1 void shuffle()\kerning0\par
+\kerning1\i Reshuffle the the deck. Shuffling returns all popped values to the deck.\kerning0\i0\par
+\par
+\kerning1 double pop()\kerning0\par
+\kerning1\i Pop the top value off the deck. If called on an empty deck, it will reshuffle first.\kerning0\i0\par
+\par
 \kerning1\ul\b\fs28 FloodFill (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements WSConstants\kerning0\par
 \kerning1\i An of a flood fill algorithm, intended to be used statically. Accepts a boolean array and starting location; false is impassable, true is passable. Returns a boolean array of the same size, where true is filled and false is not. Not thread safe (will collide with self).\kerning0\i0\par
@@ -298,7 +321,7 @@ void remove(Component c)\par
 \kerning1\i Remove an already added component.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 LineIntersection (static class)\kerning0\ulnone\b0\fs24\par
-\kerning1\i A static class that checks if two line segments intersect. Adapted from code by Princi Singh, which can be found at {{\field{\*\fldinst{HYPERLINK https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/ }}{\fldrslt{https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/\ul0\cf0}}}}\f0\fs24 .\kerning0\i0\par
+\kerning1\i A static class that checks if two line segments intersect. Adapted from code by Princi Singh, which can be found at {\lang255{\field{\*\fldinst{HYPERLINK https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/ }}{\fldrslt{https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/\ul0\cf0}}}}\kerning0\i0\f0\fs24 .\par
 \par
 boolean isIntersecting(Coord p1, Coord q1, Coord p2, Coord q2)\par
 boolean isIntersecting(int[] p1, int[] q1, int[] p2, int[] q2)\par
@@ -675,7 +698,7 @@ boolean validate(String str)\par
 \kerning1\i Returns the string of the passed location.\kerning0\i0\par
 \par
 \kerning1 void addLocking(UnboundString us)\kerning0\par
-\kerning1\i Add a locking unbound string (passed to the animation manager).\kerning0\i0\par
+\kerning1\i Add a locking unbound string (passed to the animation manager). Locking UnboundStrings don't inherently do anything different that non-locking ones, but you can check if there are any with isAnimationLocked() to know to wait for animation to complete.\kerning0\i0\par
 \par
 \kerning1 void addNonlocking(UnboundString us)\kerning0\par
 \kerning1 void add(UnboundString us)\kerning0\par
@@ -703,6 +726,111 @@ boolean validate(String str)\par
 \kerning1 void setCenterCell(Coord loc)\kerning0\par
 \kerning1 void setCenterCell(int x, int y)\kerning0\par
 \kerning1\i Set the corner cell by passing the center cell.\kerning0\i0\par
+\par
+\kerning1\ul\b\fs28 RogueTilePanel (class)\kerning0\ulnone\b0\fs24\par
+\kerning1 Extends JPanel \kerning0\par
+\kerning1 Implements ComponentListener, ActionListener, MouseListener, MouseMotionListener, WSConstants\kerning0\par
+\kerning1\i A tile-based implementation of RoguePanel. Everything is pretty much handled internally, except for being hooked up to a timer (which is passed on to the unbound string stuff, as long as this panel is visible).\kerning0\i0\par
+\par
+\kerning1\i Rather than dynamically drawing the elements like RoguePanel, RogueTilePanel uses a TilePalette to generate the images. Additionally, each instance has its own AnimationManager, for displaying UnboundTiles. Also, a RogueTilePanel has an out-of-bounds tile who's values are returned when the user attempts to get a tile that does not exist.\kerning0\i0\par
+\par
+\kerning1\i RogueTilePanel is not designed to be a map structure, which is to say that it does not hold data it does not intend to display (with a few exceptions). So it does not scroll through a large area, only displaying part of it; if that's how your map operates, the map should only pass down the part that is being used.\kerning0\i0\par
+\par
+RogueTilePanel(int w, int h, TilePalette p)\par
+\i Constructor. Takes width in tiles, height in tiles, and a TilePalette.\i0\par
+\par
+int getSizeMultiplier()\par
+\i Simple getter for the multiplication factor from the TilePalette to this panel.\i0\par
+ \par
+boolean isInBounds(Coord loc)\par
+boolean isInBounds(int x, int y)\par
+\i Checks if the passed tile location is in the tile boundaries of this panel.\i0\par
+  \par
+int getFGColor(Coord c)\par
+int getFGColor(int x, int y)\par
+\i Returns the foreground color of the passed tile, or the foreground of the OOB tile if out of bounds.\i0\par
+\par
+int getBGColor(Coord c)\par
+int getBGColor(int x, int y)\par
+\i Returns the background color of the passed tile, or the background of the OOB tile if out of bounds.\i0\par
+   \par
+int getIcon(Coord c)\par
+int getIcon(int x, int y)\par
+\i Returns the icon index of the passed tile, or the icon index of the OOB tile if out of bounds.\i0\par
+\par
+boolean isShaking()\par
+\i Returns if the panel is currently shaking.\i0\par
+\par
+void setSizeMultiplier(int sm)\par
+\i Simple setter. Sets the multiplication factor for the TilePalette.\i0\par
+\par
+void setScroll(double x, double y)\par
+\i Sets the current scrolling (visual offset) in tiles.\i0\par
+   \par
+void setTile(Coord c, int tileIndex, int fg, int bg)\par
+void setTile(int x, int y, int tileIndex, int fg, int bg)\par
+\i Set the tile of the passed location, using RGB values.\i0\par
+\par
+void setTile(Coord c, int tileIndex, Color fg, Color bg)\par
+void setTile(int x, int y, int tileIndex, Color fg, Color bg)\par
+\i Set the tile of the passed location, using colors.\i0\par
+\par
+void setFGColor(Coord c, int fg)\par
+void setFGColor(int x, int y, int fg)\par
+\i Set the foreground color of the passed tile.\i0\par
+\par
+void setBGColor(Coord c, int fg)\par
+void setBGColor(int x, int y, int fg)\par
+\i Set the background color of the passed tile.\i0\par
+\par
+void setIcon(Coord c, int tileIndex)\par
+void setIcon(int x, int y, int tileIndex)\par
+\i Set the icon of the passed tile by index.\i0\par
+\par
+void setAll(int i, int fg, int bg)\par
+\i Set all tiles to the passed values.\i0\par
+\par
+void setOOBTile(int index, int fg, int bg)\par
+\i Set the values of the out-of-bounds tile using RGB values.\i0\par
+\par
+void setOOBTile(int index, Color fg, Color bg)\par
+\i Set the values of the out-of-bounds tile using colors.\i0\par
+   \par
+void write(Coord loc, String s, Coord box)\par
+void write(int x, int y, String s, int w, int h)\par
+\i Write the passed string, at the passed location, with simple line wrapping.\i0\par
+\par
+void setScreenShake(double radius, int duration)\par
+void setScreenShake(double radiusX, double radiusY, int duration)\par
+\i Set screen shake. Overwrites any current screen shake. Radii are in tiles.\i0\par
+\par
+int getTileWidth()\par
+\i Returns tile width in pixels.\i0\par
+\par
+int getTileHeight()\par
+\i Returns tile height in pixels.\i0\par
+\par
+void addLocking(UnboundTile us)\par
+\i Add a locking UnboundTile. Locking UnboundTiles don't inherently do anything different that non-locking ones, but you can check if there are any with isAnimationLocked() to know to wait for animation to complete.\i0\par
+\par
+void addNonlocking(UnboundTile us)\par
+void add(UnboundTile us)\par
+\i Add a non-locking UnboundTile\i0\par
+\par
+void remove(UnboundTile us)\par
+\i Remove an UnboundTile\i0\par
+\par
+public void add(MovementScript scr)\par
+\i Add a Movement Script\i0\par
+\par
+void remove(MovementScript ms)\par
+\i Remove a movement script.\i0\par
+\par
+boolean isAnimationLocked()\par
+\i Returns true if there are any locking UnboundTiles.\i0\par
+\par
+void clearUnboundTiles()\par
+\i Clear all UnboundTiles.\i0\par
 \par
 \kerning1\ul\b\fs28 Room (class)\kerning0\ulnone\b0\fs24\par
 \kerning1\i A class used by the BSP generator. Keeps track of abstract rooms. Child rooms are made by splitting a single parent room. More or less a struct.\kerning0\i0\par
@@ -863,6 +991,47 @@ boolean validate(String str)\par
 \kerning1 Coord getNext()\kerning0\par
 \kerning1\i Returns the next Coord in the queue, and does a bit more searching if needed.\kerning0\i0\par
 \par
+\kerning1\ul\b\fs28 SquirrelRNG (class)\kerning0\ulnone\b0\fs24\par
+\kerning1\i A random number generator that is very small, very fast, supports both random and sequential access. Very heavily based on a GDC talk by Squirrel Eiserloh. Individual threads should be given their own instances.\kerning0\i0\par
+\par
+\kerning1\i Instances maintain a position in the effectively infinite list of values; sampling returns the current value, next returns the same value and increments the position. Treating the list as a 2D structure does not increment position (it can only be sampled).\kerning0\i0\par
+\par
+\kerning1 SquirrelRNG(int seed)\kerning0\par
+\kerning1\i Constructor for seeded instantiation.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 SquirrelRNG()\kerning0\par
+\kerning1\i Constructor that seeds the generator with a pseudo-random number.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 void setSeed(int s)\kerning0\par
+\kerning1\i Set the seed.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 int sampleInt(int position, int seed)\kerning0\par
+\kerning1\i Set the seed and return the int at the current position. Does not increment position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 double nextDouble()\kerning0\par
+\kerning1\i Take the next double and increment position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 int nextInt()\kerning0\par
+\kerning1\i Take the next int and increment position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 double sampleDouble(int position)\kerning0\par
+\kerning1\i Returns the double at the given position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 int sampleInt(int position)\kerning0\par
+\kerning1\i Returns the integer value at the given position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 int sample2DInt(int x, int y)\kerning0\par
+\kerning1\i Returns the integer at the given x,y position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 double sample2DDouble(int x, int y)\kerning0\par
+\kerning1\i Returns the double at the x,y position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 sample2DInt(int x, int y, int seed)\kerning0\par
+\kerning1\i Seeds the generator and then returns the integer at the given position.\kerning0\i0\par
+\kerning1    \kerning0\par
+\kerning1 sample2DDouble(int x, int y, int seed)\kerning0\par
+\kerning1\i Seeds the generator and then returns the double at the given position.\kerning0\i0\par
+\par
 \kerning1\ul\b\fs28 StraightLine (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements: WSConstants\kerning0\par
 \kerning1\i Used for calculating a list of tiles which lie on a line, this class calls down to the appropropriate child class (rect or hex), and holds the shared functions those two children need.\kerning0\i0\par
@@ -884,8 +1053,80 @@ boolean validate(String str)\par
 \kerning1 static Vector<Coord> findLine(Coord origin, Coord target, int arguments)\kerning0\par
 \kerning1\i Returns the line between two points, subject to arguments.\kerning0\i0\par
 \par
+\kerning1\ul\b\fs28 TileAnimationManager (class)\kerning0\ulnone\b0\fs24\par
+\kerning1 Implements: ActionListener\kerning0\par
+\kerning1\i TileAnimationManager is identical to AnimationManager, except that instead of dealing with RoguePanels and UnboundStrings, it deals with RogueTilePanels and UnboundTiles, respectively. See the entry for AnimationManager above.\kerning0\i0\par
+\par
+\kerning1\i Note that functions like AnimationManager.pause() do not affect TileAnimationManager, and vice versa. Blinking functions also may be slightly out of synch; use one or the other.\kerning0\i0\par
+\par
+\kerning1\ul\b\fs28 TilePalette (class)\kerning0\ulnone\b0\fs24\par
+\kerning1\i A class for holding an image to use as a tile palette for classes like TileRoguePanel.  Loads from an image or image file. The image is partitioned into indexed subimages, which are then referred to by either their x,y positions, or by a single number representing its position on a list (read left to right, top to bottom).\kerning0\i0\par
+\par
+TilePalette(String fileName, int w, int t)\par
+\i Constructor to create a TilePalette from an image file, a number of tiles wide and tall.\i0\par
+\par
+TilePalette(BufferedImage image, int w, int t)\par
+\i Constructor to create a TilePalette from a BufferedImage, a number of tiles wide and tall (tiles, not pixels).\i0\par
+\par
+int getImageWidth()\par
+\i Returns the width of the entire palette, in pixels.\i0\par
+\par
+int getImageHeight()\par
+\i Returns the height of the entire palette, in pixels.\i0\par
+\par
+int getRows()\par
+\i Return the number of rows tall the palette is.\i0\par
+\par
+int getColumns()\par
+\i Return the number of columns wide the palette is.\i0\par
+\par
+int getTileWidth()\par
+\i Returns the width of a single tile, in pixels.\i0\par
+\par
+int getTileHeight()\par
+\i Returns the height of a single tile, in pixels.\i0\par
+   \par
+void loadFromFile(String fileName, int w, int t)\par
+\i Set the palette from a file, a number of tiles wide and tall (tiles, not pixels).\i0\par
+\par
+void loadFromBufferedImage(BufferedImage rawImage, int w, int t)\par
+\i Set the palette from a BufferedImage, a number of tiles wide and tall (tiles, not pixels).\i0\par
+\par
+int flatten(int x, int y)\par
+\i Turn 2d coordinates into an index value.\i0\par
+\par
+BufferedImage getTile(int i)\par
+BufferedImage getTile(int x, int y)\par
+\i Get the tile at the passed location.\i0\par
+   \par
+BufferedImage getTile(int i, Color fg, Color bg)\par
+BufferedImage getTile(int x, int y, Color fg, Color bg)\par
+\i Get a copy of the indexed tile in the specified colors, indicated by RGB values.\i0\par
+   \par
+BufferedImage getTile(int i, int fg, int bg)\par
+BufferedImage getTile(int x, int y, int fg, int bg)\par
+\i Get a copy of the indexed tile in the specified colors, indicated by color.\i0\par
+   \par
+BufferedImage magnify(BufferedImage img, int m)\par
+\i Return a copy of the image, scaled up by a factor of m.\i0\par
+   \par
+UnboundTile getUnboundTile(int tileIndex, int fgColor, int bgColor, int sizeMultiplier, boolean bgType)\par
+\i Get a new UnboundTile of the specified values.\i0\par
+\par
+UnboundTile getUnboundTile(int tileIndex, int fgColor, int sizeMultiplier)\par
+\i Get a new UnboundTile with a transparent background.\i0\par
+\par
+\kerning1\ul\b\fs28 UnboundInterface (interface)\kerning0\ulnone\b0\fs24\par
+\kerning1\i An interface to aid in interchangeability between UnboundStrings, UnboundTiles, and any similar thing I wind up doing in the future. Values are in tiles.\kerning0\i0\par
+\par
+\kerning1 void adjustXSpeed(double s)\kerning0\par
+\kerning1 void adjustYSpeed(double s)\kerning0\par
+\kerning1 void adjustXOffset(double p)\kerning0\par
+\kerning1 void adjustYOffset(double p)\kerning0\par
+\kerning1 void forceExpire()\kerning0\par
+\par
 \kerning1\ul\b\fs28 UnboundString (class)\kerning0\ulnone\b0\fs24\par
-\kerning1 Implements: ActionListener, WSConstants\kerning0\par
+\kerning1 Implements: ActionListener, WSConstants, UnboundInterface\kerning0\par
 \kerning1\i A class representing strings (and possibly a simple background behind the string) which are not bound to the RoguePanel's standard display grid. They have a defined lifespan, measured in ticks, and are removed when they expire.\kerning0\i0\par
 \par
 \kerning1 static final Color TRANSPARENT_BLACK\kerning0\par
@@ -1012,17 +1253,122 @@ boolean validate(String str)\par
 \kerning1\i How many tiles are moved each tick. By default, UnboundStrings are stationary.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 UnboundTile (class)\kerning0\ulnone\b0\fs24\par
-\kerning1 Extends: UnboundString\kerning0\par
-\kerning1 Implements: WSConstants\kerning0\par
-\kerning1\i An extension of UnboundString for tile-sized elements. Displayed by RoguePanel a little differently, and always has a background.\kerning0\i0\par
+\kerning1 Implements: ActionListener, UnboundInterface\kerning0\par
+\kerning1\i A class representing a tile (and possibly a simple background behind the tile) which are not bound to the RogueTilePanel's standard display grid. They have a defined lifespan, measured in ticks, and are removed when they expire.\kerning0\i0\par
 \par
-\kerning1\i Note: A little buggy right now.\kerning0\i0\par
+\kerning1 static final boolean BOX_BACKGROUND\kerning0\par
+\kerning1 static final boolean CIRCLE_BACKGROUND\kerning0\par
 \par
-\kerning1 UnboundTile(String s)\kerning0\par
-\kerning1 UnboundTile(String s, Color fg, Coord loc)\{this(s, fg, l.x, l.y);\}\kerning0\par
-\kerning1 UnboundTile(String s, Color fg, int xLoc, int yLoc)\kerning0\par
-\kerning1 UnboundTile(UnboundTile that)\kerning0\par
-\kerning1\i Various constructors.\kerning0\i0\par
+\kerning1 UnboundTile(TilePalette pp)\kerning0\par
+\kerning1\i Basic constructor.\kerning0\i0\par
+\par
+\kerning1 int getXLoc()\kerning0\par
+\kerning1\i Returns the x position of this tile in tiles.\kerning0\i0\par
+\par
+\kerning1 int getYLoc()\kerning0\par
+\kerning1\i Returns the y position of this tile in tiles.\kerning0\i0\par
+\par
+\kerning1 double getXOffset()\kerning0\par
+\kerning1\i Returns the x offset of this tile in tiles.\kerning0\i0\par
+\par
+\kerning1 double getYOffset()\kerning0\par
+\kerning1\i Returns the y offset of this tile in tiles.\kerning0\i0\par
+\par
+\kerning1 int getBGColor()\kerning0\par
+\kerning1\i Returns the RGB value of the background color of this tile.\kerning0\i0\par
+\par
+\kerning1 int getFGColor()\kerning0\par
+\kerning1\i Returns the RGB value of the foreground color of this tile.\kerning0\i0\par
+\par
+\kerning1 int getIconIndex()\kerning0\par
+\kerning1\i Returns the index of the icon of this tile.\kerning0\i0\par
+\par
+\kerning1 BufferedImage getImage()\kerning0\par
+\kerning1\i Returns a shallow copy of the tile's image.\kerning0\i0\par
+\par
+\kerning1 TilePalette getParentPalette()\kerning0\par
+\kerning1\i Returns the TilePalette being used by this tile.\kerning0\i0\par
+\par
+\kerning1 int getSizeMultiplier()\kerning0\par
+\kerning1\i Returns the size multiplier of this tile.\kerning0\i0\par
+\par
+\kerning1 boolean getBGType()\kerning0\par
+\kerning1\i Returns the background type (BOX_BACKGROUND or CIRCLE_BACKGROUND) being used by this tile. \kerning0\i0\par
+\par
+\kerning1 double getGravity()\kerning0\par
+\kerning1\i Returns the acceleration due to gravity of this tile. This is independent of whether or not the tile is affected by gravity. Usually a negative number, in tiles per tick.\kerning0\i0\par
+\par
+\kerning1 boolean isAffectedByAge()\kerning0\par
+\kerning1\i Returns true is this tile has a maximum age.\kerning0\i0\par
+\par
+\kerning1 boolean isVisible()\kerning0\par
+\kerning1\i Returns true if this tile should be drawn.\kerning0\i0\par
+\par
+\kerning1 boolean isAffectedByGravity()\kerning0\par
+\kerning1\i Returns true if this tile is affected by gravity.\kerning0\i0\par
+\par
+\kerning1 double getTerminalVelocity()\kerning0\par
+\kerning1\i Returns the minimum y speed of this tile, if affected by gravity, in tiles per tick. Note that by minimum, I mean \ldblquote largest negative y value.\rdblquote\kerning0\i0\par
+\par
+\kerning1 void setXLoc(int x)\kerning0\par
+\kerning1\i Set the x position, in tiles.\kerning0\i0\par
+\par
+\kerning1 void setYLoc(int y)\kerning0\par
+\kerning1\i Set the y position, in tiles.\kerning0\i0\par
+\par
+\kerning1 void setXOffset(double x)\kerning0\par
+\kerning1\i Set the x position offset, in tiles.\kerning0\i0\par
+\par
+\kerning1 void setYOffset(double y)\kerning0\par
+\kerning1\i Set the y position offset, in tiles.\kerning0\i0\par
+\par
+\kerning1 void setBGColor(int b)\kerning0\par
+\kerning1\i Set the background color by RGB value.\kerning0\i0\par
+\par
+\kerning1 void setFGColor(int f)\kerning0\par
+\kerning1\i Set the foreground color by RGB value.\kerning0\i0\par
+\par
+\kerning1 void setIconIndex(int i)\kerning0\par
+\kerning1\i Set the icon, but its index on the TilePalette.\kerning0\i0\par
+\par
+\kerning1 void setImage(BufferedImage image)\kerning0\par
+\kerning1\i Set the image being used. You normally shouldn't call this, as it is not reverse coupled to FG color, BG color, or image index. Let the TilePalette do its thing.\kerning0\i0\par
+\par
+\kerning1 void setParentPalette(TilePalette p)\kerning0\par
+\kerning1\i Set the TilePalette that governs this tile.\kerning0\i0\par
+\par
+\kerning1 void setSizeMultiplier(int sm)\kerning0\par
+\kerning1\i Set the multiplier that the TilePalette uses to generate the tile's image.\kerning0\i0\par
+\par
+\kerning1 void setBGType(boolean b)\kerning0\par
+\kerning1\i Set the background type used for image generation, either  BOX_BACKGROUND or CIRCLE_BACKGROUND. For no background, use either with a fully transparent BG color.\kerning0\i0\par
+\par
+\kerning1 void setLifespan(int l)\kerning0\par
+\kerning1\i Set the lifespan, in ticks, of this tile.\kerning0\i0\par
+\par
+\kerning1 void setAge(int a)\kerning0\par
+\kerning1\i Set the current age, in ticks, of this tile. You shouldn't really ever need to do this manually, unless resetting the age for some reason.\kerning0\i0\par
+\par
+\kerning1 void setyGravity(double g)\kerning0\par
+\kerning1\i Set acceleration due to gravity (y axis). Should normally be a negative number, in tiles per tick. Has no effect unless the tile is also affected by gravity.\kerning0\i0\par
+\par
+\kerning1 void setAffectedByAge(boolean aba)\kerning0\par
+\kerning1\i Set whether or not this tile expires due to age.\kerning0\i0\par
+\par
+\kerning1 void setVisible(boolean v)\kerning0\par
+\kerning1\i Set whether or not this tile should be drawn.\kerning0\i0\par
+\par
+\kerning1 void setAffectedByGravity(boolean ag)\kerning0\par
+\kerning1\i Set whether or not this tile should be affected by gravity.\kerning0\i0\par
+\par
+\kerning1 void setTerminalVelocity(int tv)\kerning0\par
+\kerning1\i Set the minimum y speed this tile can attain, if affected by gravity, in tiles per tick. Note that by minimum, I mean \ldblquote largest negative y value.\rdblquote\kerning0\i0\par
+\par
+\kerning1 boolean isExpired()\kerning0\par
+\kerning1\i Returns true if this tile is expired, either by age or manually.\kerning0\i0\par
+\par
+\kerning1 void forceExpire()\kerning0\par
+\kerning1\i Set this tile as expired, to be cleaned up by the TileAnimationManager.\kerning0\i0\par
 \par
 \kerning1\ul\b\fs28 Vect (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements: WSConstants\kerning0\par
@@ -1221,5 +1567,14 @@ boolean validate(String str)\par
 \par
 \kerning1 static Color[][] getBlit(int width, int height, BufferedImage src)\kerning0\par
 \kerning1\i Copies a passed image into a color map of that is [width][height] in size.\kerning0\i0\par
+\par
+\kerning1 static Vector<Coord> getLocalMaxima(int[][] noiseMap)\kerning0\par
+\kerning1 static Vector<Coord> getLocalMaxima(double[][] noiseMap)\kerning0\par
+\kerning1\i Returns a vector containing the the local maxima on the passed map (checks orthogonally, does not search edges). \kerning0\i0\par
+\par
+\kerning1 static Vector<Coord> getLocalMinima(int[][] noiseMap)\kerning0\par
+\kerning1 static Vector<Coord> getLocalMinima(double[][] noiseMap)\kerning0\par
+\kerning1\i Returns a vector containing the the local minima on the passed map (checks orthogonally, does not search edges). \kerning0\i0\par
+\par
 }
  

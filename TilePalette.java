@@ -197,8 +197,8 @@ public class TilePalette
       return getUnboundTile(tileIndex, fgColor, TRANSPARENT, sm, UnboundTile.BOX_BACKGROUND);
    }
    
-   // update an UnboundTile with any changes to the palette since tile was generated
-   public void setUnboundTile(UnboundTile tile)
+   // once the fields are set, apply them
+   private void setUnboundTile(UnboundTile tile)
    {
       BufferedImage img = getTile(tile.getIconIndex(), tile.getFGColor(), tile.getBGColor());
       img = magnify(img, tile.getSizeMultiplier());

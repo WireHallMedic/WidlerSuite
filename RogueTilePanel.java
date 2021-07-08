@@ -29,6 +29,10 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    protected boolean clearShake = false;      // clean up after done shaking
    protected double xScroll = 0.0;            // in tiles
    protected double yScroll = 0.0;            // in tiles
+   private int oobTileIndex = 0x00;
+   private int oobTileFG = Color.WHITE.getRGB();
+   private int oobTileBG = Color.BLACK.getRGB();
+   private BufferedImage oobTile;
    
    public void setSizeMultiplier(int sm){sizeMultiplier = sm; generateAll();}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
@@ -37,6 +41,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
 	public int columns(){return columns;}
 	public int rows(){return rows;}
    public int getSizeMultiplier(){return sizeMultiplier;}
+   public BufferedImage getOOBTile(){return oobTile;}
    
    public RogueTilePanel(int w, int h, TilePalette p)
    {
@@ -59,6 +64,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
          fgColorArr[x][y] = Color.WHITE.getRGB();
          generateTile(x, y);
       }
+      generateOOBTile();
       addMouseListener(this);
       addMouseMotionListener(this);
       addComponentListener(this);
@@ -81,7 +87,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    public int getFGColor(int x, int y)
    {
       if(!isInBounds(x, y))
-         return -1;
+         return oobTileFG;
       return fgColorArr[x][y];
    }
    
@@ -90,7 +96,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    public int getBGColor(int x, int y)
    {
       if(!isInBounds(x, y))
-         return -1;
+         return oobTileBG;
       return bgColorArr[x][y];
    }
    
@@ -99,7 +105,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    public int getIcon(int x, int y)
    {
       if(!isInBounds(x, y))
-         return -1;
+         return oobTileIndex;
       return tileIndexArr[x][y];
    }
    
@@ -172,6 +178,15 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       }
    }
    
+   // set the out-of-bounds tile
+   public void setOOBTile(int index, int fg, int bg)
+   {
+      oobTileIndex = index;
+      oobTileFG = fg;
+      oobTileBG = bg;
+   }
+   public void setOOBTile(int index, Color fg, Color bg){setOOBTile(index, fg.getRGB(), bg.getRGB());}
+   
    // writes the string in a box. only sets icons (not colors)
    public void write(Coord loc, String s, Coord box){write(loc.x, loc.y, s, box.x, box.y);}
    public void write(int x, int y, String s, int w, int h)
@@ -210,6 +225,17 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       if(sizeMultiplier != 1)
          img = palette.magnify(img, sizeMultiplier);
       imageArr[x][y] = img;
+   }
+
+   
+   // private internal method to create the out-of-bounds tile
+   private void generateOOBTile()
+   {
+      BufferedImage img = null;
+      img = palette.getTile(oobTileIndex, oobTileFG, oobTileBG);
+      if(sizeMultiplier != 1)
+         img = palette.magnify(img, sizeMultiplier);
+      oobTile = img;
    }
    
    // private internal method to trigger all tiles to generate

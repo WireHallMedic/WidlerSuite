@@ -1,5 +1,6 @@
 /**********************************************************************************
-An interface to ensure movement scripts can manipulate their targets
+An interface to ensure movement scripts can manipulate their targets.
+Implemented by UnboundString and UnboundTile
 
 Copyright 2021 Michael Widler
 Free for private or public use. No warranty is implied or expressed.

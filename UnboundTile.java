@@ -1,3 +1,12 @@
+/**********************************************************************************
+A class representing a tile (and possibly a simple background behind the tile)
+which are not bound to the RogueTilePanel's standard display grid.
+
+Copyright 2021 Michael Widler
+Free for private or public use. No warranty is implied or expressed.
+
+**********************************************************************************/
+
 package WidlerSuite;
 
 import java.awt.*;
@@ -24,6 +33,8 @@ public class UnboundTile implements ActionListener, UnboundInterface
    protected double gravity;     // tiles per tick
    protected boolean affectedByAge;
    protected boolean visible;
+   protected double terminalVelocity;
+   protected boolean affectedByGravity;
    
    public static final boolean BOX_BACKGROUND = false;
    public static final boolean CIRCLE_BACKGROUND = true;
@@ -43,6 +54,8 @@ public class UnboundTile implements ActionListener, UnboundInterface
    public double getGravity(){return gravity;}
    public boolean isAffectedByAge(){return affectedByAge;}
    public boolean isVisible(){return visible;}
+   public double getTerminalVelocity(){return terminalVelocity;}
+   public boolean isAffectedByGravity(){return affectedByGravity;}
 
 
 	public void setXLoc(int x){xLoc = x;}
@@ -61,7 +74,10 @@ public class UnboundTile implements ActionListener, UnboundInterface
    public void setyGravity(double g){gravity = g;}
    public void setAffectedByAge(boolean aba){affectedByAge = aba;}
    public void setVisible(boolean v){visible = v;}
+   public void setTerminalVelocity(double tv){terminalVelocity = tv;}
+   public void setAffectedByGravity(boolean ag){affectedByGravity = ag;}
 
+   // basic constructor
    public UnboundTile(TilePalette pp)
    {
       parentPalette = pp;
@@ -82,8 +98,11 @@ public class UnboundTile implements ActionListener, UnboundInterface
       visible = true;
       age = 0;
       lifespan = 15;
+      terminalVelocity = -1.0;
+      affectedByGravity = false;
    }
    
+   // simple getter for if the tile has aged out
    public boolean isExpired()
    {
       return age >= lifespan;
@@ -113,7 +132,8 @@ public class UnboundTile implements ActionListener, UnboundInterface
    {
       if(affectedByAge)
          age++;
-      ySpeed += gravity;
+      if(affectedByGravity)
+         ySpeed = Math.max(ySpeed + gravity, terminalVelocity);
       xOffset += xSpeed;
       yOffset += ySpeed;
    }

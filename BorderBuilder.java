@@ -1,6 +1,6 @@
 /*
 
-An abstract class for building borders, using the boxdrawing characters in the [0xB3, 0xDA] range of cp437
+A static class for building borders, using the boxdrawing characters in the [0xB3, 0xDA] range of cp437
 style character sets. It is possible to give input for which there is no visually consistent output, due
 to the limits of the box drawing tile subset (for example, three consecutive cells -=-).
 
@@ -18,7 +18,7 @@ package WidlerSuite;
 import javax.swing.*;   // for test method
 import java.awt.*;      // for test method
 
-public abstract class BorderBuilder
+public class BorderBuilder
 {
    public static final  int U1 = 1;
    public static final  int U2 = 2;
