@@ -25,11 +25,13 @@ public class SquirrelRNG
       lastIndexed = 0;
    }
    
+   // unseeded constructor (seeds with current time)
    public SquirrelRNG()
    {
       this((int)System.currentTimeMillis());
    }
    
+   // set seed
    public void setSeed(int s)
    {
       _seed = s;
@@ -43,7 +45,7 @@ public class SquirrelRNG
    }
    
    // get next value, based on last value sampled
-   public double sample()
+   public double nextDouble()
    {
       return sample(++lastIndexed);
    }
