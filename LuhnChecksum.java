@@ -8,7 +8,7 @@ This class is intended to be used statically. It applies the principles of Luhn'
 When converting between chars and ints, we shift +/-32, to stay out of the control characters
 at the bottom of the ASCII chart.
 
-It uses a constant, D. In Luhn's algorithm, D is 10.
+It uses a constant, D. In Luhn's Algorithm, D is 10. We're using 127 to use the range of [' ', '~'].
 
 Luhn's Algorithm validation (char string):
 1. Starting from the rightmost digit excluding the checksum, store double the value of every other digit. 
@@ -26,8 +26,6 @@ Luhn's Algorithm checksum generation (char string)
 5. Subtract this value from D. If this value == D, the checksum value is 0. Else, this value
    is the checksum value.
 6. Convert this into to a char.
-
-This class has two implementations; one for integers, and one for character strings.
 
 Copyright 2020 Michael Widler
 Free for private or public use. No warranty is implied or expressed.
@@ -53,11 +51,13 @@ public class LuhnChecksum
       return (char)(i + 32);
    }
    
+   // generate the checksum and append it
    public static String appendChecksum(String str)
    {
       return str + Character.toString(genChecksum(str));
    }
    
+   // generate the checksum. Primary work method
    public static char genChecksum(String str)
    {
       int[] val = new int[str.length()];
@@ -79,6 +79,7 @@ public class LuhnChecksum
       return intToChar(checkSumInt);
    }
    
+   // validate a string which contains a checksum as the last two characters
    public static boolean validate(String str)
    {
       int[] val = new int[str.length()];
