@@ -18,6 +18,7 @@ public class SquirrelRNG
    private int _seed = 0;
    private int lastIndexed = 0;
    
+   // seeded constructor
    public SquirrelRNG(int seed)
    {
       setSeed(seed);
@@ -26,7 +27,7 @@ public class SquirrelRNG
    
    public SquirrelRNG()
    {
-      this(0);
+      this((int)System.currentTimeMillis());
    }
    
    public void setSeed(int s)
