@@ -27,8 +27,11 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    protected int screenShakeOffsetX = 0;      // in pixels
    protected int screenShakeOffsetY = 0;      // in pixels
    protected boolean clearShake = false;      // clean up after done shaking
+   protected double xScroll = 0.0;            // in tiles
+   protected double yScroll = 0.0;            // in tiles
    
    public void setSizeMultiplier(int sm){sizeMultiplier = sm; generateAll();}
+   public void setScroll(double x, double y){xScroll = x; yScroll = y;}
 
 	public TilePalette getPalette(){return palette;}
 	public int columns(){return columns;}
@@ -72,6 +75,9 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    
    // getters
    //////////////////////////////////////////////////////////////////
+   
+   // get foreground color
+   public int getFGColor(Coord c){return getFGColor(c.x, c.y);}
    public int getFGColor(int x, int y)
    {
       if(!isInBounds(x, y))
@@ -79,6 +85,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       return fgColorArr[x][y];
    }
    
+   // get background color
+   public int getBGColor(Coord c){return getBGColor(c.x, c.y);}
    public int getBGColor(int x, int y)
    {
       if(!isInBounds(x, y))
@@ -86,6 +94,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       return bgColorArr[x][y];
    }
    
+   // get icon index
+   public int getIcon(Coord c){return getIcon(c.x, c.y);}
    public int getIcon(int x, int y)
    {
       if(!isInBounds(x, y))
@@ -103,21 +113,27 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    // setters
    //////////////////////////////////////////////////////////////////
    
-   public void setTile(int x, int y, int i, int fg, int bg)
+   // set all values of a tile location, using RGB values
+   public void setTile(Coord c, int tileIndex, int fg, int bg){setTile(c.x, c.y, tileIndex, fg, bg);}
+   public void setTile(int x, int y, int tileIndex, int fg, int bg)
    {
       if(!isInBounds(x, y))
          return;
       fgColorArr[x][y] = fg;
       bgColorArr[x][y] = bg;
-      tileIndexArr[x][y] = i;
+      tileIndexArr[x][y] = tileIndex;
       generateTile(x, y);
    }
    
+   // set all values of a tile location, using colors
+   public void setTile(Coord c, int tileIndex, Color fg, Color bg){setTile(c.x, c.y, tileIndex, fg, bg);}
    public void setTile(int x, int y, int tileIndex, Color fg, Color bg)
    {
       setTile(x, y, tileIndex, fg.getRGB(), bg.getRGB());
    }
    
+   // set foreground color of a tile
+   public void setFGColor(Coord c, int fg){setFGColor(c.x, c.y, fg);}
    public void setFGColor(int x, int y, int fg)
    {
       if(!isInBounds(x, y))
@@ -126,6 +142,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       generateTile(x, y);
    }
    
+   // set background color of a tile
+   public void setBGColor(Coord c, int bg){setBGColor(c.x, c.y, bg);}
    public void setBGColor(int x, int y, int bg)
    {
       if(!isInBounds(x, y))
@@ -134,11 +152,13 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       generateTile(x, y);
    }
    
-   public void setIcon(int x, int y, int i)
+   // set icon of a tile
+   public void setIcon(Coord c, int tileIndex){setIcon(c.x, c.y, tileIndex);}
+   public void setIcon(int x, int y, int tileIndex)
    {
       if(!isInBounds(x, y))
          return;
-      tileIndexArr[x][y] = i;
+      tileIndexArr[x][y] = tileIndex;
       generateTile(x, y);
    }
    
@@ -286,11 +306,11 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       if(palette == null)
          return;
       
-      int totalXInset = xInset + screenShakeOffsetX;
-      int totalYInset = yInset + screenShakeOffsetY;
       Graphics2D g2d = (Graphics2D)g;
       int w = palette.getTileWidth() * sizeMultiplier;
       int h = palette.getTileHeight() * sizeMultiplier;
+      int totalXInset = xInset + screenShakeOffsetX + (int)(xScroll * w);
+      int totalYInset = yInset + screenShakeOffsetY + (int)(yScroll * h);
       // draw main board
       for(int x = 0; x < imageArr.length; x++)
       for(int y = 0; y < imageArr[0].length; y++)
@@ -308,8 +328,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    
    private void drawUnboundTiles(Graphics2D g2d, Vector<UnboundTile> tileList, int w, int h)
    {
-      int totalXInset = xInset + screenShakeOffsetX;
-      int totalYInset = yInset + screenShakeOffsetY;
+      int totalXInset = xInset + screenShakeOffsetX + (int)(xScroll * w);
+      int totalYInset = yInset + screenShakeOffsetY + (int)(yScroll * h);
       
       for(int i = 0; i < tileList.size(); i++)
       {

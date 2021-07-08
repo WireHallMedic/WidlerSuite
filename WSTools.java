@@ -310,4 +310,68 @@ public class WSTools implements WSConstants
       
       return map;
    }
+   
+   // get a list of local maxima coords
+   public static Vector<Coord> getLocalMaxima(int[][] noiseMap)
+   {
+      Vector<Coord> tileList = new Vector<Coord>();
+      for(int x = 1; x < noiseMap.length - 1; x++)
+      for(int y = 0; y < noiseMap[0].length; y++)
+      {
+         if(noiseMap[x][y] > noiseMap[x - 1][y] &&
+            noiseMap[x][y] > noiseMap[x + 1][y] &&
+            noiseMap[x][y] > noiseMap[x][y - 1] &&
+            noiseMap[x][y] > noiseMap[x][y + 1])
+            tileList.add(new Coord(x, y));
+      }
+      return tileList;
+   }
+   
+   // get a list of local maxima coords
+   public static Vector<Coord> getLocalMaxima(double[][] noiseMap)
+   {
+      Vector<Coord> tileList = new Vector<Coord>();
+      for(int x = 1; x < noiseMap.length - 1; x++)
+      for(int y = 0; y < noiseMap[0].length; y++)
+      {
+         if(noiseMap[x][y] > noiseMap[x - 1][y] &&
+            noiseMap[x][y] > noiseMap[x + 1][y] &&
+            noiseMap[x][y] > noiseMap[x][y - 1] &&
+            noiseMap[x][y] > noiseMap[x][y + 1])
+            tileList.add(new Coord(x, y));
+      }
+      return tileList;
+   }
+   
+   // get a list of local minima coords
+   public static Vector<Coord> getLocalMinima(int[][] noiseMap)
+   {
+      Vector<Coord> tileList = new Vector<Coord>();
+      for(int x = 1; x < noiseMap.length - 1; x++)
+      for(int y = 0; y < noiseMap[0].length; y++)
+      {
+         if(noiseMap[x][y] < noiseMap[x - 1][y] &&
+            noiseMap[x][y] < noiseMap[x + 1][y] &&
+            noiseMap[x][y] < noiseMap[x][y - 1] &&
+            noiseMap[x][y] < noiseMap[x][y + 1])
+            tileList.add(new Coord(x, y));
+      }
+      return tileList;
+   }
+   
+   // get a list of local minima coords
+   public static Vector<Coord> getLocalMinima(double[][] noiseMap)
+   {
+      Vector<Coord> tileList = new Vector<Coord>();
+      for(int x = 1; x < noiseMap.length - 1; x++)
+      for(int y = 0; y < noiseMap[0].length; y++)
+      {
+         if(noiseMap[x][y] < noiseMap[x - 1][y] &&
+            noiseMap[x][y] < noiseMap[x + 1][y] &&
+            noiseMap[x][y] < noiseMap[x][y - 1] &&
+            noiseMap[x][y] < noiseMap[x][y + 1])
+            tileList.add(new Coord(x, y));
+      }
+      return tileList;
+   }
 }
