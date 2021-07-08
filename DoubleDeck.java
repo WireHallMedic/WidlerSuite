@@ -16,6 +16,7 @@ public class DoubleDeck
    private double[] _values;
    private SquirrelRNG rng;
    
+   // constructor to make n copies of a passed list of doubles
    public DoubleDeck(double[] values, int copies)
    {
       rng = new SquirrelRNG((int)System.currentTimeMillis());
@@ -27,17 +28,20 @@ public class DoubleDeck
       shuffle();
    }
    
+   // deck of a single copy of the passed values
    public DoubleDeck(double[] values)
    {
       this(values, 1);
    }
    
+   // shuffle the deck (full set of values) with seed
    public void shuffle(int seed)
    {
       rng.setSeed(seed);
       shuffle();
    }
    
+   // shuffle the deck without reseeding
    public void shuffle()
    {
       Vector<Double> orderedList = new Vector<Double>();
@@ -58,6 +62,7 @@ public class DoubleDeck
       }
    }
    
+   // pop the top entry
    public double pop()
    {
       if(deck.size() == 0)
@@ -67,6 +72,7 @@ public class DoubleDeck
       return val;
    }
    
+   // testing/demo method
    public static void main(String[] args)
    {
       double[] list = {.1, .2, .3, .4, .5};
