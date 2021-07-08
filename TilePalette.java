@@ -1,3 +1,12 @@
+/**********************************************************************************
+A class for holding an image to use as a tile palette for classes like TileRoguePanel.
+Loads from an image or imagefile.
+
+Copyright 2021 Michael Widler
+Free for private or public use. No warranty is implied or expressed.
+
+**********************************************************************************/
+
 package WidlerSuite;
 
 import java.awt.*;
@@ -28,16 +37,19 @@ public class TilePalette
    public int getTileHeight(){return tileHeight;}
    
    
+   // constructor from file
    public TilePalette(String fileName, int w, int t)
    {
       this.loadFromFile(fileName, w, t);
    }
    
+   // constructor from BufferedImage
    public TilePalette(BufferedImage image, int w, int t)
    {
       this.loadFromBufferedImage(image, w, t);
    }
    
+   // load image from file
    public void loadFromFile(String fileName, int w, int t)
    {
       // load the image
@@ -63,6 +75,7 @@ public class TilePalette
       return (y * columns) + x;
    }
    
+   // load from a BufferedImage
    public void loadFromBufferedImage(BufferedImage rawImage, int w, int t)
    {
       
@@ -91,6 +104,7 @@ public class TilePalette
       partitionImage();
    }
    
+   // partition the image based on declared values
    private void partitionImage()
    {
       // early exit if master image doesn't exist
@@ -113,18 +127,21 @@ public class TilePalette
       }
    }
    
+   // get tile at passed index
    public BufferedImage getTile(int i)
    {
       return getTile(i, FG_COLOR, BG_COLOR);
    }
    public BufferedImage getTile(int x, int y){return getTile(flatten(x, y));}
    
+   // get tile in specified colors
    public BufferedImage getTile(int i, Color fg, Color bg)
    {
       return getTile(i, fg.getRGB(), bg.getRGB());
    }
    public BufferedImage getTile(int x, int y, Color fg, Color bg){return getTile(flatten(x, y), fg, bg);}
    
+   // get tile in specified colors as RGB values
    public BufferedImage getTile(int i, int fg, int bg)
    {
       BufferedImage img = imageStrip[i];
@@ -141,6 +158,7 @@ public class TilePalette
    }
    public BufferedImage getTile(int x, int y, int fg, int bg){return getTile(flatten(x, y), fg, bg);}
    
+   // magnify image by specified magnitude
    public BufferedImage magnify(BufferedImage img, int m)
    {
       if(m == 1)
@@ -160,6 +178,7 @@ public class TilePalette
       return newImg;
    }
    
+   // get an UnboundTile based on passed values
    public UnboundTile getUnboundTile(int tileIndex, int fgColor, int bgColor, int sm, boolean bgType)
    {
       UnboundTile tile = new UnboundTile(this);
@@ -178,6 +197,7 @@ public class TilePalette
       return getUnboundTile(tileIndex, fgColor, TRANSPARENT, sm, UnboundTile.BOX_BACKGROUND);
    }
    
+   // update an UnboundTile with any changes to the palette since tile was generated
    public void setUnboundTile(UnboundTile tile)
    {
       BufferedImage img = getTile(tile.getIconIndex(), tile.getFGColor(), tile.getBGColor());
