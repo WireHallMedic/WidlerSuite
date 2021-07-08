@@ -479,6 +479,25 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       rtp.add(ut);
       rtp.add(ms);
       
+      int[][] borderArr = new int[20][4];
+      for(int x = 0; x < 20; x++)
+      for(int y = 0; y < 4; y++)
+      {
+         if(x == 0  || x == 19)
+            borderArr[x][y] = 1;
+         if(y == 0 || y == 3)
+            borderArr[x][y] = 2;
+      }
+      borderArr = BorderBuilder.getBorderTiles(borderArr);
+      for(int x = 0; x < 20; x++)
+      for(int y = 0; y < 4; y++)
+      {
+         if(borderArr[x][y] != 0)
+         {
+            rtp.setIcon(x, y + 16, borderArr[x][y]);
+         }
+      }
+      
       ut.setXLoc(3);
       ut.setYLoc(3);
       frame.add(rtp);
