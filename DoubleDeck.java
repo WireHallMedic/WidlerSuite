@@ -52,7 +52,7 @@ public class DoubleDeck
       int index = 0;
       while(orderedList.size() > 0)
       {
-         index = (int)((double)orderedList.size() * rng.sample());
+         index = (int)((double)orderedList.size() * rng.nextDouble());
          deck.add(orderedList.elementAt(index));
          orderedList.removeElementAt(index);
       }
