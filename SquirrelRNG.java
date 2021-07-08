@@ -1,9 +1,12 @@
 /*
 
 Based (heavily) on a GDC talk by Squirrel Eiserloh.
-Essentially a hashing function posing as an RNG. Fast, good-quality output.
+Essentially a hashing function posing as an RNG. Fast, tiny, good-quality output.
 Is threadsafe if you don't use seeds (just add the seed to the position when
 calling sample(int)).
+
+Random indexing, fast reseeding, consistent speed, memory footprint rounds
+to zero.
 
 */
 
