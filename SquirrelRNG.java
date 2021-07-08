@@ -44,10 +44,16 @@ public class SquirrelRNG
       return sampleInt(position);
    }
    
-   // get next value, based on last value sampled
+   // get next double value, based on last value sampled
    public double nextDouble()
    {
       return sampleDouble(++lastIndexed);
+   }
+   
+   // get next int value, based on last value sampled
+   public int nextInt()
+   {
+      return sampleInt(++lastIndexed);
    }
    
    // get value at position offset from existing seed (which may be zero)
