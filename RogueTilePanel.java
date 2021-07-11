@@ -191,20 +191,62 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    public void write(Coord loc, String s, Coord box){write(loc.x, loc.y, s, box.x, box.y);}
    public void write(int x, int y, String s, int w, int h)
    {
-      int xLoc = x; 
-      int yLoc = y;
-      for(int i = 0; i < s.length(); i++)
+      int xLoc = 0; 
+      int yLoc = 0;
+      char[][] charArr = new char[w][h];
+      String[] stringArr = s.split(" ");
+      Vector<String> stringVect = new Vector<String>();
+      // initialize array just in case tile 0x00 isn't blank
+      for(int xx = 0; xx < w; xx++)
+      for(int yy = 0; yy < h; yy++)
+         charArr[xx][yy] = ' ';
+      // copy over to vector, breaking up words that are too long
+      for(String str : stringArr)
       {
-         if(xLoc == x + w)
+         if(str.length() <= w)
+            stringVect.add(str);
+         else
          {
-            xLoc = x;
-            yLoc++;
+            while(str.length() > 0)
+            {
+               int cutPoint = Math.min(str.length(), w);
+               stringVect.add(str.substring(0, cutPoint));
+               str = str.substring(cutPoint);
+            }
          }
-         if(yLoc == y + h)
-            return;
-         setIcon(xLoc, yLoc, (int)(s.charAt(i)));
+      }
+      // copy the characters to the character array
+      for(String str : stringVect)
+      {
+         // carriage return if needed
+         if(w - xLoc < str.length())
+         {
+            xLoc = 0;
+            yLoc++;
+            if(yLoc >= h)
+               break;
+         }
+         // set the characters
+         for(int j = 0; j < str.length(); j++)
+         {
+            if(str.charAt(j) == '\n')
+            {
+               xLoc = 0;
+               yLoc++;
+            }
+            else
+            {
+               charArr[xLoc][yLoc] = str.charAt(j);
+               xLoc++;
+            }
+         }
+         // space
          xLoc++;
       }
+      // actually set the tiles
+      for(int xx = 0; xx < w; xx++)
+      for(int yy = 0; yy < h; yy++)
+         setIcon(x + xx, y + yy, charArr[xx][yy]);
    }
    
    // set screen shake. Overwrites any existing screen shake
@@ -492,8 +534,12 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       rtp.setTile(9, 17, 'l', Color.WHITE, Color.BLACK);
       rtp.setTile(10, 17, 'd', Color.WHITE, Color.BLACK);
       rtp.setTile(11, 17, '!', Color.WHITE, Color.BLACK);
-      
+      /*
       rtp.write(5, 18, "Writing some stuff here in a space.", 10, 2);
+      rtp.write(5, 5, "Writing\nin a six by five area with a bunch of words of varying length.", 6, 5);
+      for(int x = 5; x < 11; x++)
+      for(int y = 5; y < 10; y++)
+         rtp.setBGColor(x, y, Color.BLUE.getRGB());*/
       
       UnboundTile ut = rtp.palette.getUnboundTile((int)'@', Color.RED.getRGB(), Color.GRAY.getRGB(), 2, UnboundTile.CIRCLE_BACKGROUND);
       ut.setAffectedByAge(false);
