@@ -221,7 +221,7 @@ public class TilePalette
    // test function
    public static void main(String[] args)
    {
-      TilePalette tp = new TilePalette("RogueTilePanel/MyFont_16x16.png", 16, 16);
+      TilePalette tp = new TilePalette("RogueTilePanel/WSFont_16x16.png", 16, 16);
       BufferedImage bi = tp.getTile(1, 1, Color.BLUE.getRGB(), Color.BLACK.getRGB());
    }
 }

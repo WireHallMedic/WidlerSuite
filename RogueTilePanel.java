@@ -514,7 +514,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       frame.setSize(800, 800);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
-      TilePalette palette = new TilePalette("WidlerSuite/MyFont_16x16.png", 16, 16);
+      TilePalette palette = new TilePalette("WidlerSuite/WSFont_16x16.png", 16, 16);
       RogueTilePanel rtp = new RogueTilePanel(20, 20, palette);
       rtp.setSizeMultiplier(2);
    
