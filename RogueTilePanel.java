@@ -187,14 +187,14 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    }
    public void setOOBTile(int index, Color fg, Color bg){setOOBTile(index, fg.getRGB(), bg.getRGB());}
    
-   // writes the string in a box. with the passed foreground and background colors
+   // writes the string in a box, without setting colors
    public void write(Coord loc, String s, Coord box){write(loc.x, loc.y, s, box.x, box.y);}
    public void write(int x, int y, String s, int w, int h)
    {
       write(x, y, s, -1, -1, w, h);
    }
    
-   
+   // write the string in a box, with the passed foreground and background colors
    public void write(Coord loc, String s, int fgColor, int bgColor, Coord box){write(loc.x, loc.y, s, box.x, box.y);}
    public void write(int x, int y, String s, int fgColor, int bgColor, int w, int h)
    {
@@ -259,6 +259,64 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
          else
             setTile(x + xx, y + yy, charArr[xx][yy], fgColor, bgColor);
       }
+   }
+   
+   // set the background and foreground colors of one or all instances of a particular 
+   // word in the passed area
+   public void setWordColors(String word, int fgColor, int bgColor, int x, int y, 
+                                int w, int h, boolean findAll)
+   {
+      Coord loc = new Coord(x, y);
+      Vector<Coord> targetLoc = new Vector<Coord>();
+      boolean continueF = true;
+      int targetIndex = 0;
+      while(continueF)
+      {
+         // found next char
+         if(tileIndexArr[loc.x][loc.y] == (int)word.charAt(targetIndex))
+         {
+            targetIndex++;
+            targetLoc.add(new Coord(loc));
+            // word complete?
+            if(targetLoc.size() == word.length())
+            {
+               // set colors
+               for(int i = 0; i < targetLoc.size(); i++)
+               {
+                  setTile(targetLoc.elementAt(i), (int)word.charAt(i), fgColor, bgColor);
+               }
+               // after setting colors, either reset up or return
+               if(findAll)
+               {
+                  targetIndex = 0;
+                  targetLoc = new Vector<Coord>();
+               }
+               else
+                  return;
+            }
+         }
+         // didn't find next char
+         else
+         {
+            targetIndex = 0;
+            targetLoc = new Vector<Coord>();
+         }
+         continueF = incrementLocForWordColors(loc, x, y, w, h);
+      }
+   }
+   
+   // private function for setWordColors
+   private boolean incrementLocForWordColors(Coord loc, int x, int y, int w, int h)
+   {
+      loc.x++;
+      if(loc.x == x + w)
+      {
+         loc.x = x;
+         loc.y++;
+      }
+      if(loc.y == y + h)
+         return false;
+      return true;
    }
    
    // set screen shake. Overwrites any existing screen shake
@@ -600,6 +658,9 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       rtp.center();
       rtp.repaint();
       rtp.setScreenShake(.2, 30);
+      
+      rtp.setWordColors("Writing", Color.ORANGE.getRGB(), Color.BLUE.getRGB(), 0, 0, 20, 20, true);
+      rtp.setWordColors("Writ", Color.BLUE.getRGB(), Color.ORANGE.getRGB(), 0, 0, 20, 20, false);
       
       javax.swing.Timer timer = new javax.swing.Timer(1000 / 60, rtp);
       timer.start();
