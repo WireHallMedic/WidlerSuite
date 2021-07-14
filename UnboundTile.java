@@ -60,6 +60,8 @@ public class UnboundTile implements ActionListener, UnboundInterface
 
 	public void setXLoc(int x){xLoc = x;}
 	public void setYLoc(int y){yLoc = y;}
+   public void setLoc(int x, int y){setXLoc(x); setYLoc(y);}
+   public void setLoc(Coord l){setXLoc(l.x); setYLoc(l.y);}
 	public void setXOffset(double x){xOffset = x;}
 	public void setYOffset(double y){yOffset = y;}
 	public void setBGColor(int b){bgColor = b;}

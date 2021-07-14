@@ -10,6 +10,7 @@ import java.io.*;
 
 public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMotionListener, ActionListener, KeyListener, WSConstants
 {
+   private TilePalette palette;
    private LayoutPanel layoutPanel;
    private JTextArea testTextArea;
    private RogueTilePanel rogueTilePanel;
@@ -105,7 +106,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       setBlitMap();
       
       // rogueTilePanel
-      TilePalette palette = new TilePalette("WidlerSuite/WSFont_16x16.png", 16, 16);
+      palette = new TilePalette("WidlerSuite/WSFont_16x16.png", 16, 16);
       rogueTilePanel = new RogueTilePanel(COLUMNS, ROWS, palette);
       rogueTilePanel.setIcon(5, 10, '@');
       layoutPanel.add(rogueTilePanel, .75, 1.0, 0.0, 0.0);
@@ -301,7 +302,8 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       {
          for(int i = 0; i < 16; i++)
          {
-            UnboundString star = new UnboundString("*", WSTools.randomColor(), rogueTilePanel.mouseColumn(), rogueTilePanel.mouseRow());
+            UnboundTile star = palette.getUnboundTile((int)'*', WSTools.randomColor().getRGB(), 1);
+            star.setLoc(rogueTilePanel.mouseColumn(), rogueTilePanel.mouseRow());
             star.setLifespan(15);
             star.setSpeed((Math.random() * .4) - .2, -.5 + (Math.random() * .2));
             star.setAffectedByGravity(true);
@@ -311,11 +313,11 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       // float effect on double click
       if(clicks == 2)
       {
-         UnboundString str = new UnboundString("UnboundString", Color.WHITE, rogueTilePanel.mouseColumn(), rogueTilePanel.mouseRow());
-         str.setLifespan(30);
-         str.setSpeed(0.0, -.1);
-         str.setBackgroundBox(true);
-         rogueTilePanel.add(str);
+         //UnboundString str = new UnboundString("UnboundString", Color.WHITE, rogueTilePanel.mouseColumn(), rogueTilePanel.mouseRow());
+         UnboundTile ut = rogueTilePanel.palette.getUnboundTile((int)'@', Color.RED.getRGB(), Color.GRAY.getRGB(), 1, UnboundTile.CIRCLE_BACKGROUND);
+         ut.setLifespan(30);
+         ut.setSpeed(0.0, -.1);
+         rogueTilePanel.add(ut);
       }
    }
    
