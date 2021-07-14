@@ -269,13 +269,11 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       Coord loc = new Coord(x, y);
       Vector<Coord> targetLoc = new Vector<Coord>();
       boolean continueF = true;
-      int targetIndex = 0;
       while(continueF)
       {
          // found next char
-         if(tileIndexArr[loc.x][loc.y] == (int)word.charAt(targetIndex))
+         if(tileIndexArr[loc.x][loc.y] == (int)word.charAt(targetLoc.size()))
          {
-            targetIndex++;
             targetLoc.add(new Coord(loc));
             // word complete?
             if(targetLoc.size() == word.length())
@@ -288,20 +286,19 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
                // after setting colors, either reset up or return
                if(findAll)
                {
-                  targetIndex = 0;
                   targetLoc = new Vector<Coord>();
                }
                else
-                  return;
+                  continueF = false;;
             }
          }
          // didn't find next char
          else
          {
-            targetIndex = 0;
             targetLoc = new Vector<Coord>();
          }
-         continueF = incrementLocForWordColors(loc, x, y, w, h);
+         if(continueF)
+            continueF = incrementLocForWordColors(loc, x, y, w, h);
       }
    }
    public void setWordColors(String word, int fgColor, int bgColor, Coord origin, 
