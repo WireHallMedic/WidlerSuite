@@ -742,6 +742,12 @@ RogueTilePanel(int w, int h, TilePalette p)\par
 int getSizeMultiplier()\par
 \i Simple getter for the multiplication factor from the TilePalette to this panel.\i0\par
  \par
+double getXScroll()\par
+\i Get the current scroll value in tiles.\i0\par
+\par
+double getYScroll()\par
+\i Get the current scroll value in tiles.\i0\par
+ \par
 boolean isInBounds(Coord loc)\par
 boolean isInBounds(int x, int y)\par
 \i Checks if the passed tile location is in the tile boundaries of this panel.\i0\par
@@ -1323,6 +1329,10 @@ UnboundTile getUnboundTile(int tileIndex, int fgColor, int sizeMultiplier)\par
 \par
 \kerning1 void setYLoc(int y)\kerning0\par
 \kerning1\i Set the y position, in tiles.\kerning0\i0\par
+\par
+\kerning1 void setYLoc(int x, int y)\par
+void setYLoc(Cord l)\kerning0\par
+\kerning1\i Set the position, in tiles.\kerning0\i0\par
 \par
 \kerning1 void setXOffset(double x)\kerning0\par
 \kerning1\i Set the x position offset, in tiles.\kerning0\i0\par
