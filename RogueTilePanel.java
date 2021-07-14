@@ -44,6 +44,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    public BufferedImage getOOBTile(){return oobTile;}
    public int mouseColumn(){return mouseLoc[0];}
    public int mouseRow(){return mouseLoc[1];}
+   public double getXScroll(){return xScroll;}
+   public double getYScroll(){return yScroll;}
    
    public RogueTilePanel(int w, int h, TilePalette p)
    {

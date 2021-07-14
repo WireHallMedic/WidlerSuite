@@ -64,7 +64,8 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
    private Vector<Room> roomList;
    private Vector<Color> roomColorList;
    private boolean traceType = true;   // true is A*, false is StraightLine
-   private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode (Don't Trim)", "Hex Mode (Trim)"};
+   //private static final String[] displayModeList = {"Rect Mode (8-Way)", "Rect Mode (4-Way)", "Hex Mode (Don't Trim)", "Hex Mode (Trim)"};
+   private static final String[] displayModeList = {"Only one display mode for now"};
    private static final String[] traceList = {"No Trace", "A* Trace", "Line Trace"};
    private static final String[] areaList = {"No Area", "Show Shadowcasting", "Show Dijkstra", 
                                              "Show Binary Space Partitioning", "Show Voronoi Map", "Show CA Map", 
@@ -208,15 +209,15 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       controlPanel.setFocusable(false);
       
       loadTestMap();
-      /*
+      
       String fontName = FontLoader.load("WidlerSuite/Px437_Wyse700b");
       if(fontName == null)
          fontName = FontLoader.load("Px437_Wyse700b");
       if(fontName != null)
       {
-         rogueTilePanel.setFontName(fontName);
-         rogueTilePanel.setTightFontBorders(true);
-      }*/
+         //rogueTilePanel.setFontName(fontName);
+         //rogueTilePanel.setTightFontBorders(true);
+      }
       //rogueTilePanel.setFontName("Lucida Sans Regular");
       //rogueTilePanel.setFontName("Monospaced");
       
@@ -314,7 +315,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       if(clicks == 2)
       {
          //UnboundString str = new UnboundString("UnboundString", Color.WHITE, rogueTilePanel.mouseColumn(), rogueTilePanel.mouseRow());
-         UnboundTile ut = rogueTilePanel.palette.getUnboundTile((int)'@', Color.RED.getRGB(), Color.GRAY.getRGB(), 1, UnboundTile.CIRCLE_BACKGROUND);
+         UnboundTile ut = palette.getUnboundTile((int)'@', Color.RED.getRGB(), Color.GRAY.getRGB(), 2, UnboundTile.CIRCLE_BACKGROUND);
          ut.setLifespan(30);
          ut.setSpeed(0.0, -.1);
          rogueTilePanel.add(ut);
@@ -327,7 +328,8 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       {
          switch(modeDD.getSelectedIndex())
          {
-            case 0 :    displayMode = RECT_MODE;
+            default : displayMode = RECT_MODE;
+            /*case 0 :    displayMode = RECT_MODE;
                         searchDiagonal = true;
                         break;
             case 1 :    displayMode = RECT_MODE;
@@ -338,9 +340,9 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
                         break;
             case 3 :    displayMode = HEX_MODE;
                         rogueTilePanel.setTrimOddAxis(true);
-                        break;
+                        break;*/
          }
-         rogueTilePanel.setDisplayMode(displayMode);
+         //rogueTilePanel.setDisplayMode(displayMode);
          aStar.setMode(displayMode);
          aStar.setSearchDiagonal(searchDiagonal);
          StraightLine.setMode(displayMode);
@@ -399,7 +401,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       
       if(ae.getSource() == borderButton)
       {
-         rogueTilePanel.showTileBorders(borderButton.isSelected());
+         //rogueTilePanel.showTileBorders(borderButton.isSelected());
       }
       
       if(ae.getSource() == scriptUSButton)
@@ -431,22 +433,22 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       if(ae.getSource() instanceof javax.swing.Timer)
       {
          int row = ROWS - 1;
-         rogueTilePanel.write(0, row, "Blink:", Color.WHITE);
+         rogueTilePanel.write(0, row, "Blink:", Color.WHITE.getRGB(), Color.BLACK.getRGB());
          
          if(AnimationManager.slowBlink())
-            rogueTilePanel.setBGColor(7, row, Color.BLACK);
+            rogueTilePanel.setBGColor(7, row, Color.BLACK.getRGB());
          else
-            rogueTilePanel.setBGColor(7, row, Color.BLUE);
+            rogueTilePanel.setBGColor(7, row, Color.BLUE.getRGB());
          
          if(AnimationManager.mediumBlink())
-            rogueTilePanel.setBGColor(9, row, Color.BLACK);
+            rogueTilePanel.setBGColor(9, row, Color.BLACK.getRGB());
          else
-            rogueTilePanel.setBGColor(9, row, Color.BLUE);
+            rogueTilePanel.setBGColor(9, row, Color.BLUE.getRGB());
          
          if(AnimationManager.fastBlink())
-            rogueTilePanel.setBGColor(11, row, Color.BLACK);
+            rogueTilePanel.setBGColor(11, row, Color.BLACK.getRGB());
          else
-            rogueTilePanel.setBGColor(11, row, Color.BLUE);
+            rogueTilePanel.setBGColor(11, row, Color.BLUE.getRGB());
          
          // scrolling
          if(demoScrollingUp)
@@ -468,10 +470,10 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
             }
          }
          
-         rogueTilePanel.write(13, row, "Pulse:", Color.WHITE);
-         rogueTilePanel.setBGColor(20, row, gradient[AnimationManager.slowPulse()]);
-         rogueTilePanel.setBGColor(22, row, gradient[AnimationManager.mediumPulse()]);
-         rogueTilePanel.setBGColor(24, row, gradient[AnimationManager.fastPulse()]);
+         rogueTilePanel.write(13, row, "Pulse:", 19, row);
+         rogueTilePanel.setBGColor(20, row, gradient[AnimationManager.slowPulse()].getRGB());
+         rogueTilePanel.setBGColor(22, row, gradient[AnimationManager.mediumPulse()].getRGB());
+         rogueTilePanel.setBGColor(24, row, gradient[AnimationManager.fastPulse()].getRGB());
       }
    }
    
@@ -586,55 +588,55 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       for(int x = 0; x < COLUMNS; x++)
       for(int y = 0; y < ROWS - 1; y++)
       {
-            rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
+            rogueTilePanel.setTile(x, y, strMap[x][y].charAt(0), fgMap[x][y], bgMap[x][y]);
          if(showFoV && displayMode == RECT_MODE)
          {
             if(rectFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y].getRGB(), Color.DARK_GRAY.getRGB());
             else
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y].getRGB(), bgMap[x][y].getRGB());
          }
          else if(showFoV && displayMode == HEX_MODE)
          {
             if(hexFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y].getRGB(), Color.DARK_GRAY.getRGB());
             else
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y], bgMap[x][y]);
          }
          else if(showDijkstra)
          {
             int val = dijkstraMap.getValue(x, y);
             if(val < 128 && bgMap[x][y] == Color.BLACK)
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], new Color(0, 255 - (val * 2), 0));
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y].getRGB(), new Color(0, 255 - (val * 2), 0).getRGB());
             else
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y].getRGB(), bgMap[x][y].getRGB());
          }
          else if(showCA)
          {
             if(displayMode == RECT_MODE)
             {
                if(caMap[x][y])
-                  rogueTilePanel.setBGColor(x, y, Color.BLUE);
+                  rogueTilePanel.setBGColor(x, y, Color.BLUE.getRGB());
                else
-                  rogueTilePanel.setBGColor(x, y, Color.ORANGE);
+                  rogueTilePanel.setBGColor(x, y, Color.ORANGE.getRGB());
             }
             else // hex mode
             {
                if(caHexMap[x][y])
-                  rogueTilePanel.setBGColor(x, y, Color.BLUE);
+                  rogueTilePanel.setBGColor(x, y, Color.BLUE.getRGB());
                else
-                  rogueTilePanel.setBGColor(x, y, Color.ORANGE);
+                  rogueTilePanel.setBGColor(x, y, Color.ORANGE.getRGB());
             }
          }         
          else if(showCone)
          {
             if(watcherFoV.isVisible(x, y) && bgMap[x][y] == Color.BLACK)
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], Color.DARK_GRAY);
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y].getRGB(), Color.DARK_GRAY.getRGB());
             else
-               rogueTilePanel.setTile(x, y, strMap[x][y], fgMap[x][y], bgMap[x][y]);
+               rogueTilePanel.setTile(x, y, (int)strMap[x][y].charAt(0), fgMap[x][y].getRGB(), bgMap[x][y].getRGB());
          }
       }
-      rogueTilePanel.setTile(atLoc.x, atLoc.y, "@", Color.CYAN);
+      rogueTilePanel.setTile(atLoc.x, atLoc.y, '@', Color.CYAN.getRGB(), bgMap[atLoc.x][atLoc.y].getRGB());
       
       // BSP
       if(showBSP)
@@ -645,9 +647,14 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
             if(room.isParent == false)
             {
                Color c = WSTools.randomColor().darker().darker();
-               rogueTilePanel.setBGBox(room.origin, room.size, roomColorList.elementAt(i));
+               //rogueTilePanel.setBGBox(room.origin, room.size, roomColorList.elementAt(i));
+               for(int x = 0; x < room.size.x; x++)
+               for(int y = 0; y < room.size.y; y++)
+               {
+                  rogueTilePanel.setBGColor(x + room.origin.x, y + room.origin.y, roomColorList.elementAt(i).getRGB());
+               }
                for(int x = 0; x < COLUMNS; x++)
-                  rogueTilePanel.setBGColor(x, ROWS - 1, Color.BLACK);
+                  rogueTilePanel.setBGColor(x, ROWS - 1, Color.BLACK.getRGB());
             }
          }
       }
@@ -659,12 +666,12 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
          for(int x = 0; x < COLUMNS; x++)
          for(int y = 0; y < ROWS - 1; y++)
          {
-            rogueTilePanel.setBGColor(x, y, voronoiColors[vMap[x][y]]);
+            rogueTilePanel.setBGColor(x, y, voronoiColors[vMap[x][y]].getRGB());
          }
          for(int i = 0; i < voronoiPoints.size(); i++)
          {
-            rogueTilePanel.setString(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, BULLET_STR);
-            rogueTilePanel.setFGColor(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, Color.CYAN);
+            rogueTilePanel.setIcon(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, (int)BULLET_STR.charAt(0));
+            rogueTilePanel.setFGColor(voronoiPoints.elementAt(i).x, voronoiPoints.elementAt(i).y, Color.CYAN.getRGB());
          }
       }
       
@@ -673,8 +680,8 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       {
          if(searchLoc != null)
          {
-            Color fg = rogueTilePanel.getBGColor(searchLoc.x, searchLoc.y);
-            Color bg = rogueTilePanel.getFGColor(searchLoc.x, searchLoc.y);
+            int fg = rogueTilePanel.getBGColor(searchLoc.x, searchLoc.y);
+            int bg = rogueTilePanel.getFGColor(searchLoc.x, searchLoc.y);
             rogueTilePanel.setBGColor(searchLoc.x, searchLoc.y, bg);
             rogueTilePanel.setFGColor(searchLoc.x, searchLoc.y, fg);
          }
@@ -686,7 +693,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
          for(int x = 0; x < COLUMNS; x++)
          for(int y = 0; y < ROWS - 1; y++)
          {
-            rogueTilePanel.setBGColor(x, y, noiseMap[x][y]);
+            rogueTilePanel.setBGColor(x, y, noiseMap[x][y].getRGB());
          }
       }
       
@@ -696,7 +703,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
          for(int x = 0; x < COLUMNS; x++)
          for(int y = 0; y < ROWS - 1; y++)
          {
-            rogueTilePanel.setBGColor(x, y, billowingNoiseMap[x][y]);
+            rogueTilePanel.setBGColor(x, y, billowingNoiseMap[x][y].getRGB());
          }
       }
       
@@ -706,7 +713,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
          for(int x = 0; x < COLUMNS; x++)
          for(int y = 0; y < ROWS - 1; y++)
          {
-            rogueTilePanel.setBGColor(x, y, ridgedNoiseMap[x][y]);
+            rogueTilePanel.setBGColor(x, y, ridgedNoiseMap[x][y].getRGB());
          }
       }
       
@@ -716,7 +723,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
          for(int x = 0; x < COLUMNS; x++)
          for(int y = 0; y < ROWS - 1; y++)
          {
-            rogueTilePanel.setBGColor(x, y, blitMap[x][y]);
+            rogueTilePanel.setBGColor(x, y, blitMap[x][y].getRGB());
          }
       }
    }
@@ -755,7 +762,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
       for(int y = 0; y < ROWS; y++)
          bgMap[x][y] = Color.BLACK;
       if(rogueTilePanel.mouseColumn() != -1 && rogueTilePanel.mouseRow() != -1)
-      {
+      {/*
          if(traceDD.getSelectedIndex() == 1)   // A*
          {
             Vector<Coord> path = aStar.path(passMap, atLoc, new Coord(rogueTilePanel.mouseColumn(), rogueTilePanel.mouseRow()));
@@ -773,7 +780,7 @@ public class WidlerSuiteDemo2 extends JFrame implements MouseListener, MouseMoti
                if(rogueTilePanel.isInBounds(loc.x, loc.y))
                   bgMap[loc.x][loc.y] = Color.BLUE;
             }
-         }
+         }*/
       }
       search();
       loadTestMap();
