@@ -798,7 +798,15 @@ void setOOBTile(int index, Color fg, Color bg)\par
    \par
 void write(Coord loc, String s, Coord box)\par
 void write(int x, int y, String s, int w, int h)\par
-\i Write the passed string, at the passed location, with line wrapping on spaces and observance of \\n..\i0\par
+\i Write the passed string, at the passed location, with line wrapping on spaces and observance of \\n.\i0\par
+   \par
+void write(Coord loc, String s, int fgColor, int bgColor, Coord box)\par
+void write(int x, int y, String s, int fgColor, int bgColor, int w, int h)\par
+\i As write(int, int, String, int, int), but also setting foreground and background colors.\i0\par
+   \par
+void setWordColors(String word, int fgColor, int bgColor, Coord origin, Coord size, boolean findAll)\par
+void setWordColors(String word, int fgColor, int bgColor, int x, int y, int w, int h, boolean findAll)\par
+\i Sets the foreground and background colors of tilesequences matching the passed word to the passed arguments. Recognizes words wrapped over a line. If findAll is false, only finds the first instance, otherwise finds all instances in the passed box from [x, y] to [x+w, y+h].\i0\par
 \par
 void setScreenShake(double radius, int duration)\par
 void setScreenShake(double radiusX, double radiusY, int duration)\par
