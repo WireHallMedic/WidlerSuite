@@ -13,7 +13,7 @@ s#k0
 s#j0
 s#l0
 !142;u
-a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo!969;g
+a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo!996;g
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011LineIntersection.java
@@ -31,6 +31,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011RectLine.java
 %\011Obfuscator.java
 %\011DijkstraRing.java
+%\011WidlerSuiteDemo2.java
 %\011MovementScriptStep.java
 %\011ShadowFoVHex.java
 %\011BinarySpacePartitioning.java
@@ -58,7 +59,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011LuhnChecksum.java
 %\011MovementScript.java
 %\011ShadowFoV.java
-!969;f
+!996;f
 %\011UnboundString.java
 %\011SpiralSearch.java
 %\011LineIntersection.java
@@ -76,6 +77,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011RectLine.java
 %\011Obfuscator.java
 %\011DijkstraRing.java
+%\011WidlerSuiteDemo2.java
 %\011MovementScriptStep.java
 %\011ShadowFoVHex.java
 %\011BinarySpacePartitioning.java
