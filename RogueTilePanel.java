@@ -304,6 +304,11 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
          continueF = incrementLocForWordColors(loc, x, y, w, h);
       }
    }
+   public void setWordColors(String word, int fgColor, int bgColor, Coord origin, 
+                                Coord size, boolean findAll)
+   {
+      setWordColors(word, fgColor, bgColor, origin.x, origin.y, size.x, size.y, findAll);
+   }
    
    // private function for setWordColors
    private boolean incrementLocForWordColors(Coord loc, int x, int y, int w, int h)
