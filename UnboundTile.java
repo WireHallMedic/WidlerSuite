@@ -35,15 +35,16 @@ public class UnboundTile implements ActionListener, UnboundInterface
    protected boolean visible;
    protected double terminalVelocity;
    protected boolean affectedByGravity;
+   protected UnboundTile anchorTile;
    
    public static final boolean BOX_BACKGROUND = false;
    public static final boolean CIRCLE_BACKGROUND = true;
 
 
-	public int getXLoc(){return xLoc;}
-	public int getYLoc(){return yLoc;}
-	public double getXOffset(){return xOffset;}
-	public double getYOffset(){return yOffset;}
+	public int getTrueXLoc(){return xLoc;}
+	public int getTrueYLoc(){return yLoc;}
+	public double getTrueXOffset(){return xOffset;}
+	public double getTrueYOffset(){return yOffset;}
 	public int getBGColor(){return bgColor;}
 	public int getFGColor(){return fgColor;}
 	public int getIconIndex(){return iconIndex;}
@@ -56,6 +57,8 @@ public class UnboundTile implements ActionListener, UnboundInterface
    public boolean isVisible(){return visible;}
    public double getTerminalVelocity(){return terminalVelocity;}
    public boolean isAffectedByGravity(){return affectedByGravity;}
+   public boolean hasAnchorTile(){return anchorTile != null;}
+   public UnboundTile getAnchorTile(){return anchorTile;}
 
 
 	public void setXLoc(int x){xLoc = x;}
@@ -78,6 +81,7 @@ public class UnboundTile implements ActionListener, UnboundInterface
    public void setVisible(boolean v){visible = v;}
    public void setTerminalVelocity(double tv){terminalVelocity = tv;}
    public void setAffectedByGravity(boolean ag){affectedByGravity = ag;}
+   public void setAnchorTile(UnboundTile at){anchorTile = at;}
 
    // basic constructor
    public UnboundTile(TilePalette pp)
@@ -102,6 +106,7 @@ public class UnboundTile implements ActionListener, UnboundInterface
       lifespan = 15;
       terminalVelocity = -1.0;
       affectedByGravity = false;
+      anchorTile = null;
    }
    
    // simple getter for if the tile has aged out
@@ -121,6 +126,32 @@ public class UnboundTile implements ActionListener, UnboundInterface
    public void forceExpire()
    {
       age = lifespan;
+   }
+   
+   // methods affected by anchor tile
+	public int getXLoc()
+   {
+      if(hasAnchorTile())
+         return xLoc + anchorTile.getXLoc();
+      return xLoc;
+   }
+	public int getYLoc()
+   {
+      if(hasAnchorTile())
+         return yLoc + anchorTile.getYLoc();
+      return yLoc;
+   }
+	public double getXOffset()
+   {
+      if(hasAnchorTile())
+         return xOffset + anchorTile.getXOffset();
+      return xOffset;
+   }
+	public double getYOffset()
+   {
+      if(hasAnchorTile())
+         return yOffset + anchorTile.getYOffset();
+      return yOffset;
    }
    
    // alter existing speeds and positions
