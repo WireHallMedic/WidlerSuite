@@ -627,6 +627,58 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       rtp.add(ut);
       rtp.add(ms);
       
+      UnboundTile orbit1 = rtp.palette.getUnboundTile((int)'X', Color.RED.getRGB(), Color.GRAY.getRGB(), 2, UnboundTile.CIRCLE_BACKGROUND);
+      MovementScript script = new MovementScript(orbit1);
+      script.setLoops(true);
+      orbit1.setSpeed(-.2, 0.0);
+      orbit1.setLoc(-1, -1);
+      for(int i = 0; i < 20; i++)
+      {
+         script.setImpulse(i, .01, -.01);
+         script.setImpulse(i + 20, .01, .01);
+         script.setImpulse(i + 40, -.01, .01);
+         script.setImpulse(i + 60, -.01, -.01);
+      }
+      orbit1.setAnchorTile(ut);
+      orbit1.setLoc(5, 5);
+      orbit1.setAffectedByAge(false);
+      rtp.add(script);
+      rtp.addNonlocking(orbit1);
+      
+      UnboundTile orbit2 = rtp.palette.getUnboundTile((int)'+', Color.RED.getRGB(), Color.GRAY.getRGB(), 2, UnboundTile.CIRCLE_BACKGROUND);
+      script = new MovementScript(orbit2);
+      script.setLoops(true);
+      orbit2.setSpeed(0.0, 0.0);
+      for(int i = 0; i < 20; i++)
+      {
+         script.setImpulse(i,       .01, 0.0);
+         script.setImpulse(i + 20, -.01, 0.0);
+         script.setImpulse(i + 40, -.01, 0.0);
+         script.setImpulse(i + 60,  .01, 0.0);
+      }
+      orbit2.setAnchorTile(orbit1);
+      orbit2.setAffectedByAge(false);
+      orbit2.setLoc(-2, 0);
+      rtp.add(script);
+      rtp.addNonlocking(orbit2);
+      
+      UnboundTile orbit3 = rtp.palette.getUnboundTile((int)'+', Color.RED.getRGB(), Color.GRAY.getRGB(), 2, UnboundTile.CIRCLE_BACKGROUND);
+      script = new MovementScript(orbit3);
+      script.setLoops(true);
+      orbit3.setSpeed(0.0, 0.0);
+      for(int i = 0; i < 20; i++)
+      {
+         script.setImpulse(i,      0.0, -.01);
+         script.setImpulse(i + 20, 0.0,  .01);
+         script.setImpulse(i + 40, 0.0,  .01);
+         script.setImpulse(i + 60, 0.0, -.01);
+      }
+      orbit3.setAnchorTile(orbit2);
+      orbit3.setAffectedByAge(false);
+      orbit3.setLoc(0, 2);
+      rtp.add(script);
+      rtp.addNonlocking(orbit3);
+      
       int[][] borderArr = new int[20][4];
       for(int x = 0; x < 20; x++)
       for(int y = 0; y < 4; y++)

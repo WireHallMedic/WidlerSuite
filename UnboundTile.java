@@ -81,7 +81,6 @@ public class UnboundTile implements ActionListener, UnboundInterface
    public void setVisible(boolean v){visible = v;}
    public void setTerminalVelocity(double tv){terminalVelocity = tv;}
    public void setAffectedByGravity(boolean ag){affectedByGravity = ag;}
-   public void setAnchorTile(UnboundTile at){anchorTile = at;}
 
    // basic constructor
    public UnboundTile(TilePalette pp)
@@ -152,6 +151,13 @@ public class UnboundTile implements ActionListener, UnboundInterface
       if(hasAnchorTile())
          return yOffset + anchorTile.getYOffset();
       return yOffset;
+   }
+   
+   // set the anchor tile
+   public void setAnchorTile(UnboundTile at)
+   {
+      if(at != this)
+         anchorTile = at;
    }
    
    // alter existing speeds and positions

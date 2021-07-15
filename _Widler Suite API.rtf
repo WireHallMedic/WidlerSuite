@@ -1268,7 +1268,9 @@ UnboundTile getUnboundTile(int tileIndex, int fgColor, int sizeMultiplier)\par
 \par
 \kerning1\ul\b\fs28 UnboundTile (class)\kerning0\ulnone\b0\fs24\par
 \kerning1 Implements: ActionListener, UnboundInterface\kerning0\par
-\kerning1\i A class representing a tile (and possibly a simple background behind the tile) which are not bound to the RogueTilePanel's standard display grid. They have a defined lifespan, measured in ticks, and are removed when they expire.\kerning0\i0\par
+\kerning1\i A class representing a tile (and possibly a simple background behind the tile) which are not bound to the RogueTilePanel's standard display grid. They have a defined lifespan, measured in ticks, and are removed when they expire.\par
+\par
+An UnboundTile may be assigned an anchor tile; another UnboundTile, from which the original's position is calculated, rather than the corner of the screen.\kerning0\i0\par
 \par
 \kerning1 static final boolean BOX_BACKGROUND\kerning0\par
 \kerning1 static final boolean CIRCLE_BACKGROUND\kerning0\par
@@ -1277,16 +1279,37 @@ UnboundTile getUnboundTile(int tileIndex, int fgColor, int sizeMultiplier)\par
 \kerning1\i Basic constructor.\kerning0\i0\par
 \par
 \kerning1 int getXLoc()\kerning0\par
-\kerning1\i Returns the x position of this tile in tiles.\kerning0\i0\par
+\kerning1\i Returns the x position of this tile in tiles, adjusted by the anchor tile (if it has one).\kerning0\i0\par
 \par
 \kerning1 int getYLoc()\kerning0\par
-\kerning1\i Returns the y position of this tile in tiles.\kerning0\i0\par
+\kerning1\i Returns the y position of this tile in tiles, adjusted by the anchor tile (if it has one).\kerning0\i0\par
 \par
 \kerning1 double getXOffset()\kerning0\par
-\kerning1\i Returns the x offset of this tile in tiles.\kerning0\i0\par
+\kerning1\i Returns the x offset of this tile in tiles, adjusted by the anchor tile (if it has one).\kerning0\i0\par
 \par
 \kerning1 double getYOffset()\kerning0\par
-\kerning1\i Returns the y offset of this tile in tiles.\kerning0\i0\par
+\kerning1\i Returns the y offset of this tile in tiles, adjusted by the anchor tile (if it has one).\kerning0\i0\par
+\par
+\kerning1 int getTrueXLoc()\kerning0\par
+\kerning1\i Returns the x position of this tile in tiles, ignoring any anchor tile.\kerning0\i0\par
+\par
+\kerning1 int getTrueYLoc()\kerning0\par
+\kerning1\i Returns the y position of this tile in tiles, ignoring any anchor tile.\kerning0\i0\par
+\par
+\kerning1 double getTrueXOffset()\kerning0\par
+\kerning1\i Returns the x offset of this tile in tiles, ignoring any anchor tile.\kerning0\i0\par
+\par
+\kerning1 double getTrueYOffset()\kerning0\par
+\kerning1\i Returns the y offset of this tile in tiles, ignoring any anchor tile.\kerning0\i0\par
+\par
+\kerning1 void setAnchorTile(UnboundTile at)\kerning0\par
+\kerning1\i Sets the passed UnboundTile as this tile's anchor tile. This UnboundTile's position will be calculated relative to the anchor tile's position, rather than relative to the corner of the screen.\kerning0\i0\par
+\par
+\kerning1 UnboundTile getAnchorTile()\kerning0\par
+\kerning1\i Returns a reference to this tile's anchor tile, or null if there is none.\kerning0\i0\par
+\par
+\kerning1 boolean hasAnchorTile()\kerning0\par
+\kerning1\i Returns true if this tile has an anchor tile, else false.\kerning0\i0\par
 \par
 \kerning1 int getBGColor()\kerning0\par
 \kerning1\i Returns the RGB value of the background color of this tile.\kerning0\i0\par
