@@ -50,7 +50,7 @@ public class DoubleDeck
       // create all the elements in one list
       for(int i = 0; i < _values.length; i++)
       for(int j = 0; j < _copies; j++)
-         orderedList.add(new Double(_values[i]));
+         orderedList.add(_values[i]);
       
       // randomly add them to a different list
       int index = 0;
