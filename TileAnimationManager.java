@@ -1,7 +1,7 @@
 /**********************************************************************************
-A class for keeping track of unbound strings for a RoguePanel object, and other
+A class for keeping track of unbound strings for a RogueTilePanel object, and other
 miscellaneous animation functions. Called internally, there should be no need to
-directly instantiate this. When the parent RoguePanel object receives an ActionEvent,
+directly instantiate this. When the parent RogueTilePanel object receives an ActionEvent,
 it is passed down to this object. Defaults to 30 frames per second.
 
 Copyright 2019 Michael Widler
@@ -57,7 +57,7 @@ public class TileAnimationManager implements ActionListener
    public static int mediumPulse(){return mediumPulseIndex;}
    public static int fastPulse(){return fastPulseIndex;}
    
-   // constructor, requires the RoguePanel that it is managing
+   // constructor, requires the RogueTilePanel that it is managing
    public TileAnimationManager(RogueTilePanel pp)
    {
       parentPanel = pp;
