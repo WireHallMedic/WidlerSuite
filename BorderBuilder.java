@@ -216,7 +216,7 @@ public class BorderBuilder
       frame.setSize(1200, 1200);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
-      TilePalette palette = new TilePalette("WidlerSuite/MyFont_16x16.png", 16, 16);
+      TilePalette palette = new TilePalette("WidlerSuite/WSFont_8x16.png", 16, 16);
       RogueTilePanel rtp = new RogueTilePanel(40, 40, palette);
       
       int[][] borderTemplateArr = {
