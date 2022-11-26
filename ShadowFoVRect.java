@@ -1,6 +1,6 @@
 /*******************************************************************************************
 
-An implementation of a shadow casting FoV algorithm. This is my translation of Björn Bergström's
+An implementation of a shadow casting FoV algorithm. This is my translation of Bjorn Bergstrom's
 Python implementation. Made to be persistent; just call calcFoV() with a new origin, or after
 updating the transparency map.
 
