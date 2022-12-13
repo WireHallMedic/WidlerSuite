@@ -1,6 +1,6 @@
 {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deftab709{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}}
 {\colortbl ;\red0\green0\blue0;\red0\green0\blue255;\red0\green0\blue128;}
-{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+{\*\generator Riched20 10.0.22621}\viewkind4\uc1 
 \pard\nowidctlpar\qc\kerning1\b\f0\fs36\lang1033 Widler Suite API\kerning0\b0\fs24\par
 
 \pard\nowidctlpar\par
@@ -776,6 +776,10 @@ void setScroll(double x, double y)\par
 void setTile(Coord c, int tileIndex, int fg, int bg)\par
 void setTile(int x, int y, int tileIndex, int fg, int bg)\par
 \i Set the tile of the passed location, using RGB values.\i0\par
+   \par
+void setCornerTile(Coord c)\par
+void setCornerTile(int x, int y)\par
+\i Sets what tile UnboundTiles consider to be the upper leftmost for drawing purposes. Used for scrolling maps. Ignore if your map does not scroll.\i0\par
 \par
 void setTile(Coord c, int tileIndex, Color fg, Color bg)\par
 void setTile(int x, int y, int tileIndex, Color fg, Color bg)\par
