@@ -10,7 +10,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
                                                       MouseMotionListener, WSConstants
 {
 	private TilePalette palette;
-   private TileAnimationManager animationManager;
+   protected TileAnimationManager animationManager;
 	private BufferedImage[][] imageArr;
    private int[][] bgColorArr;
    private int[][] fgColorArr;
