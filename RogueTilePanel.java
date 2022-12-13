@@ -33,9 +33,12 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    private int oobTileFG = Color.WHITE.getRGB();
    private int oobTileBG = Color.BLACK.getRGB();
    private BufferedImage oobTile;
+   private Coord cornerTile;
    
    public void setSizeMultiplier(int sm){sizeMultiplier = sm; generateAll();}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
+   public void setCornerTile(int x, int y){cornerTile = new Coord(x, y);}
+   public void setCornerTile(Coord c){setCornerTile(c.x, c.y);}
 
 	public TilePalette getPalette(){return palette;}
 	public int columns(){return columns;}
@@ -60,6 +63,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       fgColorArr = new int[w][h];
       tileIndexArr = new int[w][h];
       mouseLoc = new int[2];
+      cornerTile = new Coord(0 ,0);
       for(int x = 0; x < w; x++)
       for(int y = 0; y < h; y++)
       {
@@ -487,8 +491,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       {
          UnboundTile ut = tileList.elementAt(i);
          BufferedImage img = ut.getImage();
-         int x = ut.getXLoc() * w;
-         int y = ut.getYLoc() * h;
+         int x = (ut.getXLoc() - cornerTile.x) * w;
+         int y = (ut.getYLoc() - cornerTile.y) * h;
          x += (int)(ut.getXOffset() * w);
          y += (int)(ut.getYOffset() * h);
          g2d.drawImage(img, x + totalXInset, y + totalYInset, this);
