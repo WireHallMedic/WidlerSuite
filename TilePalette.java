@@ -182,10 +182,10 @@ public class TilePalette
 //       return newImg;
 //    }
    
-   public BufferedImage magnify(BufferedImage img, double m)
+   public BufferedImage magnify(BufferedImage img, double multiplier)
    {
-      int width = (int)(tileWidth * m);
-      int height = (int)(tileHeight * m);
+      int width = (int)(tileWidth * multiplier);
+      int height = (int)(tileHeight * multiplier);
       return (BufferedImage)img.getScaledInstance(width, height, scaleMethod);
    }
    
@@ -217,7 +217,7 @@ public class TilePalette
       if(tile.getBGType() == UnboundTile.CIRCLE_BACKGROUND)
       {
          BufferedImage stencil = getTile(2, FG_COLOR, BG_COLOR);
-         int m = tile.getSizeMultiplier();
+         double m = tile.getSizeMultiplier();
          stencil = magnify(stencil, m);
          for(int x = 0; x < tileWidth * m; x++)
          for(int y = 0; y < tileHeight * m; y++)

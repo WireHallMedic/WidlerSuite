@@ -26,7 +26,7 @@ public class UnboundTile implements ActionListener, UnboundInterface
 	private int iconIndex;
 	private BufferedImage image;
 	private TilePalette parentPalette;
-   private int sizeMultiplier;
+   private double sizeMultiplier;
    private boolean bgType;
    protected int lifespan;
    protected int age;
@@ -50,7 +50,7 @@ public class UnboundTile implements ActionListener, UnboundInterface
 	public int getIconIndex(){return iconIndex;}
 	public BufferedImage getImage(){return image;}
 	public TilePalette getParentPalette(){return parentPalette;}
-   public int getSizeMultiplier(){return sizeMultiplier;}
+   public double getSizeMultiplier(){return sizeMultiplier;}
    public boolean getBGType(){return bgType;}
    public double getGravity(){return gravity;}
    public boolean isAffectedByAge(){return affectedByAge;}
@@ -72,7 +72,7 @@ public class UnboundTile implements ActionListener, UnboundInterface
 	public void setIconIndex(int i){iconIndex = i;}
 	public void setImage(BufferedImage i){image = i;}
 	public void setParentPalette(TilePalette p){parentPalette = p;}
-   public void setSizeMultiplier(int sm){sizeMultiplier = sm;}
+   public void setSizeMultiplier(double sm){sizeMultiplier = sm;}
    public void setBGType(boolean b){bgType = b;}
    public void setLifespan(int l){lifespan = l;}
    public void setAge(int a){age = a;}
