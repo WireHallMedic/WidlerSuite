@@ -163,25 +163,6 @@ public class TilePalette
    public BufferedImage getTile(int x, int y, int fg, int bg){return getTile(flatten(x, y), fg, bg);}
    
    // magnify image by specified magnitude
-//    public BufferedImage magnify(BufferedImage img, int m)
-//    {
-//       if(m == 1)
-//          return img;
-//       BufferedImage newImg = new BufferedImage(tileWidth * m, tileHeight * m, BufferedImage.TYPE_INT_ARGB);
-//       int color;
-//       for(int x = 0; x < tileWidth; x++)
-//       for(int y = 0; y < tileHeight; y++)
-//       {
-//          color = img.getRGB(x, y);
-//          for(int xx = 0; xx < m; xx++)
-//          for(int yy = 0; yy < m; yy++)
-//          {
-//             newImg.setRGB((x * m) + xx, (y * m) + yy, color);
-//          }
-//       }
-//       return newImg;
-//    }
-   
    public BufferedImage magnify(BufferedImage img, double multiplier)
    {
       int width = (int)(tileWidth * multiplier);
