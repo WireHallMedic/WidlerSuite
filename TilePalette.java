@@ -28,6 +28,7 @@ public class TilePalette
    private int BG_COLOR = Color.BLACK.getRGB();
    private int FG_COLOR = Color.WHITE.getRGB();
    private static final int TRANSPARENT = new Color(0.0f, 0.0f, 0.0f, 0.0f).getRGB();
+   private int scaleMethod = Image.SCALE_SMOOTH;
    
    public int getImageWidth(){return imageWidth;}
    public int getImageHeight(){return imageHeight;}
@@ -35,6 +36,9 @@ public class TilePalette
    public int getColumns(){return columns;}
    public int getTileWidth(){return tileWidth;}
    public int getTileHeight(){return tileHeight;}
+   
+   public void setScaleMethodFast(){scaleMethod = Image.SCALE_FAST;}
+   public void setScaleMethodSmooth(){scaleMethod = Image.SCALE_SMOOTH;}
    
    
    // constructor from file
@@ -159,23 +163,30 @@ public class TilePalette
    public BufferedImage getTile(int x, int y, int fg, int bg){return getTile(flatten(x, y), fg, bg);}
    
    // magnify image by specified magnitude
-   public BufferedImage magnify(BufferedImage img, int m)
+//    public BufferedImage magnify(BufferedImage img, int m)
+//    {
+//       if(m == 1)
+//          return img;
+//       BufferedImage newImg = new BufferedImage(tileWidth * m, tileHeight * m, BufferedImage.TYPE_INT_ARGB);
+//       int color;
+//       for(int x = 0; x < tileWidth; x++)
+//       for(int y = 0; y < tileHeight; y++)
+//       {
+//          color = img.getRGB(x, y);
+//          for(int xx = 0; xx < m; xx++)
+//          for(int yy = 0; yy < m; yy++)
+//          {
+//             newImg.setRGB((x * m) + xx, (y * m) + yy, color);
+//          }
+//       }
+//       return newImg;
+//    }
+   
+   public BufferedImage magnify(BufferedImage img, double m)
    {
-      if(m == 1)
-         return img;
-      BufferedImage newImg = new BufferedImage(tileWidth * m, tileHeight * m, BufferedImage.TYPE_INT_ARGB);
-      int color;
-      for(int x = 0; x < tileWidth; x++)
-      for(int y = 0; y < tileHeight; y++)
-      {
-         color = img.getRGB(x, y);
-         for(int xx = 0; xx < m; xx++)
-         for(int yy = 0; yy < m; yy++)
-         {
-            newImg.setRGB((x * m) + xx, (y * m) + yy, color);
-         }
-      }
-      return newImg;
+      int width = (int)(tileWidth * m);
+      int height = (int)(tileHeight * m);
+      return (BufferedImage)img.getScaledInstance(width, height, scaleMethod);
    }
    
    // get an UnboundTile based on passed values
