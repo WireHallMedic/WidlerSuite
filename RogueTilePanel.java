@@ -17,7 +17,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    private int[][] tileIndexArr;
 	private int columns;
 	private int rows;
-   private int sizeMultiplier;
+   private double sizeMultiplier;
    private int xInset;     // in pixels
    private int yInset;     // in pixels
    private int mouseLoc[];
@@ -35,7 +35,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    private BufferedImage oobTile;
    private Coord cornerTile;
    
-   public void setSizeMultiplier(int sm){sizeMultiplier = sm; generateAll();}
+   public void setSizeMultiplier(double sm){sizeMultiplier = sm; generateAll();}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
    public void setCornerTile(int x, int y){cornerTile = new Coord(x, y);}
    public void setCornerTile(Coord c){setCornerTile(c.x, c.y);}
@@ -43,7 +43,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
 	public TilePalette getPalette(){return palette;}
 	public int columns(){return columns;}
 	public int rows(){return rows;}
-   public int getSizeMultiplier(){return sizeMultiplier;}
+   public double getSizeMultiplier(){return sizeMultiplier;}
    public BufferedImage getOOBTile(){return oobTile;}
    public int mouseColumn(){return mouseLoc[0];}
    public int mouseRow(){return mouseLoc[1];}
@@ -371,13 +371,13 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    // return the current tile width in pixels
    public int getTileWidth()
    {
-      return palette.getTileWidth() * sizeMultiplier;
+      return (int)(palette.getTileWidth() * sizeMultiplier);
    }
    
    // return the current tile height in pixels
    public int getTileHeight()
    {
-      return palette.getTileHeight() * sizeMultiplier;
+      return (int)(palette.getTileHeight() * sizeMultiplier);
    }
    
    // center the tile board in the Container containing this (later modified by
@@ -462,8 +462,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
          return;
       
       Graphics2D g2d = (Graphics2D)g;
-      int w = palette.getTileWidth() * sizeMultiplier;
-      int h = palette.getTileHeight() * sizeMultiplier;
+      int w = (int)(palette.getTileWidth() * sizeMultiplier);
+      int h = (int)(palette.getTileHeight() * sizeMultiplier);
       int totalXInset = xInset + screenShakeOffsetX + (int)(xScroll * w);
       int totalYInset = yInset + screenShakeOffsetY + (int)(yScroll * h);
       // draw main board
@@ -542,8 +542,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    // store which tile the mouse is in, or {-1, -1} if it is out of the tiled area
    protected void updateMouseLoc(MouseEvent me)
    {
-      int colWidth = palette.getTileWidth() * sizeMultiplier;
-      int rowHeight = palette.getTileHeight() * sizeMultiplier;
+      int colWidth = (int)(palette.getTileWidth() * sizeMultiplier);
+      int rowHeight = (int)(palette.getTileHeight() * sizeMultiplier);
       // avoid a div0 exception
       if(rowHeight == 0 || colWidth == 0)
       {
