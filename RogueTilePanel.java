@@ -49,6 +49,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    public int mouseRow(){return mouseLoc[1];}
    public double getXScroll(){return xScroll;}
    public double getYScroll(){return yScroll;}
+   public int getXInset(){return xInset;}
+   public int getYInset(){return yInset;}
    
    public RogueTilePanel(int w, int h, TilePalette p)
    {
