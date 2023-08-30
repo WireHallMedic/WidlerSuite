@@ -108,6 +108,13 @@ public class UnboundTile implements ActionListener, UnboundInterface
       anchorTile = null;
    }
    
+   // update size multiplier and generate a new image from the palette
+   public void setSizeMultiplierAndRender(double sm)
+   {
+      setSizeMultiplier(sm);
+      image = parentPalette.getUnboundTile(iconIndex, fgColor, bgColor, sizeMultiplier, bgType).getImage();
+   }
+   
    // simple getter for if the tile has aged out
    public boolean isExpired()
    {

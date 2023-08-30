@@ -58,7 +58,7 @@
 \i\f0 Unpauses UnboundString processing.\i0\f1\par
 \kerning0\f0\par
 \kerning1 static void setThrottle(int t)\f1\par
-\i\f0 // ticks and pulses only increment every n ticks, where n = throttle\i0\f1\par
+\i\f0 Ticks and pulses only increment every n ticks, where n = throttle\i0\f1\par
 \kerning0\f0\par
 \kerning1 static boolean slowBlink()\f1\par
 \i\f0 Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 60 ticks.\i0\f1\par
@@ -1395,7 +1395,10 @@ An UnboundTile may be assigned an anchor tile; another UnboundTile, from which t
 \i\f0 Set the TilePalette that governs this tile.\i0\f1\par
 \kerning0\f0\par
 \kerning1 void setSizeMultiplier(double sm)\f1\par
-\i\f0 Set the multiplier that the TilePalette uses to generate the tile's image.\i0\f1\par
+\i\f0 Set the multiplier that the TilePalette uses to generate the tile's image.\i0\par
+\par
+void setSizeMultiplierAndRender(double sm)\par
+\i Update size multiplier and replace the stored image by generating a new one from the palette.\i0\f1\par
 \kerning0\f0\par
 \kerning1 void setBGType(boolean b)\f1\par
 \i\f0 Set the background type used for image generation, either  BOX_BACKGROUND or CIRCLE_BACKGROUND. For no background, use either with a fully transparent BG color.\i0\f1\par

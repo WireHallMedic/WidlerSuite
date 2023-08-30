@@ -174,7 +174,7 @@ public class TilePalette
    }
    
    // get an UnboundTile based on passed values
-   public UnboundTile getUnboundTile(int tileIndex, int fgColor, int bgColor, int sm, boolean bgType)
+   public UnboundTile getUnboundTile(int tileIndex, int fgColor, int bgColor, double sm, boolean bgType)
    {
       UnboundTile tile = new UnboundTile(this);
       tile.setBGColor(bgColor);

@@ -35,7 +35,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    private BufferedImage oobTile;
    private Coord cornerTile;
    
-   public void setSizeMultiplier(double sm){sizeMultiplier = sm; generateAll();}
+   public void setSizeMultiplier(double sm){sizeMultiplier = sm; generateAll(); animationManager.setSizeMultiplier(sm);}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
    public void setCornerTile(int x, int y){cornerTile = new Coord(x, y);}
    public void setCornerTile(Coord c){setCornerTile(c.x, c.y);}

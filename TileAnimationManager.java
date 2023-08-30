@@ -65,6 +65,20 @@ public class TileAnimationManager implements ActionListener
       clear();
    }
    
+   
+   // change size of unbound tiles on the fly
+   public void setSizeMultiplier(double sizeMult)
+   {
+      for(UnboundTile ut: lockList)
+      {
+         ut.setSizeMultiplier(sizeMult);
+      }
+      for(UnboundTile ut: nonlockList)
+      {
+         ut.setSizeMultiplier(sizeMult);
+      }
+   }
+   
    // ticks and pulses only increment every n ticks, where n = tickThrottle
    public static void setThrottle(int t)
    {
