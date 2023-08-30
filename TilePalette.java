@@ -167,7 +167,10 @@ public class TilePalette
    {
       int width = (int)(tileWidth * multiplier);
       int height = (int)(tileHeight * multiplier);
-      return (BufferedImage)img.getScaledInstance(width, height, scaleMethod);
+      Image newImage = img.getScaledInstance(width, height, scaleMethod);
+      BufferedImage newBuffered = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+      newBuffered.getGraphics().drawImage(newImage, 0, 0 , null);
+      return newBuffered;
    }
    
    // get an UnboundTile based on passed values
