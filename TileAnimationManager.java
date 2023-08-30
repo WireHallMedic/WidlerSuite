@@ -71,11 +71,11 @@ public class TileAnimationManager implements ActionListener
    {
       for(UnboundTile ut: lockList)
       {
-         ut.setSizeMultiplier(sizeMult);
+         ut.setSizeMultiplierAndRender(sizeMult);
       }
       for(UnboundTile ut: nonlockList)
       {
-         ut.setSizeMultiplier(sizeMult);
+         ut.setSizeMultiplierAndRender(sizeMult);
       }
    }
    

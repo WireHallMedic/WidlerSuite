@@ -203,8 +203,8 @@ public class TilePalette
          BufferedImage stencil = getTile(2, FG_COLOR, BG_COLOR);
          double m = tile.getSizeMultiplier();
          stencil = magnify(stencil, m);
-         for(int x = 0; x < tileWidth * m; x++)
-         for(int y = 0; y < tileHeight * m; y++)
+         for(int x = 0; x < (int)(tileWidth * m); x++)
+         for(int y = 0; y < (int)(tileHeight * m); y++)
          {
             if(stencil.getRGB(x, y) == BG_COLOR)
                img.setRGB(x, y, TRANSPARENT);
