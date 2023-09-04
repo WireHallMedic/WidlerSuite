@@ -492,6 +492,8 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       for(int i = 0; i < tileList.size(); i++)
       {
          UnboundTile ut = tileList.elementAt(i);
+         if(!ut.isVisible())
+            continue;
          BufferedImage img = ut.getImage();
          int x = (ut.getXLoc() - cornerTile.x) * w;
          int y = (ut.getYLoc() - cornerTile.y) * h;
