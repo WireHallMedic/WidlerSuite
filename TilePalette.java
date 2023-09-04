@@ -187,7 +187,7 @@ public class TilePalette
    }
    
    // Unbound tiles without background specifications have a transparent background
-   public UnboundTile getUnboundTile(int tileIndex, int fgColor, int sm)
+   public UnboundTile getUnboundTile(int tileIndex, int fgColor, double sm)
    {
       return getUnboundTile(tileIndex, fgColor, TRANSPARENT, sm, UnboundTile.BOX_BACKGROUND);
    }
