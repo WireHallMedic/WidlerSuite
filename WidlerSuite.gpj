@@ -13,7 +13,7 @@ s#k0
 s#j0
 s#l0
 !171;u
-a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo	iWidlerSuite.WidlerSuiteDemo!969;g
+a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManifest-Version\0111.0\011Main-Class\011WidlerSuite.WidlerSuiteDemo	iWidlerSuite.WidlerSuiteDemo!995;g
 %\011UnboundTile.java
 %\011MovementScriptStep.java
 %\011DoubleDeck.java
@@ -43,6 +43,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011SpiralSearch.java
 %\011MovementScript.java
 %\011WidlerSuite.gpj
+%\011WSFontConstants.java
 %\011ShadowFoVRect.java
 %\011TileAnimationManager.java
 %\011AStarOpenList.java
@@ -58,7 +59,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011LineIntersection.java
 %\011TilePalette.java
 %\011HexLine.java
-!969;f
+!995;f
 %\011UnboundTile.java
 %\011MovementScriptStep.java
 %\011DoubleDeck.java
@@ -88,6 +89,7 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011SpiralSearch.java
 %\011MovementScript.java
 %\011WidlerSuite.gpj
+%\011WSFontConstants.java
 %\011ShadowFoVRect.java
 %\011TileAnimationManager.java
 %\011AStarOpenList.java
