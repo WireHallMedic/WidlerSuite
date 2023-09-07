@@ -9,6 +9,7 @@ import java.util.*;
 public class RogueTilePanel extends JPanel implements ComponentListener, ActionListener, MouseListener, 
                                                       MouseMotionListener, WSConstants
 {
+   private static final int INVALID_COLOR = Integer.MAX_VALUE;
 	private TilePalette palette;
    protected TileAnimationManager animationManager;
 	private BufferedImage[][] imageArr;
@@ -201,7 +202,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    public void write(Coord loc, String s, Coord box){write(loc.x, loc.y, s, box.x, box.y);}
    public void write(int x, int y, String s, int w, int h)
    {
-      write(x, y, s, -1, -1, w, h);
+      write(x, y, s, INVALID_COLOR, INVALID_COLOR, w, h);
    }
    
    // write the string in a box, with the passed foreground and background colors
@@ -264,7 +265,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       for(int xx = 0; xx < w; xx++)
       for(int yy = 0; yy < h; yy++)
       {
-         if(bgColor == -1 || fgColor == -1)
+         if(bgColor == INVALID_COLOR || fgColor == INVALID_COLOR)
             setIcon(x + xx, y + yy, charArr[xx][yy]);
          else
             setTile(x + xx, y + yy, charArr[xx][yy], fgColor, bgColor);

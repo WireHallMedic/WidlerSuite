@@ -1,3 +1,10 @@
+/***********************************************************************************
+
+Constants used to reference tiles on WSFont_16x16 and WSFont_8x16.
+Names are strongly based on the names from CP437, but are not always identical.
+
+
+***********************************************************************************/
 
 package WidlerSuite;
 
