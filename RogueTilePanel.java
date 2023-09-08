@@ -35,11 +35,14 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    private int oobTileBG = Color.BLACK.getRGB();
    private BufferedImage oobTile;
    private Coord cornerTile;
+   private boolean standardDrawOrder;
    
    public void setSizeMultiplier(double sm){sizeMultiplier = sm; generateAll(); animationManager.setSizeMultiplier(sm);}
    public void setScroll(double x, double y){xScroll = x; yScroll = y;}
    public void setCornerTile(int x, int y){cornerTile = new Coord(x, y);}
    public void setCornerTile(Coord c){setCornerTile(c.x, c.y);}
+   public void drawLockListFirst(){standardDrawOrder = false;}
+   public void drawNonlockListFirst(){standardDrawOrder = true;}
 
 	public TilePalette getPalette(){return palette;}
 	public int columns(){return columns;}
@@ -67,6 +70,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       tileIndexArr = new int[w][h];
       mouseLoc = new int[2];
       cornerTile = new Coord(0 ,0);
+      standardDrawOrder = true;
       for(int x = 0; x < w; x++)
       for(int y = 0; y < h; y++)
       {
@@ -480,8 +484,16 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
       }
       
       // draw unbound tiles
-      drawUnboundTiles(g2d, animationManager.getNonlockList(), w, h);
-      drawUnboundTiles(g2d, animationManager.getLockList(), w, h);
+      if(standardDrawOrder)
+      {
+         drawUnboundTiles(g2d, animationManager.getNonlockList(), w, h);
+         drawUnboundTiles(g2d, animationManager.getLockList(), w, h);
+      }
+      else
+      {
+         drawUnboundTiles(g2d, animationManager.getLockList(), w, h);
+         drawUnboundTiles(g2d, animationManager.getNonlockList(), w, h);
+      }
    }
    
    // draw a list of unbound tiles
