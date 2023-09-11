@@ -2,7 +2,7 @@
 A class for keeping track of unbound strings for a RoguePanel object, and other
 miscellaneous animation functions. Called internally, there should be no need to
 directly instantiate this. When the parent RoguePanel object receives an ActionEvent,
-it is passed down to this object. Defaults to 30 frames per second.
+it is passed down to this object.
 
 Copyright 2019 Michael Widler
 Free for private or public use. No warranty is implied or expressed.
