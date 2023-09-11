@@ -20,42 +20,42 @@ public class AnimationManager implements ActionListener
    protected Vector<UnboundString> nonlockList;
    protected Vector<MovementScript> scriptList;
    protected RoguePanel parentPanel;
-   protected static boolean unpaused = true;
+   protected boolean unpaused = true;
    
    // animation flags and indexes
-   protected static boolean slowBlink = true;
-   protected static boolean mediumBlink = true;
-   protected static boolean fastBlink = true;
-   protected static int slowPulseIndex = 0;
-   protected static int mediumPulseIndex = 0;
-   protected static int fastPulseIndex = 0;
-   protected static int masterTickIndex = 0;
-   protected static int tickThrottle = 1;
+   protected boolean slowBlink = true;
+   protected boolean mediumBlink = true;
+   protected boolean fastBlink = true;
+   protected int slowPulseIndex = 0;
+   protected int mediumPulseIndex = 0;
+   protected int fastPulseIndex = 0;
+   protected int masterTickIndex = 0;
+   protected int tickThrottle = 1;
    
    // speeds and related inner variables
-   protected static int slowBlinkTicks = 30;      // ticks for slow blink to change
-   protected static int mediumBlinkTicks = 20;    // ticks for medium blink to change
-   protected static int fastBlinkTicks = 10;      // ticks for fast blink to change
-   protected static int blinkTickIndex = 0;
-   protected static int maxBlinkTickIndex = 6000;
+   protected int slowBlinkTicks = 30;      // ticks for slow blink to change
+   protected int mediumBlinkTicks = 20;    // ticks for medium blink to change
+   protected int fastBlinkTicks = 10;      // ticks for fast blink to change
+   protected int blinkTickIndex = 0;
+   protected int maxBlinkTickIndex = 6000;
    
-   protected static int pulseTicks = 3;           // ticks to update the pulses
-   protected static int pulseTickIndex = 0;
-   protected static int maxPulseIndex = 20;       // should be a multiple of 6 or might not hit highest index
-   protected static int slowPulseStep = 1;
-   protected static int mediumPulseStep = 2;
-   protected static int fastPulseStep = 3;
-   protected static int maxPulseTickIndex = 6;
+   protected int pulseTicks = 3;           // ticks to update the pulses
+   protected int pulseTickIndex = 0;
+   protected int maxPulseIndex = 20;       // should be a multiple of 6 or might not hit highest index
+   protected int slowPulseStep = 1;
+   protected int mediumPulseStep = 2;
+   protected int fastPulseStep = 3;
+   protected int maxPulseTickIndex = 6;
    
-   public static void pause(){unpaused = false;}
-   public static void unpause(){unpaused = true;}
+   public void pause(){unpaused = false;}
+   public void unpause(){unpaused = true;}
    
-   public static boolean slowBlink(){return slowBlink;}
-   public static boolean mediumBlink(){return mediumBlink;}
-   public static boolean fastBlink(){return fastBlink;}
-   public static int slowPulse(){return slowPulseIndex;}
-   public static int mediumPulse(){return mediumPulseIndex;}
-   public static int fastPulse(){return fastPulseIndex;}
+   public boolean slowBlink(){return slowBlink;}
+   public boolean mediumBlink(){return mediumBlink;}
+   public boolean fastBlink(){return fastBlink;}
+   public int slowPulse(){return slowPulseIndex;}
+   public int mediumPulse(){return mediumPulseIndex;}
+   public int fastPulse(){return fastPulseIndex;}
    
    // constructor, requires the RoguePanel that it is managing
    public AnimationManager(RoguePanel pp)
@@ -66,7 +66,7 @@ public class AnimationManager implements ActionListener
    }
    
    // ticks and pulses only increment every n ticks, where n = tickThrottle
-   public static void setThrottle(int t)
+   public void setThrottle(int t)
    {
       tickThrottle = t;
    }
@@ -109,13 +109,13 @@ public class AnimationManager implements ActionListener
    }
    
    // set where the tick index resets
-   protected static void setMaxTickIndex()
+   protected void setMaxTickIndex()
    {
       maxBlinkTickIndex = slowBlinkTicks * mediumBlinkTicks * fastBlinkTicks;
    }
    
    // set where the tick index resets
-   protected static void setMaxPulseTickIndex()
+   protected void setMaxPulseTickIndex()
    {
       maxPulseTickIndex = slowPulseStep * mediumPulseStep * fastPulseStep;
    }
@@ -171,7 +171,7 @@ public class AnimationManager implements ActionListener
    }
    
    // update the pulses and blinks
-   protected static void increment()
+   protected void increment()
    {
       // early exit based on tickThrottle
       masterTickIndex++;

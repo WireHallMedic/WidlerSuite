@@ -432,17 +432,17 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          int row = ROWS - 1;
          roguePanel.write(0, row, "Blink:", Color.WHITE);
          
-         if(AnimationManager.slowBlink())
+         if(roguePanel.getAnimationManager().slowBlink())
             roguePanel.setBGColor(7, row, Color.BLACK);
          else
             roguePanel.setBGColor(7, row, Color.BLUE);
          
-         if(AnimationManager.mediumBlink())
+         if(roguePanel.getAnimationManager().mediumBlink())
             roguePanel.setBGColor(9, row, Color.BLACK);
          else
             roguePanel.setBGColor(9, row, Color.BLUE);
          
-         if(AnimationManager.fastBlink())
+         if(roguePanel.getAnimationManager().fastBlink())
             roguePanel.setBGColor(11, row, Color.BLACK);
          else
             roguePanel.setBGColor(11, row, Color.BLUE);
@@ -468,9 +468,9 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
          }
          
          roguePanel.write(13, row, "Pulse:", Color.WHITE);
-         roguePanel.setBGColor(20, row, gradient[AnimationManager.slowPulse()]);
-         roguePanel.setBGColor(22, row, gradient[AnimationManager.mediumPulse()]);
-         roguePanel.setBGColor(24, row, gradient[AnimationManager.fastPulse()]);
+         roguePanel.setBGColor(20, row, gradient[roguePanel.getAnimationManager().slowPulse()]);
+         roguePanel.setBGColor(22, row, gradient[roguePanel.getAnimationManager().mediumPulse()]);
+         roguePanel.setBGColor(24, row, gradient[roguePanel.getAnimationManager().fastPulse()]);
       }
    }
    

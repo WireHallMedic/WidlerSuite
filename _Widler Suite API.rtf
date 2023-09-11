@@ -47,35 +47,35 @@
 \kerning0\f0\par
 \kerning1\ul\b\fs28 AnimationManager (class)\ulnone\b0\f1\fs24\par
 \f0 Implements: ActionListener\f1\par
-\i\f0 This class does two things; it manages unbound strings for a RoguePanel, and has several static functions related to animation. Only the static functions are expected to be called, as each RoguePanel instantiates its own AnimationManager and interacts with it without user meddling. If being used as intended, there is no need for the application programmer to instantiate their own AnimationManager. For this reason, non-static public functions are not described here.\i0\f1\par
+\i\f0 This class does two things; it manages unbound strings for a RoguePanel, and has several functions related to animation. Each RoguePanel silently creates its own AnimationManager. A number of public functions are for communication with the parent RoguePanel; those are not described here, as they are not intended for the application programmer.\i0\f1\par
 \kerning0\f0\par
 \kerning1\i Note that AnimationManager receives actionPerformed calls from its parent RoguePanel; if you have non-timer ActionEvents being listened to by the RoguePanel, maybe you'll need to do something about that.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static void pause()\f1\par
+\kerning1 void pause()\f1\par
 \i\f0 Pauses UmboundString processing, though not blinking nor pulsing.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static void unpause()\f1\par
+\kerning1 void unpause()\f1\par
 \i\f0 Unpauses UnboundString processing.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static void setThrottle(int t)\f1\par
+\kerning1 void setThrottle(int t)\f1\par
 \i\f0 Ticks and pulses only increment every n ticks, where n = throttle\i0\f1\par
 \kerning0\f0\par
-\kerning1 static boolean slowBlink()\f1\par
+\kerning1 boolean slowBlink()\f1\par
 \i\f0 Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 60 ticks.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static boolean mediumBlink()\f1\par
+\kerning1 boolean mediumBlink()\f1\par
 \i\f0 Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 40 ticks.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static boolean fastBlink()\f1\par
+\kerning1 boolean fastBlink()\f1\par
 \i\f0 Returns a boolean which alternates based on the timer hooked up to the parent RoguePanel. Default is 1 cycle per 20 ticks.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static int slowPulse()\f1\par
+\kerning1 int slowPulse()\f1\par
 \i\f0 Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 1, at 1 step per tick.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static int mediumPulse()\f1\par
+\kerning1 int mediumPulse()\f1\par
 \i\f0 Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 2, at 1 step per tick.\i0\f1\par
 \kerning0\f0\par
-\kerning1 static int fastPulse()\f1\par
+\kerning1 int fastPulse()\f1\par
 \i\f0 Returns an int which iterates based on the timer hooked up to the parent RoguePanel. Default is 0 to 20 to 0 inclusive, in steps of 3, at 1 step per tick.\i0\f1\par
 \kerning0\f0\par
 \kerning1\ul\b\fs28 BinarySpacePartitioning (static class)\ulnone\b0\f1\fs24\par
@@ -574,7 +574,10 @@ boolean validate(String str)\kerning1\f1\par
 \i\f0 Returns the current horizontal display displacement in tiles.\i0\f1\par
 \kerning0\f0\par
 \kerning1 double getYScroll()\f1\par
-\i\f0 Returns the current vertical display displacement in tiles.\i0\f1\par
+\i\f0 Returns the current vertical display displacement in tiles.\par
+\kerning0\i0\par
+double getAnimationManager()\kerning1\f1\par
+\kerning0\i\f0 Returns the animationManager for this panel.\kerning1\i0\f1\par
 \kerning0\f0\par
 \kerning1 boolean getTrimOddAxis()\f1\par
 \i\f0 Returns whether the last tile of odd rows will be shown in hex mode.\i0\f1\par
@@ -753,6 +756,9 @@ double getYScroll()\kerning1\f1\par
 \kerning0\f0\par
 double getYInset()\kerning1\f1\par
 \kerning0\i\f0 Get the current vertical drawing inset in pixels.\kerning1\i0\f1\par
+\kerning0\f0\par
+double getAnimationManager()\kerning1\f1\par
+\kerning0\i\f0 Returns the animationManager for this panel.\kerning1\i0\f1\par
 \kerning0\f0  \kerning1\f1\par
 \kerning0\f0 boolean isInBounds(Coord loc)\kerning1\f1\par
 \kerning0\f0 boolean isInBounds(int x, int y)\kerning1\f1\par
@@ -1086,8 +1092,6 @@ void clearUnboundTiles()\kerning1\f1\par
 \kerning1\ul\b\fs28 TileAnimationManager (class)\ulnone\b0\f1\fs24\par
 \f0 Implements: ActionListener\f1\par
 \i\f0 TileAnimationManager is identical to AnimationManager, except that instead of dealing with RoguePanels and UnboundStrings, it deals with RogueTilePanels and UnboundTiles, respectively. See the entry for AnimationManager above.\i0\f1\par
-\kerning0\f0\par
-\kerning1\i Note that functions like AnimationManager.pause() do not affect TileAnimationManager, and vice versa. Blinking functions also may be slightly out of synch; use one or the other.\i0\f1\par
 \kerning0\f0\par
 \kerning1\ul\b\fs28 TilePalette (class)\ulnone\b0\f1\fs24\par
 \i\f0 A class for holding an image to use as a tile palette for classes like TileRoguePanel.  Loads from an image or image file. The image is partitioned into indexed subimages, which are then referred to by either their x,y positions, or by a single number representing its position on a list (read left to right, top to bottom).\i0\f1\par
