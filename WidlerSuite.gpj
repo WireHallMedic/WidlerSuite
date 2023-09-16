@@ -105,3 +105,5 @@ a0	b68	c255	d%\\011Ricci.png	f%\011WidlerSuite.jar	g%\011WidlerSuite.zip	hManife
 %\011LineIntersection.java
 %\011TilePalette.java
 %\011HexLine.java
+!50;m
+RunSelect	APPLICATION:WidlerSuite.WidlerSuiteDemo

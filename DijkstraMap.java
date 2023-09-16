@@ -88,28 +88,27 @@ public class DijkstraMap implements WSConstants
    {
       int bestVal = OUT_OF_BOUNDS_PLUS_ONE;
       Vector<Coord> list = new Vector<Coord>();
-   
-      int[][] adjList = getAdjCells(new Coord(xLoc, yLoc));
-      for(int[] adj : adjList)
+      Vector<Coord> locList = new Vector<Coord>();
+      Vector<Integer> valueList = new Vector<Integer>();
+      // generate adjacent cells and their values
+      for(Coord adj : getAdjCells(xLoc, yLoc))
       {
-         if(bestVal > getValue(adj[0], adj[1]))
-            bestVal = getValue(adj[0], adj[1]);
+         locList.add(adj);
+         valueList.add(getValue(adj.x, adj.y));
       }
-   
-      // check if origin is lowest
-      if(bestVal >= OUT_OF_BOUNDS_PLUS_ONE)
+      
+      // find best value
+      for(int value : valueList)
       {
-         list.add(new Coord(xLoc, yLoc));
+         if(value < bestVal)
+            bestVal = value;
       }
-      else
+      
+      // find all tiles matching best value
+      for(int i = 0; i < locList.size(); i++)
       {
-         for(int[] adj : adjList)
-         {
-            if(bestVal == getValue(adj[0], adj[1]))
-            {
-               list.add(new Coord(adj[0], adj[1]));
-            }
-         }
+         if(valueList.elementAt(i) == bestVal)
+            list.add(locList.elementAt(i));
       }
       return list;
    }
@@ -120,29 +119,27 @@ public class DijkstraMap implements WSConstants
    {
       int bestVal = -1;
       Vector<Coord> list = new Vector<Coord>();
-   
-      int[][] adjList = getAdjCells(new Coord(xLoc, yLoc));
-      for(int[] adj : adjList)
+      Vector<Coord> locList = new Vector<Coord>();
+      Vector<Integer> valueList = new Vector<Integer>();
+      // generate adjacent cells and their values
+      for(Coord adj : getAdjCells(xLoc, yLoc))
       {
-         if(getValue(adj[0], adj[1]) < OUT_OF_BOUNDS)  // ignore walls
-         if(bestVal < getValue(adj[0], adj[1]))
-            bestVal = getValue(adj[0], adj[1]);
+         locList.add(adj);
+         valueList.add(getValue(adj.x, adj.y));
       }
-   
-      // check if origin is lowest
-      if(bestVal == -1)
+      
+      // find best value
+      for(int value : valueList)
       {
-         list.add(new Coord(xLoc, yLoc));
+         if(value > bestVal && value != OUT_OF_BOUNDS)
+            bestVal = value;
       }
-      else
+      
+      // find all tiles matching best value
+      for(int i = 0; i < locList.size(); i++)
       {
-         for(int[] adj : adjList)
-         {
-            if(bestVal == getValue(adj[0], adj[1]))
-            {
-               list.add(new Coord(adj[0], adj[1]));
-            }
-         }
+         if(valueList.elementAt(i) == bestVal)
+            list.add(locList.elementAt(i));
       }
       return list;
    }
@@ -210,7 +207,7 @@ public class DijkstraMap implements WSConstants
    protected boolean processCell(int cellX, int cellY)
    {
       boolean changeWasMade = false;
-      int[][] adjList = getAdjCells(cellX, cellY);
+      int[][] adjList = getAdjSteps(cellX, cellY);
       Coord adj;
       for(int i = 0; i < adjList.length; i++)
       {
@@ -225,9 +222,9 @@ public class DijkstraMap implements WSConstants
       return changeWasMade;
    }
    
-   // returns a list of cells adjacent to this one, based on mode and possibly processDiagonal
-   protected int[][] getAdjCells(Coord c){return getAdjCells(c.x, c.y);}
-   protected int[][] getAdjCells(int x, int y)
+   // returns a list of steps adjacent to this one, based on mode and possibly processDiagonal
+   protected int[][] getAdjSteps(Coord c){return getAdjSteps(c.x, c.y);}
+   protected int[][] getAdjSteps(int x, int y)
    {
       int[][] stepList = null;
       if(mode == HEX_MODE)
@@ -245,6 +242,19 @@ public class DijkstraMap implements WSConstants
             stepList = RECT_ORTHO;
       }
       return stepList;
+   }
+   
+   // returns a list of cells adjacent to this one, based on mode and possibly processDiagonal
+   protected Vector<Coord> getAdjCells(Coord c){return getAdjCells(c.x, c.y);}
+   protected Vector<Coord> getAdjCells(int x, int y)
+   {
+      int[][] stepList = getAdjSteps(x, y);
+      Vector<Coord> adjList = new Vector<Coord>();
+      for(int[] step : stepList)
+      {
+         adjList.add(new Coord(step[0] + x, step[1] + y));
+      }
+      return adjList;
    }
    
    // makes sure the passed index is within the boundaries
