@@ -144,7 +144,18 @@ public class AnimationManager implements ActionListener
          curScript.actionPerformed(ae);
          if(curScript.isExpired())
          {
-            if(curScript.nonlocksTargetOnEnd())
+            boolean shouldUnlock = true;
+            for(int j = 0; j < scriptList.size(); j++)
+            {
+               if(i != j &&
+                  scriptList.elementAt(j).getTarget() == curScript.getTarget() &&
+                  scriptList.elementAt(j).nonlocksTargetOnEnd())
+               {
+                  shouldUnlock = false;
+                  break;
+               }
+            }
+            if(shouldUnlock)
             {
                UnboundString target = (UnboundString)curScript.getTarget();
                remove(target);

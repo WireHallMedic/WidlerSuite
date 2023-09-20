@@ -158,11 +158,26 @@ public class TileAnimationManager implements ActionListener
          curScript.actionPerformed(ae);
          if(curScript.isExpired())
          {
+            // only unlock targets if no other active script targets them and also unlocks on end
             if(curScript.nonlocksTargetOnEnd())
             {
-               UnboundTile target = (UnboundTile)curScript.getTarget();
-               remove(target);
-               addNonlocking(target);
+               boolean shouldUnlock = true;
+               for(int j = 0; j < scriptList.size(); j++)
+               {
+                  if(i != j &&
+                     scriptList.elementAt(j).getTarget() == curScript.getTarget() &&
+                     scriptList.elementAt(j).nonlocksTargetOnEnd())
+                  {
+                     shouldUnlock = false;
+                     break;
+                  }
+               }
+               if(shouldUnlock)
+               {
+                  UnboundTile target = (UnboundTile)curScript.getTarget();
+                  remove(target);
+                  addNonlocking(target);
+               }
             }
             scriptList.removeElementAt(i);
             i--;
