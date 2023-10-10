@@ -188,7 +188,7 @@ public class TileAnimationManager implements ActionListener
    // update each unbound string in a list. try/catch for concurrency protection
    protected void processUTList(Vector<UnboundTile> list, ActionEvent ae)
    {
-      try{
+      try
       {
          for(int i = 0; i < list.size(); i++)
          {
