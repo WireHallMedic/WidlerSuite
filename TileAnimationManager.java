@@ -185,18 +185,23 @@ public class TileAnimationManager implements ActionListener
       }
    }
    
-   // update each unbound string in a list
+   // update each unbound string in a list. try/catch for concurrency protection
    protected void processUTList(Vector<UnboundTile> list, ActionEvent ae)
    {
-      for(int i = 0; i < list.size(); i++)
+      try{
       {
-         list.elementAt(i).actionPerformed(ae);
-         if(list.elementAt(i).isExpired())
+         for(int i = 0; i < list.size(); i++)
          {
-            list.removeElementAt(i);
-            i--;
+            list.elementAt(i).actionPerformed(ae);
+            if(list.elementAt(i).isExpired())
+            {
+               list.removeElementAt(i);
+               i--;
+            }
          }
       }
+      catch(Exception ex){}
+      
    }
    
    // update the pulses and blinks
