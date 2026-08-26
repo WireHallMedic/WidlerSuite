@@ -88,7 +88,7 @@ public class AStarOpenList
          boolean isInserted = false;
          do
          {
-            if(newNode.getH() < curLink.node.getH())
+            if(newNode.getF() < curLink.node.getF())
             {
                curLink.insertAhead(newNode);
                isInserted = true;

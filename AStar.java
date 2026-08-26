@@ -42,7 +42,6 @@ public class AStar implements WSConstants
    protected boolean searchDiagonal = true;
     
    public static int MAX_LOOPS = 5000;
-   public static double HEURISTIC_MULTIPLER = 11.0;
     
    public void setMode(int m){mode = m;}
    public void setSearchDiagonal(boolean sd){searchDiagonal = sd;}
@@ -89,7 +88,7 @@ public class AStar implements WSConstants
    {
        int x = origin.x - terminus.x;
        int y = origin.y - terminus.y;
-       return (int)(Math.sqrt((x * x) + (y * y)) * HEURISTIC_MULTIPLER);
+       return (int)(Math.sqrt((x * x) + (y * y)));
    }
     
    // check to stay in bounds
@@ -177,6 +176,56 @@ public class AStar implements WSConstants
                loops += 1;
             }
          }
+      }
+   }
+   
+   public static void main(String[] args)
+   {
+      boolean[][] boolArr = new boolean[15][15];
+      Coord startLoc = new Coord();
+      Coord endLoc = new Coord();
+      char[] charList = {
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', '.', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', '.', '.', ',', ',', ',', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '@', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', '.', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', '.', '.', ',', ',', ',', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '.', '.', '#', ',', '.', '.', '!', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.'};
+      for(int i = 0; i < 2; i++)
+      {
+         for(int x = 0; x < 15; x++)
+         for(int y = 0; y < 15; y++)
+         {
+            char curChar = charList[x + (15 * y)];
+            boolean curBool = false;
+            // reverse map on second pass
+            if(i == 1)
+               curChar = charList[charList.length - ((x + (15 * y)) + 1)];
+            if(curChar != '#')
+               curBool = true;
+            else if(curChar != '@')
+            {
+               startLoc.x = x;
+               startLoc.y = y;
+            }
+            else if(curChar != '!')
+            {
+               endLoc.x = x;
+               endLoc.y = y;
+            }
+            boolArr[x][y] = curBool;
+         }
+         AStar aStar = new AStar();
+         aStar.path(boolArr, startLoc, endLoc);
       }
    }
 }
