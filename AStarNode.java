@@ -13,22 +13,22 @@ import java.util.*;
 
 public class AStarNode
 {
-   protected int f;
-   protected int g;
-   protected int h;
+   protected double f;
+   protected double g;
+   protected double h;
    protected AStarNode parentNode;
    protected Coord loc;
    
    
-   public int getF(){return f;}
-   public int getG(){return g;}
-   public int getH(){return h;}
+   public double getF(){return f;}
+   public double getG(){return g;}
+   public double getH(){return h;}
    public AStarNode getParentNode(){return parentNode;}
    public Coord getLoc(){return new Coord(loc);}
    
    // constructor
-   public AStarNode(Coord l, int distToEnd){this(l, null, distToEnd, 0);}
-   public AStarNode(Coord l, AStarNode parent, int distToEnd, int stepDist)
+   public AStarNode(Coord l, double distToEnd){this(l, null, distToEnd, 0.0);}
+   public AStarNode(Coord l, AStarNode parent, double distToEnd, double stepDist)
    {
       loc = l;
       parentNode = parent;
@@ -46,7 +46,7 @@ public class AStarNode
    }
     
    // compare which route is shorter, and update if necessary
-   public void update(AStarNode prospectiveParent, int stepDist)
+   public void update(AStarNode prospectiveParent, double stepDist)
    {
       if(parentNode == null || g > prospectiveParent.g + stepDist)
       {

@@ -42,6 +42,7 @@ public class AStar implements WSConstants
    protected boolean searchDiagonal = true;
     
    public static int MAX_LOOPS = 5000;
+   public static final double H_MULTIPLIER = 1.2;
     
    public void setMode(int m){mode = m;}
    public void setSearchDiagonal(boolean sd){searchDiagonal = sd;}
@@ -84,11 +85,11 @@ public class AStar implements WSConstants
     
    // Returns the distance heuristic. This is the primary tuning point; path optimization is improved by decreasing the multiplier,
    // but this increases the number of cycles needed.
-   protected static int getDistHeur(Coord origin, Coord terminus)
+   protected static double getDistHeur(Coord origin, Coord terminus)
    {
        int x = origin.x - terminus.x;
        int y = origin.y - terminus.y;
-       return (int)(Math.sqrt((x * x) + (y * y)));
+       return Math.sqrt((x * x) + (y * y)) * H_MULTIPLIER;
    }
     
    // check to stay in bounds
@@ -130,11 +131,19 @@ public class AStar implements WSConstants
       openList = new AStarOpenList(origin, getDistHeur(origin, terminus));
       int loops = 0;
       iteration += 1;
+      closedMap[origin.x][origin.y] = iteration;
       int[][] adjTiles;
       while(openList.pathExists(terminus) == false && openList.size() > 0 && loops < MAX_LOOPS)
       {
+         loops += 1;
          // pop the list
          AStarNode curNode = openList.pop();
+         // did we find the end?
+         if(curNode.getLoc().equals(terminus))
+         {
+            openList.pushToFront(curNode);
+            break;
+         }
             
          // get list of adjacent tile directions
          if(mode == RECT_MODE)
@@ -156,24 +165,18 @@ public class AStar implements WSConstants
             Coord curLoc = new Coord(curNode.getLoc().x + locInfo[0], curNode.getLoc().y + locInfo[1]);
             if(isInBounds(curLoc) && closedMap[curLoc.x][curLoc.y] != iteration && passMap[curLoc.x][curLoc.y])
             {
-               // did we find the end?
-               if(curLoc.equals(terminus))
-               {
-                  openList.pushToFront(new AStarNode(curLoc, curNode, 0, locInfo[2]));
-               }
                // else is this already on the openlist?
-               else if(openList.contains(curLoc))
+               if(openList.contains(curLoc))
                {
-                  openList.update(curLoc, curNode, locInfo[2]);
+                  openList.update(curLoc, curNode, locInfo[2] / 10.0);
                }
                // final else
                else
                {
-                  openList.push(new AStarNode(curLoc, curNode, getDistHeur(curLoc, terminus), locInfo[2]));
+                  openList.push(new AStarNode(curLoc, curNode, getDistHeur(curLoc, terminus), locInfo[2] / 10.0));
                }
                // mark as closed
                closedMap[curLoc.x][curLoc.y] = iteration;
-               loops += 1;
             }
          }
       }
@@ -200,32 +203,27 @@ public class AStar implements WSConstants
          '.', '.', ',', '.', '.', '.', '.', '.', '.', '#', ',', '.', '.', '!', '.', 
          '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
          '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.'};
-      for(int i = 0; i < 2; i++)
+
+      for(int x = 0; x < 15; x++)
+      for(int y = 0; y < 15; y++)
       {
-         for(int x = 0; x < 15; x++)
-         for(int y = 0; y < 15; y++)
+         char curChar = charList[x + (15 * y)];
+         boolean curBool = false;
+         if(curChar != '#')
+            curBool = true;
+         if(curChar == '@')
          {
-            char curChar = charList[x + (15 * y)];
-            boolean curBool = false;
-            // reverse map on second pass
-            if(i == 1)
-               curChar = charList[charList.length - ((x + (15 * y)) + 1)];
-            if(curChar != '#')
-               curBool = true;
-            else if(curChar != '@')
-            {
-               startLoc.x = x;
-               startLoc.y = y;
-            }
-            else if(curChar != '!')
-            {
-               endLoc.x = x;
-               endLoc.y = y;
-            }
-            boolArr[x][y] = curBool;
+            startLoc.x = x;
+            startLoc.y = y;
          }
-         AStar aStar = new AStar();
-         aStar.path(boolArr, startLoc, endLoc);
+         if(curChar == '!')
+         {
+            endLoc.x = x;
+            endLoc.y = y;
+         }
+         boolArr[x][y] = curBool;
       }
+      AStar aStar = new AStar();
+      aStar.path(boolArr, startLoc, endLoc);
    }
 }

@@ -25,7 +25,7 @@ public class AStarOpenList
    }
     
    // main constructor
-   public AStarOpenList(Coord l, int distToEnd)
+   public AStarOpenList(Coord l, double distToEnd)
    {
       this();
       addToEmpty(new AStarNode(l, distToEnd));
@@ -63,7 +63,7 @@ public class AStarOpenList
    }
     
    // potentially updates a node with a new parent if that route is shorter
-   public void update(Coord loc, AStarNode possibleParent, int stepDist)
+   public void update(Coord loc, AStarNode possibleParent, double stepDist)
    {
       Link curLink = head;
       do
@@ -91,9 +91,13 @@ public class AStarOpenList
             if(newNode.getF() < curLink.node.getF())
             {
                curLink.insertAhead(newNode);
+               if(curLink == head)
+                  head = head.prev;
                isInserted = true;
                break;
             }
+            else
+               curLink = curLink.next;
          }   while(curLink != head);
          if(isInserted == false)
          {
@@ -111,6 +115,7 @@ public class AStarOpenList
       else
       {
          head.insertAhead(newNode);
+         head = head.prev;
          size++;
       }
    }

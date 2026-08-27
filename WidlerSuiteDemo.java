@@ -926,5 +926,6 @@ public class WidlerSuiteDemo extends JFrame implements MouseListener, MouseMotio
       demoFrame.roguePanel.addKeyListener(demoFrame);
       demoFrame.addKeyListener(demoFrame);
       demoFrame.controlPanel.addKeyListener(demoFrame);
+      demoFrame.repaint();
    }
 }
