@@ -211,7 +211,7 @@ public class RogueTilePanel extends JPanel implements ComponentListener, ActionL
    }
    
    // write the string in a box, with the passed foreground and background colors
-   public void write(Coord loc, String s, int fgColor, int bgColor, Coord box){write(loc.x, loc.y, s, box.x, box.y);}
+   public void write(Coord loc, String s, int fgColor, int bgColor, Coord box){write(loc.x, loc.y, s, fgColor, bgColor, box.x, box.y);}
    public void write(int x, int y, String s, int fgColor, int bgColor, int w, int h)
    {
       int xLoc = 0; 
