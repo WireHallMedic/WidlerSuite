@@ -29,7 +29,7 @@ public interface WSFontConstants
 	public static final int BURST_TILE = 15 + (0 * 16);
 
 	// row 1
-	public static final int RIGHT_TRIANGE_TILE = 0 + (1 * 16);
+	public static final int RIGHT_TRIANGLE_TILE = 0 + (1 * 16);
 	public static final int LEFT_TRIANGLE_TILE = 1 + (1 * 16);
 	public static final int UP_DOWN_ARROW_TILE = 2 + (1 * 16);
 	public static final int DOUBLE_EXCLAMATION_TILE = 3 + (1 * 16);
